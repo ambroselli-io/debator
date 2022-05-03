@@ -1,4 +1,11 @@
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from "@remix-run/react";
 import dayjs from "dayjs";
 import "dayjs/locale/fr"; // use locale globally
 import tailwindStyles from "./styles/tailwind.css";
@@ -46,6 +53,10 @@ export const links = () => {
     },
     {
       href: "https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap",
+      rel: "stylesheet",
+    },
+    {
+      href: "https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap",
       rel: "stylesheet",
     },
     { rel: "stylesheet", href: resetStyles },

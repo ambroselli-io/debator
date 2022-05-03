@@ -30,4 +30,7 @@ Schema.methods.me = function () {
 };
 
 const UserModel = dbConnection.models[MODELNAME] || dbConnection.model(MODELNAME, Schema);
+
+UserModel.syncIndexes();
+
 export default UserModel;

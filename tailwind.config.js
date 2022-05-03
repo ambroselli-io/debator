@@ -7,6 +7,7 @@ module.exports = {
     fontFamily: {
       sans: ["Montserrat", ...theme.fontFamily.sans],
       sansSerif: theme.fontFamily.sans,
+      marker: ["Permanent Marker", ...theme.fontFamily.sans],
     },
     extend: {
       borderColor: {

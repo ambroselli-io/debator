@@ -51,7 +51,7 @@ const Search = () => {
     <>
       <h2 className="mb-2 w-full">Recherchez un sujet</h2>
       <Form className="w-full">
-        <SearchInput name="search" defaultValue={searchParams.get("search")} />
+        <SearchInput name="search" defaultValue={searchParams.get("search") || ""} />
       </Form>
       <pre>{JSON.stringify(topics, null, 2)}</pre>
       <Link className="mt-4 text-sm text-app underline" to="/le-jeu">

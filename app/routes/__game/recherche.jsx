@@ -10,7 +10,7 @@ export const loader = async ({ request }) => {
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
   const search = searchParams.get("search");
-  if (search.length) {
+  if (search?.length) {
     query.$text = {
       $search: search,
       $caseSensitive: false,
@@ -18,29 +18,29 @@ export const loader = async ({ request }) => {
     };
     sort.score = { $meta: "textScore" };
     project.score = { $meta: "textScore" };
+    const topics = await TopicModel.aggregate([
+      { $match: query },
+      {
+        $project: {
+          score: { $meta: "textScore" },
+          fr: 1,
+          categories: 1,
+          author: 1,
+          difficulty: 1,
+          minAge: 1,
+          maxAge: 1,
+        },
+      },
+      {
+        $sort: { score: { $meta: "textScore" } },
+      },
+    ]);
+    const topicaPopulated = await TopicModel.populate(topics, { path: "categories" });
+
+    return { topics: topicaPopulated };
   }
 
-  const topics = await TopicModel.aggregate([
-    { $match: query },
-    {
-      $project: {
-        score: { $meta: "textScore" },
-        fr: 1,
-        categories: 1,
-        author: 1,
-        difficulty: 1,
-        minAge: 1,
-        maxAge: 1,
-      },
-    },
-    {
-      $sort: { score: { $meta: "textScore" } },
-    },
-  ]);
-
-  const topicaPopulated = await TopicModel.populate(topics, { path: "categories" });
-
-  return { topics: topicaPopulated };
+  return [];
 };
 
 const Search = () => {

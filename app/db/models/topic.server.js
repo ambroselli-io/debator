@@ -10,16 +10,20 @@ const Schema = new mongoose.Schema(
       trim: true,
       unique: true,
       required: "A topic is required",
-      index: "text",
     },
     author: { type: String }, // if quote
-    categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category", index: true }],
-    difficulty: { type: Number }, // from 1 to 5, 1 easy, 5 hard
-    minAge: { type: Number },
+    categories: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category", index: true }],
+      required: true,
+    },
+    difficulty: { type: Number, required: true }, // from 1 to 5, 1 easy, 5 hard
+    minAge: { type: Number, required: true },
     maxAge: { type: Number },
   },
   { timestamps: true }
 );
+
+Schema.index({ fr: "text", author: "text" }, { default_language: "french" });
 
 Schema.methods.format = function (language = "fr") {
   return {

@@ -10,11 +10,12 @@ const Schema = new mongoose.Schema(
       trim: true,
       unique: true,
       required: "A name is required",
-      index: "text",
     },
   },
   { timestamps: true }
 );
+
+Schema.index({ fr: "text" });
 
 Schema.methods.format = function (language = "fr") {
   return {

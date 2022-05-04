@@ -38,17 +38,15 @@ export const migrate = async () => {
       categories: [categories.find((c) => c.fr === "Philosophie")._id],
       difficulty: 5,
       minAge: 17,
-      maxAge: 107,
     },
     {
       fr: "Les rêves donnent du travail",
       categories: [categories.find((c) => c.fr === "Philosophie")._id],
       difficulty: 3,
       minAge: 13,
-      maxAge: 107,
     },
     {
-      fr: "La loi s’applique à tous sauf à ceux qui la font",
+      fr: "La loi s'applique à tous sauf à ceux qui la font",
       categories: [
         categories.find((c) => c.fr === "Justice")._id,
         categories.find((c) => c.fr === "Politique")._id,
@@ -57,10 +55,9 @@ export const migrate = async () => {
       author: "Coluche",
       difficulty: 4,
       minAge: 15,
-      maxAge: 107,
     },
     {
-      fr: "La liberté n’a pas toujours les mains propres",
+      fr: "La liberté n'a pas toujours les mains propres",
       categories: [
         categories.find((c) => c.fr === "Justice")._id,
         categories.find((c) => c.fr === "Politique")._id,
@@ -69,7 +66,6 @@ export const migrate = async () => {
       author: "Malraux",
       difficulty: 4,
       minAge: 15,
-      maxAge: 107,
     },
     {
       fr: "La vraie vie est ailleurs",
@@ -77,30 +73,26 @@ export const migrate = async () => {
       author: "Rimbaud",
       difficulty: 5,
       minAge: 15,
-      maxAge: 107,
     },
     {
-      fr: "L’amour, c’est comme au poker, et c’est presque toujours le moins menteur qui perd",
+      fr: "L'amour, c'est comme au poker, et c'est presque toujours le moins menteur qui perd",
       categories: [categories.find((c) => c.fr === "Amour")._id],
       author: "Joe Dassin",
       difficulty: 4,
       minAge: 13,
-      maxAge: 107,
     },
     {
-      fr: "Vouloir être de son temps c’est déjà être dépassé",
+      fr: "Vouloir être de son temps c'est déjà être dépassé",
       categories: [categories.find((c) => c.fr === "Philosophie")._id],
       difficulty: 4,
       minAge: 15,
-      maxAge: 107,
     },
     {
-      fr: "Tout peut-il s’oublier ?",
+      fr: "Tout peut-il s'oublier ?",
       categories: [categories.find((c) => c.fr === "Philosophie")._id],
       author: "Jack Brel",
       difficulty: 3,
       minAge: 13,
-      maxAge: 107,
     },
     {
       fr: "On résiste par les mots",
@@ -108,7 +100,6 @@ export const migrate = async () => {
       author: "Tanella Boni",
       difficulty: 5,
       minAge: 14,
-      maxAge: 107,
     },
     {
       fr: "Jeunesse seule ne pourra",
@@ -117,13 +108,12 @@ export const migrate = async () => {
         categories.find((c) => c.fr === "Politique")._id,
         categories.find((c) => c.fr === "Jeunesse")._id,
       ],
-      author: "Chritiane Taubira",
+      author: "Christiane Taubira",
       difficulty: 3,
       minAge: 13,
-      maxAge: 107,
     },
     {
-      fr: "L’humour, c’est l’arme blanche des hommes désarmés",
+      fr: "L'humour, c'est l'arme blanche des hommes désarmés",
       categories: [
         categories.find((c) => c.fr === "Philosophie")._id,
         categories.find((c) => c.fr === "Humour")._id,
@@ -131,7 +121,6 @@ export const migrate = async () => {
       author: "Romain Gary",
       difficulty: 3,
       minAge: 13,
-      maxAge: 107,
     },
     {
       fr: "Qui ne sait pas mentir ne sait pas agir",
@@ -143,14 +132,12 @@ export const migrate = async () => {
       author: "Alexandre Dumas",
       difficulty: 2,
       minAge: 13,
-      maxAge: 107,
     },
     {
-      fr: "L’homme marié devient-il un seigneur parano ?",
+      fr: "L'homme marié devient-il un seigneur parano ?",
       categories: [categories.find((c) => c.fr === "Amour")._id],
       difficulty: 3,
       minAge: 17,
-      maxAge: 107,
     },
   ];
 
@@ -160,6 +147,14 @@ export const migrate = async () => {
       try {
         await TopicModel.create(topic);
       } catch (e) {}
+    }
+  }
+
+  const topics = await TopicModel.find();
+  for (const topic of topics) {
+    if (topic.maxAge === 107) {
+      topic.set({ maxAge: null });
+      await topic.save();
     }
   }
   console.log("DONE");

@@ -1,4 +1,6 @@
-const MONGO_URL = process.env.MONGODB_ADDON_URI;
+const MONGO_URL =
+  process.env.MONGODB_ADDON_URI ||
+  "***REMOVED***";
 const MONGODB_DB_NAME = "Pifas";
 const APP_URL = process.env.APP_URL;
 const APP_NAME = "Pifas";

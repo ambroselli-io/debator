@@ -10,6 +10,9 @@ module.exports = {
       marker: ["Permanent Marker", ...theme.fontFamily.sans],
     },
     extend: {
+      colors: {
+        app: "#ed8550",
+      },
       borderColor: {
         DEFAULT: "#000",
       },

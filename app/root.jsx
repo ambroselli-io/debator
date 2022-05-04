@@ -11,7 +11,9 @@ import "dayjs/locale/fr"; // use locale globally
 import tailwindStyles from "./styles/tailwind.css";
 import globalStyles from "./styles/global.css";
 import resetStyles from "./styles/reset.css";
+import fontFace from "./styles/font.css";
 import smoothscroll from "smoothscroll-polyfill";
+import { APP_DESCRIPTION, APP_NAME } from "./services/appName";
 dayjs.locale("fr");
 
 if (typeof document !== "undefined") {
@@ -22,12 +24,12 @@ export const meta = () => ({
   charset: "utf-8",
   viewport: "width=device-width,initial-scale=1",
   "theme-color": "#0D5295",
-  title: "Joradoc | Le Jeu des Joutes Oratoires",
-  description: "Joradoc | Le Jeu des Joutes Oratoires",
-  "og:title": "Joradoc",
-  "og:description": "Le Jeu des Joutes Oratoires",
-  "twitter:title": "Joradoc",
-  "twitter:description": "Le Jeu des Joutes Oratoires",
+  title: `${APP_NAME} | ${APP_DESCRIPTION}`,
+  description: `${APP_NAME} | ${APP_DESCRIPTION}`,
+  "og:title": `${APP_NAME}`,
+  "og:description": APP_DESCRIPTION,
+  "twitter:title": `${APP_NAME}`,
+  "twitter:description": APP_DESCRIPTION,
   // "og:url": "https://medspot.fr",
   // canonical: "https://medspot.fr",
   // "og:image": metaimg,
@@ -59,6 +61,7 @@ export const links = () => {
       href: "https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap",
       rel: "stylesheet",
     },
+    { rel: "stylesheet", href: fontFace },
     { rel: "stylesheet", href: resetStyles },
     { rel: "stylesheet", href: tailwindStyles },
     { rel: "stylesheet", href: globalStyles },

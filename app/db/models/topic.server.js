@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { removeDiacritics } from "../../services/formatSearch.server";
 import dbConnection from "../mongo.server";
 const MODELNAME = "Topic";
 
@@ -19,6 +20,18 @@ const Schema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+Schema.methods.format = function (language = "fr") {
+  return {
+    _id: this._id,
+    name: removeDiacritics(this[language]),
+    author: this.author,
+    categories: this.categories.map((c) => c.format(language)),
+    difficulty: this.difficulty,
+    minAge: this.minAge,
+    maxAge: this.maxAge,
+  };
+};
 
 const TopicModel =
   dbConnection.models[MODELNAME] || dbConnection.model(MODELNAME, Schema);

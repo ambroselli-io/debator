@@ -34,21 +34,21 @@ export const migrate = async () => {
 
   const newTopics = [
     {
-      fr: "Les désirs sont désordres.",
+      fr: "Les désirs sont désordres",
       categories: [categories.find((c) => c.fr === "Philosophie")._id],
       difficulty: 5,
       minAge: 17,
       maxAge: 107,
     },
     {
-      fr: "Les rêves donnent du travail.",
+      fr: "Les rêves donnent du travail",
       categories: [categories.find((c) => c.fr === "Philosophie")._id],
       difficulty: 3,
       minAge: 13,
       maxAge: 107,
     },
     {
-      fr: "La loi s’applique à tous sauf à ceux qui la font.",
+      fr: "La loi s’applique à tous sauf à ceux qui la font",
       categories: [
         categories.find((c) => c.fr === "Justice")._id,
         categories.find((c) => c.fr === "Politique")._id,
@@ -60,7 +60,7 @@ export const migrate = async () => {
       maxAge: 107,
     },
     {
-      fr: "La liberté n’a pas toujours les mains propres.",
+      fr: "La liberté n’a pas toujours les mains propres",
       categories: [
         categories.find((c) => c.fr === "Justice")._id,
         categories.find((c) => c.fr === "Politique")._id,
@@ -80,7 +80,7 @@ export const migrate = async () => {
       maxAge: 107,
     },
     {
-      fr: "L’amour, c’est comme au poker, et c’est presque toujours le moins menteur qui perd.",
+      fr: "L’amour, c’est comme au poker, et c’est presque toujours le moins menteur qui perd",
       categories: [categories.find((c) => c.fr === "Amour")._id],
       author: "Joe Dassin",
       difficulty: 4,
@@ -88,7 +88,7 @@ export const migrate = async () => {
       maxAge: 107,
     },
     {
-      fr: "Vouloir être de son temps c’est déjà être dépassé.",
+      fr: "Vouloir être de son temps c’est déjà être dépassé",
       categories: [categories.find((c) => c.fr === "Philosophie")._id],
       difficulty: 4,
       minAge: 15,
@@ -123,7 +123,7 @@ export const migrate = async () => {
       maxAge: 107,
     },
     {
-      fr: "L’humour, c’est l’arme blanche des hommes désarmés.",
+      fr: "L’humour, c’est l’arme blanche des hommes désarmés",
       categories: [
         categories.find((c) => c.fr === "Philosophie")._id,
         categories.find((c) => c.fr === "Humour")._id,
@@ -134,7 +134,7 @@ export const migrate = async () => {
       maxAge: 107,
     },
     {
-      fr: "Qui ne sait pas mentir ne sait pas agir.",
+      fr: "Qui ne sait pas mentir ne sait pas agir",
       categories: [
         categories.find((c) => c.fr === "Philosophie")._id,
         categories.find((c) => c.fr === "Humour")._id,

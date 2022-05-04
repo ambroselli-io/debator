@@ -1,7 +1,7 @@
 const MONGO_URL = process.env.MONGODB_ADDON_URI;
-const MONGODB_DB_NAME = "pifas";
+const MONGODB_DB_NAME = "Pifas";
 const APP_URL = process.env.APP_URL;
-const APP_NAME = "pifas";
+const APP_NAME = "Pifas";
 const PORT = process.env.PORT || 8080;
 const SECRET = process.env.SECRET || "not_so_secret";
 const ENVIRONMENT = process.env.NODE_ENV;

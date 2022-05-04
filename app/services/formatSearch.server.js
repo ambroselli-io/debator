@@ -11,7 +11,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-var defaultDiacriticsRemovalMap = [
+const defaultDiacriticsRemovalMap = [
   {
     base: "A",
     letters:
@@ -247,7 +247,7 @@ for (let i = 0; i < defaultDiacriticsRemovalMap.length; i++) {
 }
 
 // "what?" version ... http://jsperf.com/diacritics/12
-const removeDiacritics = (str) =>
+export const removeDiacritics = (str) =>
   str.replace(/[^\u0000-\u007E]/g, (a) => diacriticsMap[a] || a);
 
 export const normalizeWord = (word) => {
@@ -263,7 +263,7 @@ export const normalizeWord = (word) => {
 };
 
 export const getSubStrings = (string) => {
-  string = normalizeWord(string);
+  string = normalizeWord(string, true);
   const subs = [];
   for (let i = 3; i <= Math.min(string.length, 10); i++) {
     subs.push(string.slice(0, i));
@@ -272,7 +272,7 @@ export const getSubStrings = (string) => {
 };
 
 export const getFullSubStrings = (string, minLetters = 3) => {
-  string = normalizeWord(string);
+  string = normalizeWord(string, true);
   const subs = [];
   for (let i = minLetters; i <= string.length; i++) {
     subs.push(string.slice(0, i));

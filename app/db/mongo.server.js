@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === "production") {
     global.__db.models = {};
   }
   dbConnection = global.__db;
-  dbConnection.models = {};
+  dbConnection.models = dbConnection.models || {};
 }
 
 dbConnection.on(

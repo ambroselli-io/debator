@@ -1,7 +1,7 @@
 {
-  "name": "joradoc",
+  "name": "pifas",
   "private": true,
-  "description": "",
+  "description": "Le Jeu des Joutes Oratoires",
   "license": "",
   "sideEffects": false,
   "scripts": {

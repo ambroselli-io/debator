@@ -30,8 +30,8 @@ export const meta = () => ({
   "og:description": APP_DESCRIPTION,
   "twitter:title": `${APP_NAME}`,
   "twitter:description": APP_DESCRIPTION,
-  // "og:url": "https://medspot.fr",
-  // canonical: "https://medspot.fr",
+  // "og:url": "https://pifas.cleverapps.fr",
+  // canonical: "https://pifas.cleverapps.fr",
   // "og:image": metaimg,
   // "twitter:image": metaimg,
   // "og:image:type": "image/png",
@@ -44,23 +44,6 @@ export const meta = () => ({
 
 export const links = () => {
   return [
-    {
-      href: "https://fonts.googleapis.com",
-      rel: "preconnect",
-    },
-    {
-      href: "https://fonts.gstatic.com",
-      rel: "preconnect",
-      crossOrigin: "true",
-    },
-    {
-      href: "https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap",
-      rel: "stylesheet",
-    },
-    {
-      href: "https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap",
-      rel: "stylesheet",
-    },
     { rel: "stylesheet", href: fontFace },
     { rel: "stylesheet", href: resetStyles },
     { rel: "stylesheet", href: tailwindStyles },
@@ -75,7 +58,7 @@ const App = () => {
         <Meta />
         <Links />
       </head>
-      <body className="h-full">
+      <body className="h-full bg-[#fafbfe]">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

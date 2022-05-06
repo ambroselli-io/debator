@@ -1,27 +1,34 @@
+// https://flowbite.com/docs/forms/search-input/
 const SearchInput = ({
+  defaultValue,
+  type = "search",
   label = "Recherche",
+  placeholder = "Recherche",
   name = "search",
   id = "search",
-  defaultValue,
+  className = "",
 }) => {
   return (
     <div className="flex w-full items-center">
       <label htmlFor={`${name}-${id}`} className="sr-only">
         {label}
       </label>
-      <div className="relative w-full">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <SearchIcon />
-        </div>
+      <div className={`relative w-full ${className}`}>
         <input
-          type="search"
+          type={type}
           id={`${name}-${id}`}
           name={name}
-          className="text-gray-900dark:border-gray-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 "
-          placeholder={label}
+          className="text-gray-900dark:border-gray-600 block w-full rounded-lg border border-gray-300 bg-white p-2.5 pr-10 text-sm dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 "
+          placeholder={placeholder}
           defaultValue={defaultValue}
           enterKeyHint="search"
         />
+        <button
+          type="submit"
+          className="absolute inset-y-0 right-0 flex items-center pr-3"
+        >
+          <SearchIcon />
+        </button>
       </div>
     </div>
   );

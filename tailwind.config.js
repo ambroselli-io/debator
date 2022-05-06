@@ -14,6 +14,9 @@ module.exports = {
       colors: {
         app: "#ed8550",
       },
+      accent: {
+        app: "#ed8550",
+      },
       borderColor: {
         DEFAULT: "#000",
       },

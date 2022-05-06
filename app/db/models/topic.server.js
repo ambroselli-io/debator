@@ -30,12 +30,17 @@ Schema.methods.format = function (language = "fr") {
     _id: this._id,
     name: removeDiacritics(this[language]),
     author: this.author,
-    categories: this.categories.map((c) => c.format(language)),
+    categories: this.categories,
     difficulty: this.difficulty,
     minAge: this.minAge,
     maxAge: this.maxAge,
   };
 };
+Schema.virtual("name").get(function () {
+  return removeDiacritics(this.fr);
+});
+Schema.set("toObject", { virtuals: true });
+Schema.set("toJSON", { virtuals: true });
 
 const TopicModel =
   dbConnection.models[MODELNAME] || dbConnection.model(MODELNAME, Schema);

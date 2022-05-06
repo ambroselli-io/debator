@@ -68,3 +68,13 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+/*
+Get range input at the same color
+*/
+
+-webkit-slider-runnable-track,
+-moz-range-track,
+-ms-track {
+  color: currentColor;
+}

@@ -1,45 +1,18 @@
 import { Form, Link, useLoaderData, useSearchParams } from "@remix-run/react";
-import dayjs from "dayjs";
 import React from "react";
 import Star from "../../components/Star";
-import TopicModel from "../../db/models/topic.server";
-import TopicsSuiteModel from "../../db/models/topicsSuite.server";
-import shuffle from "../../services/shuffleArray";
+import { getTodaysTopicSuite } from "../../db/queries/topicsSuite.server";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
 
-  // find the daily topics suite if exists
-  const topicsSuiteQuery = {
-    createdAt: { $gte: dayjs().startOf("day"), $lt: dayjs().endOf("day") },
-  };
-  const topicPopulate = {
-    path: "topics",
-    model: "Topic",
-    populate: {
-      path: "categories",
-      model: "Category",
-    },
-  };
-  let topicsSuite = await TopicsSuiteModel.findOne(topicsSuiteQuery).populate(
-    topicPopulate
-  );
-  // if it doesn't exist yet, it's the first time it's requested
-  // so let's create it
-  if (!topicsSuite) {
-    const topics = await TopicModel.find().select("_id");
-    await TopicsSuiteModel.create({ topics: shuffle(topics) });
-    // then populate it
-    topicsSuite = await TopicsSuiteModel.findOne(topicsSuiteQuery).populate(
-      topicPopulate
-    );
-  }
+  const { topics } = await getTodaysTopicSuite();
 
   const index = Number(url.searchParams.get("index")) || 0;
 
   return {
-    topic: topicsSuite.topics[index].format(),
-    maxIndex: topicsSuite.topics.length - 1,
+    topic: topics[index],
+    maxIndex: topics.length - 1,
   };
 };
 

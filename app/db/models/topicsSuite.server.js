@@ -9,9 +9,9 @@ const Schema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const TopicsSuite =
+const TopicsSuiteModel =
   dbConnection.models[MODELNAME] || dbConnection.model(MODELNAME, Schema);
 
-TopicsSuite.syncIndexes();
+TopicsSuiteModel.syncIndexes();
 
-export default TopicsSuite;
+export default TopicsSuiteModel;

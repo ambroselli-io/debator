@@ -1,5 +1,6 @@
 import { Form, useLoaderData, useSearchParams, useSubmit } from "remix";
 import CheckBoxGroup from "../../components/CheckBoxGroup";
+import RangeInput from "../../components/RangeInput";
 import SearchInput from "../../components/SearchInput";
 import TopicCard from "../../components/TopicCard";
 import CategoryModel from "../../db/models/category.server";
@@ -132,24 +133,14 @@ const Search = () => {
             legend="🤌 Choisissez des catégories"
           />
           <label htmlFor="difficulty">🍬 Difficulté</label>
-          <input
+          <RangeInput
             type="range"
             name="difficulty"
             min={0}
             max={5}
             step={1}
-            list="stars"
-            defaultValue={searchParams.get("difficulty")}
             className="bg-app text-app accent-app"
           />
-          <datalist id="stars">
-            <option value="0"></option>
-            <option value="1"></option>
-            <option value="2"></option>
-            <option value="3"></option>
-            <option value="4"></option>
-            <option value="5"></option>
-          </datalist>
           <label htmlFor="search">💡 Une idée précise ?</label>
           <SearchInput
             placeholder="Entrez un mot-clé"

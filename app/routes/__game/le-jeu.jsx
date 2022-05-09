@@ -1,12 +1,22 @@
 import { Form, Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import React from "react";
 import Star from "../../components/Star";
+import TopicModel from "../../db/models/topic.server";
 import { getTodaysTopicSuite } from "../../db/queries/topicsSuite.server";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
 
   const { topics } = await getTodaysTopicSuite();
+
+  const topicId = url.searchParams.get("id");
+  if (topicId) {
+    const topic = await TopicModel.findById(topicId).populate("categories");
+    return {
+      topic,
+      maxIndex: topics.length - 1,
+    };
+  }
 
   const index = Number(url.searchParams.get("index")) || 0;
 
@@ -15,7 +25,6 @@ export const loader = async ({ request }) => {
     maxIndex: topics.length - 1,
   };
 };
-
 const Game = () => {
   const { topic, maxIndex } = useLoaderData();
   const [searchParams] = useSearchParams();

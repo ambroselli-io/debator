@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import shuffle from "../../services/shuffleArray";
+import { shuffle } from "../../services/arrays";
 import TopicModel from "../models/topic.server";
 import TopicsSuiteModel from "../models/topicsSuite.server";
 

@@ -1,6 +1,43 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams, useTransition } from "remix";
 
+/*
+
+useMergeSearchParams
+as in `[searchParams, mergeSearchParams] = useMergeSearchParams()`
+
+setSearchParams({ neParam: 'whatever' }) replaces all the query params with the newParam
+mergeSearchParams({ neParam: 'whatever' }) merges the newParam within the existing query params
+
+*/
+
+export const useMergeSearchParams = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const mergeSearchParams = (newParams) => {
+    const searchParamsObject = {};
+    for (const [key, param] of searchParams.entries()) {
+      searchParamsObject[key] = param;
+    }
+    for (const [key, param] of Object.entries(newParams)) {
+      if (!param) delete searchParamsObject[key];
+      else searchParamsObject[key] = param;
+    }
+    setSearchParams(searchParamsObject);
+  };
+
+  return [searchParams, mergeSearchParams];
+};
+
+/*
+
+useSearchParamState
+as in `[state, setState] = useSearchParamState(initialValue)`
+
+I think not so useful in Remix actually, more useful in a create-react-app
+
+*/
+
 const setDataAsSearchParam = (data) => {
   if (typeof data === "string") return data;
   if (typeof data === "number") return data;

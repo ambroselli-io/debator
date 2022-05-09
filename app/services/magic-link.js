@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { APP_URL, APP_NAME } from "../config";
-import { decrypt, encrypt } from "./crypto";
+import { APP_URL, APP_NAME, SECRET } from "../config";
+import crypto from "crypto";
 
 const linkExpirationTime = 1000 * 60 * 30;
 const magicLinkSearchParam = "kodyKey";
@@ -92,4 +92,30 @@ P.S. Si vous n'avez pas demandé à recevoir cet email, vous pouvez l'ignorer.
     text,
     html,
   };
+};
+
+const algorithm = "aes-256-ctr";
+
+const ENCRYPTION_KEY = crypto.scryptSync(SECRET, "salt", 32);
+
+const IV_LENGTH = 16;
+
+const encrypt = (text) => {
+  const iv = crypto.randomBytes(IV_LENGTH);
+  const cipher = crypto.createCipheriv(algorithm, ENCRYPTION_KEY, iv);
+  const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
+  return `${iv.toString("hex")}:${encrypted.toString("hex")}`;
+};
+
+const decrypt = (text) => {
+  const [ivPart, encryptedPart] = text.split(":");
+  if (!ivPart || !encryptedPart) {
+    throw new Error("Invalid text.");
+  }
+
+  const iv = Buffer.from(ivPart, "hex");
+  const encryptedText = Buffer.from(encryptedPart, "hex");
+  const decipher = crypto.createDecipheriv(algorithm, ENCRYPTION_KEY, iv);
+  const decrypted = Buffer.concat([decipher.update(encryptedText), decipher.final()]);
+  return decrypted.toString();
 };

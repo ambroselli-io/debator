@@ -22,7 +22,7 @@ export const loader = async ({ request }) => {
   }
 };
 
-export default function Magic() {
+const Magic = () => {
   const loaderData = useLoaderData();
   return (
     <>
@@ -32,4 +32,6 @@ export default function Magic() {
       </Link>
     </>
   );
-}
+};
+
+export default Magic;

@@ -1,7 +1,7 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import { APP_NAME, SECRET } from "../config";
 import UserModel from "../db/models/user.server";
-import { isUserOnboarded } from "./onboarding";
+import { isUserOnboarded } from "./userUtils.server";
 
 const sessionExpirationTime = 1000 * 60 * 60 * 24 * 365;
 

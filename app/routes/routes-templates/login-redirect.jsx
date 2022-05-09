@@ -1,7 +1,7 @@
 import { useSearchParams, redirect } from "@remix-run/node";
 import UserModel from "../../db/models/user.server";
 import { createMagicLinkEmail } from "../../services/magic-link";
-import { sendEmail } from "../../services/sendEmail";
+import { sendEmail } from "../../services/email.server";
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
@@ -14,7 +14,7 @@ export const action = async ({ request }) => {
   return redirect(`/welcome/login-redirect?email=${email}`);
 };
 
-export default function Index() {
+const Index = () => {
   const [searchParams] = useSearchParams();
 
   return (
@@ -23,4 +23,6 @@ export default function Index() {
       connecter
     </span>
   );
-}
+};
+
+export default Index;

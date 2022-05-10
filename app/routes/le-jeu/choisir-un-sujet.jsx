@@ -25,6 +25,7 @@ export const loader = async ({ request }) => {
     maxIndex: topics.length - 1,
   };
 };
+
 const Game = () => {
   const { topic, maxIndex } = useLoaderData();
   const [searchParams] = useSearchParams();
@@ -33,7 +34,10 @@ const Game = () => {
 
   return (
     <>
-      <h2 className="min-h-8 relative my-10 w-full text-center text-3xl">
+      <small>
+        <i className="text-app">Choisissez un sujet</i>
+      </small>
+      <h2 className="min-h-8 relative my-0 w-full text-center text-3xl">
         <div
           className="pointer-events-none invisible w-full opacity-0"
           aria-hidden={true}
@@ -80,7 +84,7 @@ const Game = () => {
           Catégorie{topic.categories.length > 1 ? "s" : ""}&nbsp;:{" "}
           {topic.categories.map((c, index, array) => (
             <React.Fragment key={c._id}>
-              <b>{c.name}</b>
+              <b>{c.fr}</b>
               {index < array.length - 1 ? " - " : ""}
             </React.Fragment>
           ))}
@@ -116,13 +120,23 @@ const Game = () => {
           )}
         </p>
       </small>
+      <Link
+        to={`../choisir-un-mode-de-jeu?id=${topic._id}`}
+        className="rounded-lg border border-app bg-app px-4 py-2 text-white"
+        type="submit"
+      >
+        Je choisis celui-là !
+      </Link>
       <Form method="GET">
         <input type="hidden" name="index" value={(currentIndex + 1) % maxIndex} />
-        <button className="rounded-lg bg-app px-4 py-2 text-white" type="submit">
+        <button
+          className="mt-4 rounded-lg border border-app bg-white px-4 py-2 text-app"
+          type="submit"
+        >
           Montrez-moi un autre&nbsp;sujet
         </button>
       </Form>
-      <Link className="mt-4 text-sm text-app underline" to="/recherche">
+      <Link className="mt-4 text-sm text-app underline" to="../rechercher-un-sujet">
         Recherche avancée
       </Link>
     </>

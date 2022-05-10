@@ -1,4 +1,4 @@
-import { Form, useLoaderData, useSearchParams, useSubmit } from "remix";
+import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "remix";
 import CheckBoxGroup from "../../components/CheckBoxGroup";
 import RangeInput from "../../components/RangeInput";
 import SearchInput from "../../components/SearchInput";
@@ -149,27 +149,33 @@ const Search = () => {
             defaultValue={searchParams.get("search") || ""}
             className="mb-2"
           />
-          {/* <button
-          type="submit"
-          className="rounded-lg bg-app px-4 py-2 text-white"
-          type="submit"
-        >
-          Rechercher
-        </button> */}
         </Form>
       </details>
-      <details className="w-full" open>
-        <summary className="w-full">
-          <h2 className="ml-2 mt-4 mb-2 inline w-full text-lg font-bold">
-            Voici les sujets disponibles 👇
-          </h2>
-        </summary>
-        <main className="flex flex-col p-4">
-          {topics.map((topic) => (
-            <TopicCard key={topic._id} topic={topic} />
-          ))}
-        </main>
-      </details>
+      {!topics.length && (
+        <p className="text-center text-sm">
+          Désolé, nous n'avons aucun sujet en stock correspondant à ces critères&nbsp;🤷‍♀️
+          <br />
+          <br />
+          Si vous pensez à un sujet, envoyez-nous un message et nous l'intégrerons dans
+          notre liste&nbsp;!&nbsp;🤓
+        </p>
+      )}
+      {!!topics.length && (
+        <details className="w-full" open>
+          <summary className="w-full">
+            <h2 className="ml-2 mt-4 mb-2 inline w-full text-lg font-bold">
+              Voici les sujets disponibles 👇
+            </h2>
+          </summary>
+          <main className="flex flex-col p-4">
+            {topics.map((topic) => (
+              <Link key={topic._id} to={`../choisir-un-sujet?id=${topic._id}`}>
+                <TopicCard topic={topic} />
+              </Link>
+            ))}
+          </main>
+        </details>
+      )}
     </>
   );
 };

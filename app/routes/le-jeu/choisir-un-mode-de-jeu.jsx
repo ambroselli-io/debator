@@ -3,6 +3,7 @@ import React from "react";
 import GameModeCard from "../../components/GameModeCard";
 import ArenaGameSvg from "../../components/icons/ArenaGameSvg";
 import BackToBackGameSvg from "../../components/icons/BackToBack";
+import EditSvg from "../../components/icons/EditSvg";
 import IndividualGameSvg from "../../components/icons/IndividualGameSvg";
 import TeamDebateSvg from "../../components/icons/TeamDebateSvg";
 import TrialGameSvg from "../../components/icons/TrialGameSvg";
@@ -26,7 +27,16 @@ const Game = () => {
       <small className="text-center">
         {!!topic?.name && (
           <>
-            <i className="text-app">Votre sujet:</i>
+            <button
+              type="button"
+              className="inline-flex items-center"
+              onClick={
+                typeof window !== "undefined" ? () => window?.history?.back() : null
+              }
+            >
+              <i className="text-app">Votre sujet: </i>
+              <EditSvg className="ml-2 h-2 w-2" />
+            </button>
             <br />
             <b className="font-[xkcd] uppercase text-black">{topic.name}</b>
             <br />
@@ -40,36 +50,45 @@ const Game = () => {
           Image={IndividualGameSvg}
           title="La joute individuelle"
           shortExplanation="Deux participants, un jury, un public"
-          preparation="Rapide"
-          timeDuration="À partir de 10 minutes"
+          preparationMinimum="Aucune"
+          preparationAdvised="10 minutes"
+          gameDuration="10 minutes ou +"
+          numberOfPlayers="3+"
         />
         <GameModeCard
           Image={ArenaGameSvg}
           title="La joute en arène"
           shortExplanation="Deux participants pour commencer, le public se joint à eux dans l'arène"
-          preparation="Rapide"
-          timeDuration="À partir de 10 minutes"
+          preparation="Aucune"
+          gameDuration="10 minutes ou +"
+          numberOfPlayers="8+"
         />
         <GameModeCard
           Image={BackToBackGameSvg}
           title="La joute dos à dos"
           shortExplanation="Pas de jeu de corps ni de regard: la voix et l'écoute seules pour débattre"
-          preparation="Rapide"
-          timeDuration="À partir de 10 minutes"
+          preparationMinimum="Aucune"
+          preparationAdvised="10 minutes"
+          gameDuration="10 minutes ou +"
+          numberOfPlayers="3+"
         />
         <GameModeCard
           Image={TeamDebateSvg}
           title="La joute par équipes simple"
           shortExplanation="Débat par équipe avec préparation"
-          preparation="Rapide"
-          timeDuration="À partir de 10 minutes"
+          preparationMinimum="15 minutes"
+          preparationAdvised="1 heure ou quelques jours"
+          gameDuration="1 heure ou plus"
+          numberOfPlayers="5+"
         />
         <GameModeCard
           Image={TrialGameSvg}
           title="Le procès"
           shortExplanation="Un jeu de rôles en même temps qu'une technique de débat"
-          preparation="Rapide"
-          timeDuration="À partir de 10 minutes"
+          preparationMinimum="15 minutes"
+          preparationAdvised="1 heure ou quelques jours"
+          gameDuration="1 heure ou plus"
+          numberOfPlayers="10+"
         />
       </main>
       {/* <Link

@@ -123,7 +123,6 @@ const Game = () => {
       <Link
         to={`../choisir-un-mode-de-jeu?id=${topic._id}`}
         className="rounded-lg border border-app bg-app px-4 py-2 text-white"
-        type="submit"
       >
         Je choisis celui-là !
       </Link>

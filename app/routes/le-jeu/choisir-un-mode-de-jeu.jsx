@@ -17,6 +17,7 @@ export const loader = async ({ request }) => {
     const topic = await TopicModel.findById(topicId).populate("categories");
     return { topic };
   }
+  return {};
 };
 
 const Game = () => {
@@ -27,18 +28,26 @@ const Game = () => {
       <small className="text-center">
         {!!topic?.name && (
           <>
-            <button
-              type="button"
+            <Link
+              to={`../choisir-un-sujet?id=${topic._id}`}
               className="inline-flex items-center"
-              onClick={
-                typeof window !== "undefined" ? () => window?.history?.back() : null
-              }
             >
               <i className="text-app">Votre sujet: </i>
               <EditSvg className="ml-2 h-2 w-2" />
-            </button>
+            </Link>
             <br />
             <b className="font-[xkcd] uppercase text-black">{topic.name}</b>
+            <br />
+          </>
+        )}
+        {!topic?.name && (
+          <>
+            <Link to="../choisir-un-sujet" className="inline-flex flex-col items-center">
+              <i className="text-app">Vous n'avez pas de sujet</i>
+              <span className="text-sm text-app underline" to="../rechercher-un-sujet">
+                En choisir un
+              </span>
+            </Link>
             <br />
           </>
         )}

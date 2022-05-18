@@ -1,4 +1,4 @@
-import { unstable_parseMultipartFormData } from "remix";
+import { unstable_parseMultipartFormData } from "@remix-run/node";
 
 const AWS = require("aws-sdk");
 const {

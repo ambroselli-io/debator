@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useSearchParams } from "remix";
+import { useSearchParams } from "@remix-run/react";
 
 const RangeInput = ({ min, max, step, name, className }) => {
   const [searchParams] = useSearchParams();

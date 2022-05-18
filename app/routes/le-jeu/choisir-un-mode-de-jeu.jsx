@@ -1,12 +1,8 @@
-import { Form, Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import React from "react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import games from "../../games";
 import GameModeCard from "../../components/GameModeCard";
-import ArenaGameSvg from "../../components/icons/ArenaGameSvg";
-import BackToBackGameSvg from "../../components/icons/BackToBack";
 import EditSvg from "../../components/icons/EditSvg";
-import IndividualGameSvg from "../../components/icons/IndividualGameSvg";
-import TeamDebateSvg from "../../components/icons/TeamDebateSvg";
-import TrialGameSvg from "../../components/icons/TrialGameSvg";
 import TopicModel from "../../db/models/topic.server";
 
 export const loader = async ({ request }) => {
@@ -55,50 +51,37 @@ const Game = () => {
         <i className="text-app">Choisissez un mode de jeu</i>
       </small>
       <main className="mt-5 flex w-full flex-wrap justify-center gap-3">
-        <GameModeCard
-          Image={IndividualGameSvg}
-          title="La joute individuelle"
-          shortExplanation="Deux participants, un jury, un public"
-          preparationMinimum="Aucune"
-          preparationAdvised="10 minutes"
-          gameDuration="10 minutes ou +"
-          numberOfPlayers="3+"
-        />
-        <GameModeCard
-          Image={ArenaGameSvg}
-          title="La joute en arène"
-          shortExplanation="Deux participants pour commencer, le public se joint à eux dans l'arène"
-          preparation="Aucune"
-          gameDuration="10 minutes ou +"
-          numberOfPlayers="8+"
-        />
-        <GameModeCard
-          Image={BackToBackGameSvg}
-          title="La joute dos à dos"
-          shortExplanation="Pas de jeu de corps ni de regard: la voix et l'écoute seules pour débattre"
-          preparationMinimum="Aucune"
-          preparationAdvised="10 minutes"
-          gameDuration="10 minutes ou +"
-          numberOfPlayers="3+"
-        />
-        <GameModeCard
-          Image={TeamDebateSvg}
-          title="La joute par équipes simple"
-          shortExplanation="Débat par équipe avec préparation"
-          preparationMinimum="15 minutes"
-          preparationAdvised="1 heure ou quelques jours"
-          gameDuration="1 heure ou plus"
-          numberOfPlayers="5+"
-        />
-        <GameModeCard
-          Image={TrialGameSvg}
-          title="Le procès"
-          shortExplanation="Un jeu de rôles en même temps qu'une technique de débat"
-          preparationMinimum="15 minutes"
-          preparationAdvised="1 heure ou quelques jours"
-          gameDuration="1 heure ou plus"
-          numberOfPlayers="10+"
-        />
+        {games.map(
+          ({
+            Image,
+            title,
+            slug,
+            shortExplanation,
+            preparationMinimum,
+            preparationAdvised,
+            preparation,
+            gameDuration,
+            numberOfPlayers,
+          }) => (
+            <Link
+              key={slug}
+              to={`${slug}${topic?._id ? `?id=${topic?._id}` : ""}`}
+              state={{ scroll: false }}
+              className="flex-0 max-w-[90w] basis-80 rounded bg-white drop-shadow"
+            >
+              <GameModeCard
+                Image={Image}
+                title={title}
+                shortExplanation={shortExplanation}
+                preparationMinimum={preparationMinimum}
+                preparationAdvised={preparationAdvised}
+                preparation={preparation}
+                gameDuration={gameDuration}
+                numberOfPlayers={numberOfPlayers}
+              />
+            </Link>
+          )
+        )}
       </main>
       {/* <Link
         to={`../choisir-un-mode-de-jeu?id=${topic._id}`}
@@ -119,6 +102,7 @@ const Game = () => {
       <Link className="mt-4 text-sm text-app underline" to="../rechercher-un-sujet">
         Recherche avancée
       </Link> */}
+      <Outlet />
     </>
   );
 };

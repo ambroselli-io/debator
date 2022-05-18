@@ -1,4 +1,4 @@
-import { redirect } from "remix";
+import { redirect } from "@remix-run/node";
 
 export const loader = () => redirect("/le-jeu/choisir-un-sujet");
 

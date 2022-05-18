@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams, useTransition } from "remix";
+import { useSearchParams, useTransition } from "@remix-run/react";
 
 /*
 

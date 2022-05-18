@@ -1,9 +1,9 @@
 const MONGO_URL =
   process.env.MONGODB_ADDON_URI ||
   "***REMOVED***";
-const MONGODB_DB_NAME = "Pifas";
+const MONGODB_DB_NAME = "Debator";
 const APP_URL = process.env.APP_URL;
-const APP_NAME = "Pifas";
+const APP_NAME = "Debator";
 const PORT = process.env.PORT || 8080;
 const SECRET = process.env.SECRET || "not_so_secret";
 const ENVIRONMENT = process.env.NODE_ENV;
@@ -14,7 +14,7 @@ const TIPIMAIL_API_KEY = process.env.TIPIMAIL_API_KEY;
 const CELLAR_ADDON_HOST = process.env.CELLAR_ADDON_HOST;
 const CELLAR_ADDON_KEY_ID = process.env.CELLAR_ADDON_KEY_ID;
 const CELLAR_ADDON_KEY_SECRET = process.env.CELLAR_ADDON_KEY_SECRET;
-const PUBLIC_BUCKET_NAME = "pifas";
+const PUBLIC_BUCKET_NAME = "debator";
 
 export {
   MONGO_URL,

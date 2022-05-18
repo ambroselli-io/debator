@@ -1,4 +1,4 @@
-import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "remix";
+import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
 import CheckBoxGroup from "../../components/CheckBoxGroup";
 import RangeInput from "../../components/RangeInput";
 import SearchInput from "../../components/SearchInput";

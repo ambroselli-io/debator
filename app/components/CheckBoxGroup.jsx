@@ -1,4 +1,4 @@
-import { useSearchParams } from "remix";
+import { useSearchParams } from "@remix-run/react";
 
 const CheckBox = ({ name, value, label }) => {
   const [searchParams] = useSearchParams();

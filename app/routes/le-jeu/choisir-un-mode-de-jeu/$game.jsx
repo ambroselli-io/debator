@@ -11,8 +11,7 @@ const GameInfos = () => {
   );
 
   return (
-    <Modal>
-      <h4 className="mb-5 text-xl font-bold">{game.title}</h4>
+    <Modal title={game.title}>
       {game?.explanation?.map((item, index) => (
         <React.Fragment key={index}>
           {!!item.title && <h5 className="mt-3 mb-2 mr-auto font-bold">{item.title}</h5>}

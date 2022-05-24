@@ -78,7 +78,7 @@ const App = () => {
         <Meta />
         <Links />
       </head>
-      <body className="h-full bg-[#fafbfe]">
+      <body className="h-full overflow-x-hidden bg-[#fafbfe]">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

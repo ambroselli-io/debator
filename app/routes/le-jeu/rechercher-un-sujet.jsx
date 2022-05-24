@@ -169,7 +169,7 @@ const Search = () => {
           </summary>
           <main className="flex flex-col p-4">
             {topics.map((topic) => (
-              <Link key={topic._id} to={`../choisir-un-sujet?id=${topic._id}`}>
+              <Link key={topic._id} to={`../choisir-un-mode-de-jeu?id=${topic._id}`}>
                 <TopicCard topic={topic} />
               </Link>
             ))}

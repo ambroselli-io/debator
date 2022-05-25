@@ -11,10 +11,6 @@ export const getTodaysTopicSuite = async ({ populate = true } = {}) => {
   const topicPopulate = {
     path: "topics",
     model: "Topic",
-    populate: {
-      path: "categories",
-      model: "Category",
-    },
   };
   let topicsSuite = await TopicsSuiteModel.findOne(topicsSuiteQuery);
   // if it doesn't exist yet, it's the first time it's requested
@@ -22,10 +18,10 @@ export const getTodaysTopicSuite = async ({ populate = true } = {}) => {
   if (!topicsSuite) {
     const topics = await TopicModel.find().select("_id");
     await TopicsSuiteModel.create({ topics: shuffle(topics) });
-    // then populate it
     topicsSuite = await TopicsSuiteModel.findOne(topicsSuiteQuery);
   }
 
+  // then populate it
   if (populate) {
     topicsSuite = await TopicsSuiteModel.populate(topicsSuite, topicPopulate);
   }

@@ -7,9 +7,9 @@ const TopicCard = ({ topic }) => {
       <figure className="flex flex-col justify-between text-center">
         <blockquote className="h-full">
           <p className="flex h-full items-center justify-center font-[xkcd] text-xl">
-            {topic.name.toUpperCase().replace(" ?", "").replace(" !", "")}
-            {topic.name.includes(" ?") ? <>&nbsp;?</> : ""}
-            {topic.name.includes(" !") ? <>&nbsp;!</> : ""}
+            {topic.title.toUpperCase().replace(" ?", "").replace(" !", "")}
+            {topic.title.includes(" ?") ? <>&nbsp;?</> : ""}
+            {topic.title.includes(" !") ? <>&nbsp;!</> : ""}
           </p>
         </blockquote>
         {!!topic.author && (
@@ -18,9 +18,9 @@ const TopicCard = ({ topic }) => {
       </figure>
       <small className="my-auto flex items-center justify-center opacity-25">
         <span className="text-center">
-          {topic.categories.map((c, index, array) => (
-            <React.Fragment key={c._id}>
-              <b>{c.name || c.fr}</b>
+          {topic.categories.map((category, index, array) => (
+            <React.Fragment key={category}>
+              <b>{category}</b>
               {index < array.length - 1 ? " - " : ""}
             </React.Fragment>
           ))}

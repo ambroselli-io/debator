@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-import CategoryModel from "./models/category.server";
 import TopicModel from "./models/topic.server";
 
 console.log("Migration script imported");
@@ -8,134 +6,93 @@ console.log("Migration script imported");
 
 export const migrate = async () => {
   console.log("migration started");
-  const newCategories = [
-    "Philosophie",
-    "Justice",
-    "Politique",
-    "Corruption",
-    "Jeunesse",
-    "Liberté",
-    "Amour",
-    "Humour",
-  ];
-
-  const categories = [];
-  for (const category of newCategories) {
-    let categoryDoc = await CategoryModel.findOne({ fr: category });
-    if (!categoryDoc) {
-      try {
-        categoryDoc = await CategoryModel.create({ fr: category });
-      } catch (e) {
-        categoryDoc = await CategoryModel.findOne({ fr: category });
-      }
-    }
-    categories.push({ fr: category, _id: categoryDoc._id });
-  }
 
   const newTopics = [
     {
-      fr: "Les désirs sont désordres",
-      categories: [categories.find((c) => c.fr === "Philosophie")._id],
+      title: "Les désirs sont désordres",
+      categories: ["Philosophie"],
       difficulty: 5,
       minAge: 17,
     },
     {
-      fr: "Les rêves donnent du travail",
-      categories: [categories.find((c) => c.fr === "Philosophie")._id],
+      title: "Les rêves donnent du travail",
+      categories: ["Philosophie"],
       difficulty: 3,
       minAge: 13,
     },
     {
-      fr: "La loi s'applique à tous sauf à ceux qui la font",
-      categories: [
-        categories.find((c) => c.fr === "Justice")._id,
-        categories.find((c) => c.fr === "Politique")._id,
-        categories.find((c) => c.fr === "Corruption")._id,
-      ],
+      title: "La loi s'applique à tous sauf à ceux qui la font",
+      categories: ["Justice", "Politique", "Corruption"],
       author: "Coluche",
       difficulty: 4,
       minAge: 15,
     },
     {
-      fr: "La liberté n'a pas toujours les mains propres",
-      categories: [
-        categories.find((c) => c.fr === "Justice")._id,
-        categories.find((c) => c.fr === "Politique")._id,
-        categories.find((c) => c.fr === "Liberté")._id,
-      ],
+      title: "La liberté n'a pas toujours les mains propres",
+      categories: ["Justice", "Politique", "Liberté"],
       author: "Malraux",
       difficulty: 4,
       minAge: 15,
     },
     {
-      fr: "La vraie vie est ailleurs",
-      categories: [categories.find((c) => c.fr === "Philosophie")._id],
+      title: "La vraie vie est ailleurs",
+      categories: ["Philosophie"],
       author: "Rimbaud",
       difficulty: 5,
       minAge: 15,
     },
     {
-      fr: "L'amour, c'est comme au poker, et c'est presque toujours le moins menteur qui perd",
-      categories: [categories.find((c) => c.fr === "Amour")._id],
+      title:
+        "L'amour, c'est comme au poker, et c'est presque toujours le moins menteur qui perd",
+      categories: ["Amour"],
       author: "Joe Dassin",
       difficulty: 4,
       minAge: 13,
     },
     {
-      fr: "Vouloir être de son temps c'est déjà être dépassé",
-      categories: [categories.find((c) => c.fr === "Philosophie")._id],
+      title: "Vouloir être de son temps c'est déjà être dépassé",
+      categories: ["Philosophie"],
       difficulty: 4,
       minAge: 15,
     },
     {
-      fr: "Tout peut-il s'oublier ?",
-      categories: [categories.find((c) => c.fr === "Philosophie")._id],
+      title: "Tout peut-il s'oublier ?",
+      categories: ["Philosophie"],
       author: "Jack Brel",
       difficulty: 3,
       minAge: 13,
     },
     {
-      fr: "On résiste par les mots",
-      categories: [categories.find((c) => c.fr === "Philosophie")._id],
+      title: "On résiste par les mots",
+      categories: ["Philosophie"],
       author: "Tanella Boni",
       difficulty: 5,
       minAge: 14,
     },
     {
-      fr: "Jeunesse seule ne pourra",
-      categories: [
-        categories.find((c) => c.fr === "Philosophie")._id,
-        categories.find((c) => c.fr === "Politique")._id,
-        categories.find((c) => c.fr === "Jeunesse")._id,
-      ],
+      title: "Jeunesse seule ne pourra",
+      categories: ["Philosophie", "Politique", "Jeunesse"],
       author: "Christiane Taubira",
       difficulty: 3,
       minAge: 13,
     },
     {
-      fr: "L'humour, c'est l'arme blanche des hommes désarmés",
-      categories: [
-        categories.find((c) => c.fr === "Philosophie")._id,
-        categories.find((c) => c.fr === "Humour")._id,
-      ],
+      title: "L'humour, c'est l'arme blanche des hommes désarmés",
+      categories: ["Philosophie", "Humour"],
       author: "Romain Gary",
       difficulty: 3,
       minAge: 13,
     },
     {
-      fr: "Qui ne sait pas mentir ne sait pas agir",
-      categories: [
-        categories.find((c) => c.fr === "Philosophie")._id,
-        categories.find((c) => c.fr === "Humour")._id,
-        categories.find((c) => c.fr === "Politique")._id,
-      ],
+      title: "Qui ne sait pas mentir ne sait pas agir",
+      categories: ["Philosophie", "Humour", "Politique"],
       author: "Alexandre Dumas",
       difficulty: 2,
       minAge: 13,
     },
     {
-      fr: "L'homme marié devient-il un seigneur parano ?",
-      categories: [categories.find((c) => c.fr === "Amour")._id],
+      title: "L'homme marié devient-il un seigneur parano ?",
+      categories: ["Amour"],
       difficulty: 3,
       minAge: 17,
     },

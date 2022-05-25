@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const BurgerMenu = ({ children }) => {
-  const [showMenu, setShowMenu] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
 
   return (
     <>
@@ -37,6 +37,7 @@ const BurgerMenu = ({ children }) => {
         className={`max-w-screen absolute top-0 right-0 z-10 flex h-screen w-56 max-w-full flex-col border-l border-app border-opacity-30 bg-[#fafbfe] pt-12 transition-all ${
           !showMenu ? "invisible translate-x-full opacity-0" : "opacity-1"
         }`}
+        onClick={() => setShowMenu((s) => !s)}
       >
         {children}
       </nav>

@@ -1,7 +1,7 @@
 import { useParams } from "@remix-run/react";
+import React, { useMemo } from "react";
 import Modal from "app/components/Modal";
 import games from "app/games";
-import React, { useMemo } from "react";
 
 const GameInfos = () => {
   const params = useParams();

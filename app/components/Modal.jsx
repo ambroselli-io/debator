@@ -3,20 +3,24 @@ import { useNavigate } from "@remix-run/react";
 
 // https://css-tricks.com/prevent-page-scrolling-when-a-modal-is-open/
 
-const Modal = ({ title, children }) => {
+const Modal = ({ title, children, isOpen = true, hide = null }) => {
   const navigate = useNavigate();
   const dialogRef = useRef(null);
   useEffect(() => {
-    import("dialog-polyfill").then((dialogPolyfill) => {
-      dialogPolyfill.default.registerDialog(dialogRef.current);
-      dialogRef.current.showModal();
-      document.body.style.overflow = "hidden";
-    });
-  }, []);
+    if (isOpen) {
+      import("dialog-polyfill").then((dialogPolyfill) => {
+        dialogPolyfill.default.registerDialog(dialogRef.current);
+        dialogRef.current.showModal();
+        document.body.style.overflow = "hidden";
+      });
+    }
+  }, [isOpen]);
 
   const onCancel = () => {
     document.body.style.overflow = "visible";
-    navigate(-1);
+    if (!hide) return navigate(-1);
+    hide(false); // for setShowModal(false)
+    dialogRef.current.close();
   };
 
   return (
@@ -25,11 +29,15 @@ const Modal = ({ title, children }) => {
       ref={dialogRef}
       className="fixed !inset-0 flex w-[90vw] max-w-md !transform-none flex-col items-center justify-start overflow-y-visible  rounded bg-white !p-0"
     >
-      <h4 className="sticky inset-0 flex w-full justify-between bg-white bg-gradient-to-t from-transparent to-white p-4 pb-5 text-xl font-bold">
+      <div className="w-full p-4 pt-20">{children}</div>
+      <h4 className="absolute top-0 left-0 flex w-full justify-between bg-white bg-gradient-to-t from-transparent to-white p-4 pb-5 text-xl font-bold">
         {title}
-        <button type="button" onClick={onCancel} aria-label="fermer les infos">{`\u00D7`}</button>
+        <button
+          type="button"
+          onClick={onCancel}
+          aria-label="fermer les infos"
+        >{`\u00D7`}</button>
       </h4>
-      <div className="p-4">{children}</div>
     </dialog>
   );
 };

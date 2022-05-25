@@ -5,30 +5,29 @@ const MODELNAME = "Topic";
 
 const Schema = new mongoose.Schema(
   {
-    fr: {
+    title: {
       type: String,
       trim: true,
       unique: true,
       required: "A topic is required",
     },
     author: { type: String }, // if quote
-    categories: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category", index: true }],
-      required: true,
-    },
+    categories: [{ type: String }],
     difficulty: { type: Number, required: true }, // from 1 to 5, 1 easy, 5 hard
     minAge: { type: Number, required: true },
     maxAge: { type: Number },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    verified: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
 
-Schema.index({ fr: "text", author: "text" }, { default_language: "french" });
+Schema.index({ title: "text", author: "text" }, { default_language: "french" });
 
-Schema.methods.format = function (language = "fr") {
+Schema.methods.format = function () {
   return {
     _id: this._id,
-    name: removeDiacritics(this[language]),
+    title: removeDiacritics(this.title),
     author: this.author,
     categories: this.categories,
     difficulty: this.difficulty,
@@ -36,11 +35,6 @@ Schema.methods.format = function (language = "fr") {
     maxAge: this.maxAge,
   };
 };
-Schema.virtual("name").get(function () {
-  return removeDiacritics(this.fr);
-});
-Schema.set("toObject", { virtuals: true });
-Schema.set("toJSON", { virtuals: true });
 
 const TopicModel =
   dbConnection.models[MODELNAME] || dbConnection.model(MODELNAME, Schema);

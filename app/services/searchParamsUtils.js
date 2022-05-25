@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams, useTransition } from "@remix-run/react";
 
+export const mergeSearchParamsToString = (param, value, searchParams) => {
+  searchParams = new URLSearchParams(searchParams);
+  searchParams.set(param, value);
+  return searchParams.toString();
+};
+
 /*
 
 useMergeSearchParams
@@ -68,6 +74,7 @@ const useSearchParamState = (
     resetOnValueChange = null,
     setSearchParamOnMount = false,
     listenToBackButton = false,
+    removeParamOnDefaultValue = false,
   } = {}
 ) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -86,6 +93,9 @@ const useSearchParamState = (
       if (Array.isArray(sideEffect) && sideEffect?.length === 2) {
         const [sideEffectParam, sideEffectValue] = sideEffect;
         searchParams.set(sideEffectParam, setDataAsSearchParam(sideEffectValue));
+      }
+      if (removeParamOnDefaultValue && newState === defaultAndInitialValue) {
+        searchParams.delete(param);
       }
       setSearchParams(searchParams);
       // returns the existing query string: '?type=fiction&author=fahid'

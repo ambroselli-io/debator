@@ -1,9 +1,9 @@
 import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
+import categoriesAlone from "../../assets/categories";
 import CheckBoxGroup from "../../components/CheckBoxGroup";
 import RangeInput from "../../components/RangeInput";
 import SearchInput from "../../components/SearchInput";
 import TopicCard from "../../components/TopicCard";
-import CategoryModel from "../../db/models/category.server";
 import TopicModel from "../../db/models/topic.server";
 import { getTodaysTopicSuite } from "../../db/queries/topicsSuite.server";
 import { removeDiacritics } from "../../services/formatSearch.server";
@@ -23,15 +23,16 @@ export const loader = async ({ request }) => {
     {
       $group: {
         _id: "$categories",
+        category: { $first: "$categories" },
         count: { $sum: 1 },
       },
     },
   ]);
 
-  const categories = (await CategoryModel.find()).map((c) => ({
-    ...c.toJSON(),
-    name: `${c.name} (${
-      topicsGroupedByCategory.find((t) => t._id.equals(c._id))?.count
+  const categories = categoriesAlone.map((cat) => ({
+    _id: cat,
+    categoryWithCount: `${cat} (${
+      topicsGroupedByCategory.find((t) => t.category === cat)?.count
     })`,
   }));
 
@@ -48,7 +49,7 @@ export const loader = async ({ request }) => {
     }
     const topicsIdsOrder = (await getTodaysTopicSuite({ populate: false })).topics;
 
-    const topics = await TopicModel.find(query).populate("categories");
+    const topics = await TopicModel.find(query);
 
     return {
       topics: topicsIdsOrder
@@ -71,11 +72,10 @@ export const loader = async ({ request }) => {
     {
       $project: {
         score: { $meta: "textScore" },
-        fr: 1,
+        title: 1,
         categories: 1,
         author: 1,
         difficulty: 1,
-        name: 1,
         minAge: 1,
         maxAge: 1,
       },
@@ -90,7 +90,7 @@ export const loader = async ({ request }) => {
       (t) =>
         searchParams
           .getAll("categories")
-          .filter((catId) => t.categories.find((_id) => _id.equals(catId))).length > 0
+          .filter((category) => t.categories.find((cat) => cat === category)).length > 0
     );
   }
 
@@ -100,9 +100,8 @@ export const loader = async ({ request }) => {
     );
   }
 
-  const topicsPopulated = await TopicModel.populate(topics, { path: "categories" });
   return {
-    topics: topicsPopulated.map((t) => ({ ...t, name: removeDiacritics(t.fr) })),
+    topics: topics.map((t) => ({ ...t, title: removeDiacritics(t.title) })),
     categories,
   };
 };
@@ -127,7 +126,10 @@ const Search = () => {
         >
           <CheckBoxGroup
             values={
-              categories?.map(({ _id, name }) => ({ value: _id, label: name })) || []
+              categories?.map(({ _id, categoryWithCount }) => ({
+                value: _id,
+                label: categoryWithCount,
+              })) || []
             }
             name="categories"
             legend="🤌 Choisissez des catégories"

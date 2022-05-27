@@ -1,20 +1,21 @@
 import React from "react";
-import { useNavigate } from "remix";
+import { Link } from "remix";
+import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 
-const GameModeCard = ({
-  Image,
-  title,
-  shortExplanation,
-  preparation,
-  preparationMinimum,
-  preparationAdvised,
-  gameDuration,
-  numberOfPlayers,
-  material,
-  moreInfosLink,
-  nextStepLink,
-}) => {
-  const navigate = useNavigate();
+const GameModeCard = ({ game, onShowGameModeInfos }) => {
+  const {
+    Image,
+    title,
+    slug,
+    shortExplanation,
+    preparationMinimum,
+    preparationAdvised,
+    preparation,
+    gameDuration,
+    numberOfPlayers,
+    material,
+  } = game;
+  const navigateToNextStep = useNavigateToNextStep();
   return (
     <article className="flex flex-col items-center p-3">
       <Image className="min-w-10 my-3 h-10" />
@@ -50,18 +51,17 @@ const GameModeCard = ({
       </ul>
       <div className="flex w-full items-center justify-center">
         <button
-          onClick={() => navigate(moreInfosLink)}
-          state={{ scroll: false }}
+          onClick={() => onShowGameModeInfos(slug)}
           className="mt-1 mr-4 text-xs text-app underline"
         >
           Plus d'infos
         </button>
-        <button
+        <Link
           className="mt-2 rounded-lg border border-app bg-app px-2 py-1 text-xs text-white disabled:opacity-50"
-          onClick={() => navigate(nextStepLink)}
+          to={navigateToNextStep("mode", slug)}
         >
           Choisir
-        </button>
+        </Link>
       </div>
     </article>
   );

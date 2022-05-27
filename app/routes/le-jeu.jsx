@@ -1,5 +1,6 @@
 import { Outlet } from "@remix-run/react";
 import BurgerMenu from "app/components/BurgerMenu";
+import ProposeChallenge from "app/components/ProposeChallenge";
 import ProposeTopic from "app/components/ProposeTopic";
 import useSearchParamState from "app/services/searchParamsUtils";
 
@@ -38,6 +39,9 @@ const GameLayout = () => {
         <Outlet />
         {!!showProposeTopic && (
           <ProposeTopic isOpen hide={() => setShowProposeTopic(false)} />
+        )}
+        {!!showProposeChallenge && (
+          <ProposeChallenge isOpen hide={() => setShowProposeChallenge(false)} />
         )}
       </div>
     </>

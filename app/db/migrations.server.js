@@ -1,3 +1,4 @@
+import ChallengeModel from "./models/challenge.server";
 import TopicModel from "./models/topic.server";
 
 console.log("Migration script imported");
@@ -107,12 +108,57 @@ export const migrate = async () => {
     }
   }
 
-  const topics = await TopicModel.find();
-  for (const topic of topics) {
-    if (topic.maxAge === 107) {
-      topic.set({ maxAge: null });
-      await topic.save();
+  const newChallenges = [
+    { title: "En poésie", excludeEnvironment: [] },
+    { title: "En alexandrin", excludeEnvironment: [] },
+    {
+      title: "Interdire un mot",
+      description:
+        "Comme le jeu Taboo, vous ne devez pas dire un certain nombre de mots définis à l'avance par le jury ou l'équipe adverse",
+      excludeEnvironment: [],
+    },
+    {
+      title: "Obliger un mot",
+      description:
+        "Vous devez obligatoirement placer un mot dans votre argumentation, défini par un membre du jury ou de l'équipe adverse, qui ne sera pas connu des autres et qui vous donne un bonus si les autres ne s'aperçoivent pas que vous avez réussi à le placer",
+      excludeEnvironment: [],
+    },
+    { title: "En une seule phrase", excludeEnvironment: [] },
+    { title: "En trois mots", excludeEnvironment: [] },
+    {
+      title: "Strip Debat'or",
+      description:
+        "À chaque victoire ou à chaque argument qui fait mouche, c'est selon, vous demandez à votre adversaire d'enlever un vêtement, ou c'est vous qui enlevez un de vos vêtements, c'est selon",
+      excludeEnvironment: ["Éducation", "Famille"],
+    },
+    {
+      title: "Debat'or shots",
+      description:
+        "À chaque victoire ou à chaque argument qui fait mouche, c'est selon, vous demandez à votre adversaire de prendre un shot, ou c'est vous qui trinquez, ou tout le monde, c'est selon",
+      excludeEnvironment: ["Éducation", "Famille"],
+    },
+    {
+      title: "Seul(e) contre tous",
+      description:
+        "Sans que ça soit la pagaille, l'équipe dans laquelle se trouve le reste des participants peut se trouver ainsi plus forte, avec une plus grande diversité d'arguments",
+      excludeEnvironment: [],
+    },
+    {
+      title: "Raconte-moi une histoire",
+      description:
+        "Votre argumentation doit reposer sur une histoire sortie de votre imagination",
+      excludeEnvironment: [],
+    },
+  ];
+
+  for (const challenge of newChallenges) {
+    let challengeDoc = await ChallengeModel.findOne(challenge);
+    if (!challengeDoc) {
+      try {
+        await ChallengeModel.create(challenge);
+      } catch (e) {}
     }
   }
+
   console.log("DONE");
 };

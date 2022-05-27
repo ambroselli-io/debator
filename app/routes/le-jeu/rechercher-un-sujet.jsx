@@ -1,4 +1,5 @@
 import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
+import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 import categoriesAlone from "../../assets/categories";
 import CheckBoxGroup from "../../components/CheckBoxGroup";
 import RangeInput from "../../components/RangeInput";
@@ -10,8 +11,6 @@ import { removeDiacritics } from "../../services/formatSearch.server";
 
 export const loader = async ({ request }) => {
   const query = {};
-  const sort = {};
-  const project = {};
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
 
@@ -53,7 +52,7 @@ export const loader = async ({ request }) => {
 
     return {
       topics: topicsIdsOrder
-        .map((topicId) => topics.find(({ _id }) => _id.equals(topicId)))
+        .map((tId) => topics.find(({ _id }) => _id.equals(tId)))
         .filter(Boolean),
       categories,
     };
@@ -106,10 +105,11 @@ export const loader = async ({ request }) => {
   };
 };
 
-const Search = () => {
+const SearchTopic = () => {
   const { topics, categories } = useLoaderData();
   const submit = useSubmit();
   const [searchParams] = useSearchParams();
+  const navigateToNextStep = useNavigateToNextStep();
 
   return (
     <>
@@ -124,6 +124,16 @@ const Search = () => {
           className="flex w-full flex-col gap-3 p-4"
           onChange={(e) => submit(e.currentTarget)}
         >
+          <input
+            type="hidden"
+            name="mode"
+            defaultValue={searchParams.get("mode") || undefined}
+          />
+          <input
+            type="hidden"
+            name="challengeId"
+            defaultValue={searchParams.get("challengeId")}
+          />
           <CheckBoxGroup
             values={
               categories?.map(({ _id, categoryWithCount }) => ({
@@ -171,7 +181,7 @@ const Search = () => {
           </summary>
           <main className="flex flex-col p-4">
             {topics.map((topic) => (
-              <Link key={topic._id} to={`../choisir-un-mode-de-jeu?id=${topic._id}`}>
+              <Link key={topic._id} to={navigateToNextStep("topicId", topic._id)}>
                 <TopicCard topic={topic} />
               </Link>
             ))}
@@ -182,4 +192,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchTopic;

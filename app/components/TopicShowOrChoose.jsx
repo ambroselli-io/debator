@@ -1,7 +1,7 @@
 import { Link, useSearchParams } from "remix";
 import EditSvg from "./icons/EditSvg";
 
-const TopciShowOrChoose = ({ topic }) => {
+const TopicShowOrChoose = ({ topic }) => {
   const [searchParams] = useSearchParams();
   return (
     <>
@@ -21,11 +21,12 @@ const TopciShowOrChoose = ({ topic }) => {
       )}
       {!topic?.title && (
         <>
-          <Link to="../choisir-un-sujet" className="inline-flex flex-col items-center">
+          <Link
+            to={`../choisir-un-sujet?${searchParams.toString()}`}
+            className="inline-flex flex-col items-center"
+          >
             <i className="text-app">Vous n'avez pas de sujet</i>
-            <span className="text-sm text-app underline" to="../rechercher-un-sujet">
-              En choisir un
-            </span>
+            <span className="text-sm text-app underline">En choisir un</span>
           </Link>
           <br />
         </>
@@ -34,4 +35,4 @@ const TopciShowOrChoose = ({ topic }) => {
   );
 };
 
-export default TopciShowOrChoose;
+export default TopicShowOrChoose;

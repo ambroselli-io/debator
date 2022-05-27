@@ -1,14 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams, useTransition } from "@remix-run/react";
 
-export const mergeSearchParamsToString = (param, value, searchParams) => {
-  searchParams = new URLSearchParams(searchParams);
-  searchParams.set(param, value);
-  return searchParams.toString();
-};
-
 /*
-
 useMergeSearchParams
 as in `[searchParams, mergeSearchParams] = useMergeSearchParams()`
 

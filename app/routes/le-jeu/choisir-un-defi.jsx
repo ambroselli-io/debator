@@ -1,34 +1,104 @@
 import React from "react";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { Form, Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import TopicModel from "../../db/models/topic.server";
-import TopciShowOrChoose from "app/components/TopciShowOrChoose";
+import TopicShowOrChoose from "app/components/TopicShowOrChoose";
 import GameModeShowOrChoose from "app/components/GameModeShowOrChoose";
+import ChallengeModel from "app/db/models/challenge.server";
+import Challenge from "app/components/Challenge";
+import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
 
-  const topicId = url.searchParams.get("id");
-  if (topicId) {
-    const topic = await TopicModel.findById(topicId);
-    return { topic };
+  const challenges = await ChallengeModel.find();
+
+  let topic = null;
+  const topicId = url.searchParams.get("topicId");
+  if (topicId) topic = (await TopicModel.findById(topicId)).format();
+
+  const challengeId = url.searchParams.get("challengeId");
+  if (challengeId) {
+    const challenge = (await ChallengeModel.findById(challengeId)).format();
+    return {
+      challenge,
+      maxIndex: challenges.length,
+      topic,
+    };
   }
-  return {};
+
+  const challengeIndex = Number(url.searchParams.get("challengeIndex")) || 0;
+
+  return {
+    challenge: challenges[challengeIndex].format(),
+    maxIndex: challenges.length,
+    topic,
+  };
 };
 
 const ChooseAChallenge = () => {
-  const { topic } = useLoaderData();
+  const { topic, maxIndex, challenge } = useLoaderData();
+  const [searchParams] = useSearchParams();
+  const navigateToNextStep = useNavigateToNextStep();
+
+  const currentIndex = Number(searchParams.get("challengeIndex")) || 0;
 
   return (
     <>
       <small className="text-center">
-        <TopciShowOrChoose topic={topic} />
+        <TopicShowOrChoose topic={topic} />
         <br />
         <GameModeShowOrChoose />
         <br />
-        <i className="text-app">Choisissez un defi</i>
+        <i className="text-app">Choisissez un défi</i>
+        <br />
       </small>
-      <main className="mt-5 flex w-full flex-wrap justify-center gap-3"></main>
-      <Outlet />
+      <Challenge challenge={challenge} />
+      <Link
+        to={navigateToNextStep("challengeId", challenge._id)}
+        className="rounded-lg border border-app bg-app px-4 py-2 text-white"
+      >
+        Je choisis celui-là !
+      </Link>
+      <Form method="GET">
+        <input
+          type="hidden"
+          name="challengeIndex"
+          value={(currentIndex + 1) % maxIndex}
+        />
+        <input
+          type="hidden"
+          name="mode"
+          defaultValue={searchParams.get("mode") || undefined}
+        />
+        <input type="hidden" name="topicId" defaultValue={searchParams.get("topicId")} />
+        <button
+          className="mt-4 rounded-lg border border-app bg-white px-4 py-2 text-app"
+          type="submit"
+        >
+          Montrez-moi un autre&nbsp;défi
+        </button>
+      </Form>
+      {challenge.description && (
+        <small className="mt-4 text-center" id="challenge-description">
+          <i>
+            <b>* En quoi consiste le défi {challenge.title} ? </b>
+          </i>
+          <br />
+          {challenge.description}
+        </small>
+      )}
+      <Link
+        className="mt-4 text-sm text-app underline"
+        to={`../rechercher-un-defi?${searchParams.toString()}`}
+      >
+        Recherche avancée
+      </Link>
+      <Link
+        className="mt-4 text-xs text-app underline opacity-80"
+        to={navigateToNextStep("challengeId", undefined)}
+      >
+        Je ne veux pas de défi
+      </Link>
     </>
   );
 };

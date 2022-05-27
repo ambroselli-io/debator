@@ -1,3 +1,4 @@
+/* eslint-disable no-control-regex */
 /*
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -263,7 +264,7 @@ export const normalizeWord = (word) => {
 };
 
 export const getSubStrings = (string) => {
-  string = normalizeWord(string, true);
+  string = normalizeWord(string);
   const subs = [];
   for (let i = 3; i <= Math.min(string.length, 10); i++) {
     subs.push(string.slice(0, i));
@@ -272,7 +273,7 @@ export const getSubStrings = (string) => {
 };
 
 export const getFullSubStrings = (string, minLetters = 3) => {
-  string = normalizeWord(string, true);
+  string = normalizeWord(string);
   const subs = [];
   for (let i = minLetters; i <= string.length; i++) {
     subs.push(string.slice(0, i));

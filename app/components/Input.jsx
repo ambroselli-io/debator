@@ -9,15 +9,17 @@ const Input = ({
   className = "",
   id,
   required = false,
+  textarea = false,
   ...props
 }) => {
+  const Tag = textarea ? "textarea" : "input";
   return (
     <div className="flex w-full flex-col items-start gap-2">
       <label htmlFor={`${name}-${id}`}>
         {label}
         {required && <Required />}
       </label>
-      <input
+      <Tag
         type={type}
         id={`${name}-${id}`}
         name={name}

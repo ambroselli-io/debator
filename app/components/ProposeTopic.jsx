@@ -44,7 +44,7 @@ const ProposeTopic = ({ isOpen, hide }) => {
         <Input
           type="text"
           name="title"
-          id="propose-tpoic-title"
+          id="propose-topic-title"
           label="💡Énoncé du sujet"
           placeholder="Être ou ne pas être ?"
           required
@@ -71,7 +71,7 @@ const ProposeTopic = ({ isOpen, hide }) => {
         <Input
           type="number"
           name="minAge"
-          id="propose-tpoic-minAge"
+          id="propose-topic-minAge"
           label="👶 Âge minimum"
           placeholder="15"
           required
@@ -79,7 +79,7 @@ const ProposeTopic = ({ isOpen, hide }) => {
         <Input
           type="number"
           name="maxAge"
-          id="propose-tpoic-maxAge"
+          id="propose-topic-maxAge"
           label="🧓 Âge maximum (facultatif)"
           placeholder="15"
         />

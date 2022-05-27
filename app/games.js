@@ -9,6 +9,8 @@ const games = [
   {
     Image: IndividualGameSvg,
     title: "La joute individuelle",
+    titleNoDiacritics: "La joute individuelle",
+    titleForGame: "Joute individuelle",
     shortExplanation: "Deux participants, un jury, un public",
     preparationMinimum: "Aucune",
     preparationAdvised: "10 minutes",
@@ -48,6 +50,8 @@ const games = [
   {
     Image: ArenaGameSvg,
     title: "La joute en arène",
+    titleNoDiacritics: "La joute en arene",
+    titleForGame: "Joute en arène",
     shortExplanation:
       "Deux participants pour commencer, le public se joint à eux dans l'arène",
     preparation: "Aucune",
@@ -59,6 +63,8 @@ const games = [
   {
     Image: BackToBackGameSvg,
     title: "La joute dos à dos",
+    titleNoDiacritics: "La joute dos a dos",
+    titleForGame: "Joute dos à dos",
     shortExplanation:
       "Pas de jeu de corps ni de regard: la voix et l'écoute seules pour débattre",
     preparationMinimum: "Aucune",
@@ -69,7 +75,9 @@ const games = [
   },
   {
     Image: TeamDebateSvg,
-    title: "La joute par équipes simple",
+    title: "La joute par équipes",
+    titleNoDiacritics: "La joute par equipes",
+    titleForGame: "Joute par équipes",
     shortExplanation: "Débat par équipe avec préparation",
     preparationMinimum: "15 minutes",
     preparationAdvised: "1 heure ou quelques jours",
@@ -80,6 +88,8 @@ const games = [
   {
     Image: TrialGameSvg,
     title: "Le procès",
+    titleNoDiacritics: "Le proces",
+    titleForGame: "Procès",
     shortExplanation: "Un jeu de rôles en même temps qu'une technique de débat",
     preparationMinimum: "15 minutes",
     preparationAdvised: "1 heure ou quelques jours",

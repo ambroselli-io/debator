@@ -1,5 +1,6 @@
 import { Outlet } from "@remix-run/react";
 import BurgerMenu from "app/components/BurgerMenu";
+import ContactUs from "app/components/ContactUs";
 import ProposeChallenge from "app/components/ProposeChallenge";
 import ProposeTopic from "app/components/ProposeTopic";
 import useSearchParamState from "app/services/searchParamsUtils";
@@ -15,6 +16,9 @@ const GameLayout = () => {
     false,
     { removeParamOnDefaultValue: true }
   );
+  const [showContactUs, setShowContactUs] = useSearchParamState("contactez-nou", false, {
+    removeParamOnDefaultValue: true,
+  });
 
   return (
     <>
@@ -33,6 +37,9 @@ const GameLayout = () => {
           >
             <small>Proposer un défi</small>
           </button>
+          <button className="py-2 px-4 text-left" onClick={() => setShowContactUs(true)}>
+            <small>Nous contacter</small>
+          </button>
         </BurgerMenu>
       </header>
       <div id="root" className="flex w-full flex-col items-center p-3">
@@ -43,6 +50,7 @@ const GameLayout = () => {
         {!!showProposeChallenge && (
           <ProposeChallenge isOpen hide={() => setShowProposeChallenge(false)} />
         )}
+        {!!showContactUs && <ContactUs isOpen hide={() => setShowContactUs(false)} />}
       </div>
     </>
   );

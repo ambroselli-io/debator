@@ -6,18 +6,20 @@ import { useNavigate } from "@remix-run/react";
 const Modal = ({ title, children, isOpen = true, hide = null }) => {
   const navigate = useNavigate();
   const dialogRef = useRef(null);
+  const currentOverflow = useRef(null);
   useEffect(() => {
     if (isOpen) {
       import("dialog-polyfill").then((dialogPolyfill) => {
         dialogPolyfill.default.registerDialog(dialogRef.current);
         dialogRef.current.showModal();
+        currentOverflow.current = document.body.style.overflow;
         document.body.style.overflow = "hidden";
       });
     }
   }, [isOpen]);
 
   const onCancel = () => {
-    document.body.style.overflow = "visible";
+    document.body.style.overflow = currentOverflow.current;
     if (!hide) return navigate(-1);
     hide(false); // for setShowModal(false)
     dialogRef.current.close();

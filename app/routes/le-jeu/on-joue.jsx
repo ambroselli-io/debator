@@ -1,11 +1,12 @@
 import React from "react";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import TopicModel from "../../db/models/topic.server";
 import ChallengeModel from "app/db/models/challenge.server";
 import ChallengePlay from "app/components/ChallengePlay";
 import { redirect } from "remix";
 import TopicSummary from "app/components/TopicSummary";
 import GamePlay from "app/components/GamePlay";
+import Timer from "app/components/Timer";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
@@ -28,10 +29,10 @@ const LetsPlay = () => {
 
   return (
     <>
+      <Timer />
       <GamePlay />
       <ChallengePlay challenge={challenge} />
       <TopicSummary topic={topic} editable onlyAuthor />
-      <Outlet />
     </>
   );
 };

@@ -1,9 +1,9 @@
 @keyframes countdown {
   from {
-    stroke-dashoffset: 0px;
+    stroke-dashoffset: var(--timerInternalPerimeter);
   }
   to {
-    stroke-dashoffset: var(--timerInternalPerimeter);
+    stroke-dashoffset: 0px;
   }
 }
 

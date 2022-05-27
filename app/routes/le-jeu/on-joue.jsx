@@ -29,10 +29,14 @@ const LetsPlay = () => {
 
   return (
     <>
-      <Timer />
       <GamePlay />
       <ChallengePlay challenge={challenge} />
       <TopicSummary topic={topic} editable onlyAuthor />
+      <br />
+      <br />
+      <Timer />
+      <br />
+      <br />
     </>
   );
 };

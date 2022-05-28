@@ -16,7 +16,7 @@ const GameLayout = () => {
     false,
     { removeParamOnDefaultValue: true }
   );
-  const [showContactUs, setShowContactUs] = useSearchParamState("contactez-nou", false, {
+  const [showContactUs, setShowContactUs] = useSearchParamState("contactez-nous", false, {
     removeParamOnDefaultValue: true,
   });
 

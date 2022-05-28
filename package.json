@@ -1,7 +1,7 @@
 {
   "name": "debator",
   "private": true,
-  "description": "Le Jeu des Joutes Oratoires",
+  "description": "Le Jeu pour débattre",
   "license": "",
   "sideEffects": false,
   "scripts": {

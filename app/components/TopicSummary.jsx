@@ -3,11 +3,16 @@ import { Link, useSearchParams } from "remix";
 import EditSvg from "./icons/EditSvg";
 import Star from "./Star";
 
-const TopicSummary = ({ topic, editable = false, onlyAuthor = false }) => {
+const TopicSummary = ({
+  Component = "h2",
+  topic,
+  editable = false,
+  onlyAuthor = false,
+}) => {
   const [searchParams] = useSearchParams();
   return (
     <>
-      <h2 className="min-h-8 relative my-0 w-full text-center text-3xl">
+      <Component className="min-h-8 relative my-0 w-full text-center text-3xl">
         <div
           className="pointer-events-none invisible w-full opacity-0"
           aria-hidden={true}
@@ -53,7 +58,7 @@ const TopicSummary = ({ topic, editable = false, onlyAuthor = false }) => {
           </blockquote>
           <figcaption className="text-sm">{topic.author}</figcaption>
         </figure>
-      </h2>
+      </Component>
       {!onlyAuthor && (
         <small className="my-auto mb-10 flex flex-col items-center">
           <p className="text-center">

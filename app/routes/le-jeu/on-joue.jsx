@@ -7,6 +7,7 @@ import { redirect } from "remix";
 import TopicSummary from "app/components/TopicSummary";
 import GamePlay from "app/components/GamePlay";
 import Timer from "app/components/Timer";
+import { useLocalStorage } from "app/services/localStorageUtils";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
@@ -24,17 +25,63 @@ export const loader = async ({ request }) => {
   return { topic, challenge };
 };
 
+const countdowns = [
+  { display: "30s", seconds: 30, ariaLabel: "30 seconds" },
+  { display: "1m", seconds: 60, ariaLabel: "1 minutes" },
+  { display: "2m", seconds: 120, ariaLabel: "2 minutes" },
+  { display: "3m", seconds: 180, ariaLabel: "3 minutes" },
+  { display: "5m", seconds: 300, ariaLabel: "5 minutes" },
+  { display: "10m", seconds: 600, ariaLabel: "10 minutes" },
+  { display: "30m", seconds: 1800, ariaLabel: "30 minutes" },
+];
+
 const LetsPlay = () => {
   const { topic, challenge } = useLoaderData();
+  const [countdown, setCountdown] = useLocalStorage("countdown", 60);
 
   return (
     <>
+      <TopicSummary topic={topic} editable onlyAuthor Component="h1" />
       <GamePlay />
       <ChallengePlay challenge={challenge} />
-      <TopicSummary topic={topic} editable onlyAuthor />
       <br />
+      <p className="text-center">
+        Répartissez les rôles, faites la préparation que vous souhaitez, et quand la joute
+        débutera, servez-vous du chronomètre ci-dessous pour rythmer les différents temps
+        de jeu (débats, échanges, délibérations...).
+        <br />
+        <b>C'est parti&nbsp;!</b>
+      </p>
       <br />
-      <Timer />
+      <div className="mt-4 flex flex-wrap justify-center gap-2">
+        {countdowns.map((c, i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`ajouter ${c.ariaLabel} au minuteur`}
+            title={`ajouter ${c.ariaLabel} au minuteur`}
+            onClick={() => setCountdown(Number(countdown) + c.seconds)}
+            className="h-10 w-10 rounded-full border border-app bg-app text-xs text-white"
+          >
+            +{c.display}
+          </button>
+        ))}
+      </div>
+      <div className="mt-2 mb-4 flex flex-wrap justify-center gap-2">
+        {countdowns.map((c, i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`retirer ${c.ariaLabel} au minuteur`}
+            title={`retirer ${c.ariaLabel} au minuteur`}
+            onClick={() => setCountdown(Math.max(30, Number(countdown) - c.seconds))}
+            className="h-10 w-10 rounded-full border border-app bg-white text-xs text-app"
+          >
+            -{c.display}
+          </button>
+        ))}
+      </div>
+      <Timer key={countdown} countdown={countdown} />
       <br />
       <br />
     </>

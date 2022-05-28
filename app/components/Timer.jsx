@@ -5,14 +5,14 @@ const TimerWrapper = (props) => {
   return <Timer key={resetKey} {...props} onReset={() => setResetKey((k) => k + 1)} />;
 };
 
-const Timer = ({ size = 250, stroke = 5, time = 30, onReset }) => {
-  const [timeRemaining, setTimeRemaining] = useState(time);
+const Timer = ({ size = 250, stroke = 5, countdown = 60, onReset }) => {
+  const [timeRemaining, setTimeRemaining] = useState(countdown);
   const [playState, setPlayState] = useState("paused"); // 'running'
 
   const togglePlayStateButton =
     playState === "running"
       ? "Pause"
-      : timeRemaining === time
+      : timeRemaining === countdown
       ? "Démarrer"
       : timeRemaining === 0
       ? "Encore !"
@@ -28,8 +28,8 @@ const Timer = ({ size = 250, stroke = 5, time = 30, onReset }) => {
       "--timerInternalPerimeter",
       `${Math.round((size - stroke) * Math.PI * 10000) / 10000}px`
     );
-    timerDOMRef.current.style.animationDuration = `${time}s`;
-  }, [size, stroke, time]);
+    timerDOMRef.current.style.animationDuration = `${countdown}s`;
+  }, [size, stroke, countdown]);
 
   useEffect(() => {
     timerDOMRef.current.style.animationPlayState = playState;
@@ -110,7 +110,7 @@ const Timer = ({ size = 250, stroke = 5, time = 30, onReset }) => {
             }}
           />
         </svg>
-        <span className="absolute">{display(timeRemaining, time)}</span>
+        <span className="absolute">{display(timeRemaining, countdown)}</span>
       </div>
       <div className="-mt-6 flex w-full justify-between">
         <button

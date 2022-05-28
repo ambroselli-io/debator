@@ -29,7 +29,7 @@ const ContactUs = ({ isOpen, hide }) => {
   }
 
   return (
-    <Modal isOpen={isOpen} hide={hide} title="Proposer un défi">
+    <Modal isOpen={isOpen} hide={hide} title="Nous contacter">
       <fetcher.Form
         method="POST"
         action="/actions/contact-us"

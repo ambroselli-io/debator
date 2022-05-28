@@ -48,20 +48,18 @@ const TopicSummary = ({
           lines
         </div>
         <figure className="absolute inset-0 flex flex-col justify-between">
-          <blockquote className="h-full">
-            <p className="flex h-full flex-col items-center justify-center font-[xkcd] text-3xl">
-              {topic?.title.toUpperCase().replace(" ?", "").replace(" !", "")}
-              {topic?.title.includes(" ?") ? <>&nbsp;?</> : ""}
-              {topic?.title.includes(" !") ? <>&nbsp;!</> : ""}
-              {!!editable && (
-                <Link to={`../choisir-un-sujet?${searchParams.toString()}`}>
-                  <EditSvg className="ml-3 h-3 w-3" />
-                </Link>
-              )}
-              {!!topic?.author && (
-                <figcaption className="mt-2 text-sm">{topic?.author}</figcaption>
-              )}
-            </p>
+          <blockquote className="flex h-full flex-col items-center justify-center font-[xkcd] text-3xl">
+            {topic?.title.toUpperCase().replace(" ?", "").replace(" !", "")}
+            {topic?.title.includes(" ?") ? <>&nbsp;?</> : ""}
+            {topic?.title.includes(" !") ? <>&nbsp;!</> : ""}
+            {!!editable && (
+              <Link to={`../choisir-un-sujet?${searchParams.toString()}`}>
+                <EditSvg className="ml-3 h-3 w-3" />
+              </Link>
+            )}
+            {!!topic?.author && (
+              <figcaption className="mt-2 text-sm">{topic?.author}</figcaption>
+            )}
           </blockquote>
         </figure>
       </Component>

@@ -141,7 +141,10 @@ const ChooseATopic = () => {
           </>
         )}
       </Form>
-      <Link className="mt-4 text-sm text-app underline" to="../rechercher-un-sujet">
+      <Link
+        className="mt-4 text-sm text-app underline"
+        to={`../rechercher-un-sujet?${searchParams.toString()}`}
+      >
         Recherche avancée
       </Link>
     </>

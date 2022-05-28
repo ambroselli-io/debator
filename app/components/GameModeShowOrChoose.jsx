@@ -28,7 +28,10 @@ const GameModeShowOrChoose = () => {
             className="inline-flex flex-col items-center"
           >
             <i className="text-app">Vous n'avez pas de sujet</i>
-            <span className="text-sm text-app underline" to="../rechercher-un-sujet">
+            <span
+              className="text-sm text-app underline"
+              to={`../rechercher-un-sujet?${searchParams.toString()}`}
+            >
               En choisir un
             </span>
           </Link>

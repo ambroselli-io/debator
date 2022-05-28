@@ -7,7 +7,7 @@ const cleanSearchParams = (searchParams) => {
     searchParams.delete("topicId"); // special case for debator...
   if (!searchParams.get("challengeId") || !searchParams.get("challengeId")?.length)
     searchParams.delete("challengeId"); // special case for debator...
-  return searchParams.toString();
+  return searchParams;
 };
 
 const mergeSearchParamsToString = (
@@ -35,10 +35,10 @@ const useNavigateToNextStep = () => {
       ? deleteSearchParam(newParamToMerge, searchParams)
       : mergeSearchParamsToString(newParamToMerge, value, searchParams);
 
-    if (!searchParams.get("mode")?.length) {
+    if (!nextParams.get("mode")?.length) {
       nextRoute = "choisir-un-mode-de-jeu";
     } else if (
-      !searchParams.get("challengeId")?.length &&
+      !nextParams.get("challengeId")?.length &&
       newParamToMerge !== "challengeId"
     ) {
       nextRoute = "choisir-un-defi";
@@ -46,7 +46,7 @@ const useNavigateToNextStep = () => {
       nextRoute = "on-joue";
     }
 
-    return `../${nextRoute}?${nextParams}`;
+    return `../${nextRoute}?${nextParams.toString()}`;
   };
 };
 export default useNavigateToNextStep;

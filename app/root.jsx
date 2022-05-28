@@ -12,7 +12,6 @@ import tailwindStyles from "./styles/tailwind.css";
 import globalStyles from "./styles/global.css";
 import resetStyles from "./styles/reset.css";
 import fontFace from "./styles/font.css";
-import timerCss from "./styles/timer.css";
 import smoothscroll from "smoothscroll-polyfill";
 import dialogPolyfillCSS from "dialog-polyfill/dist/dialog-polyfill.css";
 import { APP_DESCRIPTION, APP_NAME } from "./services/appName";
@@ -50,7 +49,6 @@ export const links = () => {
     { rel: "stylesheet", href: resetStyles },
     { rel: "stylesheet", href: tailwindStyles },
     { rel: "stylesheet", href: globalStyles },
-    { rel: "stylesheet", href: timerCss },
     { rel: "stylesheet", type: "text/css", href: dialogPolyfillCSS },
   ];
 };

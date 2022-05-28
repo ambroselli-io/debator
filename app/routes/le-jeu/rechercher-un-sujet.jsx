@@ -86,7 +86,7 @@ export const loader = async ({ request }) => {
     },
   ]);
 
-  if (searchParams.getAll("categories")?.length) {
+  if (searchParams.getAll("categories")?.filter(Boolean)?.length) {
     topics = topics.filter(
       (t) =>
         searchParams

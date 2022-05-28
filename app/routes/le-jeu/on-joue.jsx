@@ -6,8 +6,10 @@ import ChallengePlay from "app/components/ChallengePlay";
 import { redirect } from "remix";
 import TopicSummary from "app/components/TopicSummary";
 import GamePlay from "app/components/GamePlay";
-import Timer from "app/components/Timer";
+import Timer, { links } from "app/components/Timer";
 import { useLocalStorage } from "app/services/localStorageUtils";
+
+export { links };
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);

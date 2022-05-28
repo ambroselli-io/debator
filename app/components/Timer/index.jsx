@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from "react";
+import styles from "./styles.css";
 
-const TimerWrapper = (props) => {
+export const links = () => [{ rel: "stylesheet", href: styles }];
+
+const Timer = (props) => {
   const [resetKey, setResetKey] = useState(0);
-  return <Timer key={resetKey} {...props} onReset={() => setResetKey((k) => k + 1)} />;
+  return (
+    <TimerCountdown key={resetKey} {...props} onReset={() => setResetKey((k) => k + 1)} />
+  );
 };
 
-const Timer = ({ size = 250, stroke = 5, countdown = 60, onReset }) => {
+const TimerCountdown = ({ size = 250, stroke = 5, countdown = 60, onReset }) => {
   const [timeRemaining, setTimeRemaining] = useState(countdown);
   const [playState, setPlayState] = useState("paused"); // 'running'
 
@@ -114,13 +119,13 @@ const Timer = ({ size = 250, stroke = 5, countdown = 60, onReset }) => {
       </div>
       <div className="-mt-6 flex w-full justify-between">
         <button
-          className="h-16 w-16 rounded-full border border-app bg-white text-xs text-app"
+          className="z-10 h-16 w-16 rounded-full border border-app bg-white text-xs text-app"
           onClick={onReset}
         >
           Annuler
         </button>
         <button
-          className="h-16 w-16 rounded-full border border-app bg-app text-xs text-white"
+          className="z-10 h-16 w-16 rounded-full border border-app bg-app text-xs text-white"
           onClick={togglePlayState}
         >
           {togglePlayStateButton}
@@ -140,4 +145,4 @@ const display = (seconds, initialSeconds) => {
   return [minutes, seconds % 60].map(format).join(":");
 };
 
-export default TimerWrapper;
+export default Timer;

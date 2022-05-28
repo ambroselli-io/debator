@@ -1,13 +1,16 @@
 import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
+import CheckBoxGroup from "app/components/CheckBoxGroup";
+import SelectAutofill, { links } from "app/components/SelectAutoFill";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 import categoriesAlone from "../../assets/categories";
-import CheckBoxGroup from "../../components/CheckBoxGroup";
 import RangeInput from "../../components/RangeInput";
 import SearchInput from "../../components/SearchInput";
 import TopicCard from "../../components/TopicCard";
 import TopicModel from "../../db/models/topic.server";
 import { getTodaysTopicSuite } from "../../db/queries/topicsSuite.server";
 import { removeDiacritics } from "../../services/formatSearch.server";
+
+export { links };
 
 export const loader = async ({ request }) => {
   const query = {};
@@ -53,7 +56,8 @@ export const loader = async ({ request }) => {
     return {
       topics: topicsIdsOrder
         .map((tId) => topics.find(({ _id }) => _id.equals(tId)))
-        .filter(Boolean),
+        .filter(Boolean)
+        .map((t) => t.format()),
       categories,
     };
   }
@@ -121,21 +125,22 @@ const SearchTopic = () => {
         </summary>
         <Form
           method="get"
+          id="topic-advanced-search"
           className="flex w-full flex-col gap-3 p-4"
           onChange={(e) => submit(e.currentTarget)}
         >
-          <input
-            type="hidden"
-            name="mode"
-            defaultValue={searchParams.get("mode") || undefined}
-          />
-          <input
-            type="hidden"
-            name="challengeId"
-            defaultValue={searchParams.get("challengeId")}
-          />
-          <CheckBoxGroup
-            values={
+          {searchParams.get("mode") && (
+            <input type="hidden" name="mode" defaultValue={searchParams.get("mode")} />
+          )}
+          {searchParams.get("challengeId") && (
+            <input
+              type="hidden"
+              name="challengeId"
+              defaultValue={searchParams.get("challengeId")}
+            />
+          )}
+          <SelectAutofill
+            options={
               categories?.map(({ _id, categoryWithCount }) => ({
                 value: _id,
                 label: categoryWithCount,
@@ -143,6 +148,10 @@ const SearchTopic = () => {
             }
             name="categories"
             legend="🤌 Choisissez des catégories"
+            form="topic-advanced-search"
+            onChange={() =>
+              setTimeout(() => submit(document.getElementById("topic-advanced-search")))
+            }
           />
           <label htmlFor="difficulty">🍬 Difficulté</label>
           <RangeInput

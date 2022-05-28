@@ -22,7 +22,10 @@ const Schema = new mongoose.Schema(
   { timestamps: true }
 );
 
-Schema.index({ title: "text", author: "text" }, { default_language: "french" });
+Schema.index(
+  { title: "text", author: "text", categories: "text" },
+  { default_language: "french" }
+);
 
 Schema.methods.format = function () {
   return {

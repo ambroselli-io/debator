@@ -12,9 +12,15 @@ export const getTodaysTopicSuite = async ({ populate = true } = {}) => {
     path: "topics",
     model: "Topic",
   };
+  const totalTopics = await TopicModel.countDocuments();
   let topicsSuite = await TopicsSuiteModel.findOne(topicsSuiteQuery);
   // if it doesn't exist yet, it's the first time it's requested
   // so let's create it
+  if (topicsSuite && topicsSuite.length !== totalTopics) {
+    await TopicsSuiteModel.findByIdAndDelete(topicsSuite._id);
+    topicsSuite = null;
+  }
+
   if (!topicsSuite) {
     const topics = await TopicModel.find().select("_id");
     await TopicsSuiteModel.create({ topics: shuffle(topics) });

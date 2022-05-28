@@ -1,8 +1,6 @@
 import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
-import CheckBoxGroup from "app/components/CheckBoxGroup";
 import SelectAutofill, { links } from "app/components/SelectAutoFill";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
-import categoriesAlone from "../../assets/categories";
 import RangeInput from "../../components/RangeInput";
 import SearchInput from "../../components/SearchInput";
 import TopicCard from "../../components/TopicCard";
@@ -31,10 +29,10 @@ export const loader = async ({ request }) => {
     },
   ]);
 
-  const categories = categoriesAlone.map((cat) => ({
-    _id: cat,
-    categoryWithCount: `${cat} (${
-      topicsGroupedByCategory.find((t) => t.category === cat)?.count
+  const categories = topicsGroupedByCategory.map(({ _id, category }) => ({
+    _id,
+    categoryWithCount: `${category} (${
+      topicsGroupedByCategory.find((t) => t.category === category)?.count
     })`,
   }));
 

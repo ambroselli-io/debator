@@ -1,13 +1,22 @@
 import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import { useSearchParams } from "remix";
 import Required from "../Required";
 import styles from "./styles.css";
 
 export const links = () => [{ rel: "stylesheet", href: styles }];
 
-const SelectAutofillRoot = ({ name, options, defaultValue, onChange, form }) => {
+const SelectAutofillRoot = ({
+  name,
+  options,
+  defaultValue,
+  onChange,
+  form,
+  isCreatable,
+}) => {
+  const Component = isCreatable ? CreatableSelect : Select;
   return (
-    <Select
+    <Component
       isMulti
       instanceId="my-select-id"
       defaultValue={defaultValue}
@@ -50,6 +59,7 @@ const SelectAutofill = ({
   options,
   onChange,
   form,
+  isCreatable,
   className = "",
   required = false,
 }) => {
@@ -70,6 +80,7 @@ const SelectAutofill = ({
         defaultValue={checkedValues}
         onChange={onChange}
         form={form}
+        isCreatable={isCreatable}
       />
     </fieldset>
   );

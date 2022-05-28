@@ -1,14 +1,15 @@
-import categories from "app/assets/categories";
 import { useEffect } from "react";
 import { useFetcher } from "remix";
-import CheckBoxGroup from "./CheckBoxGroup";
+import SelectAutofill, { links } from "app/components/SelectAutoFill";
 import Input from "./Input";
 import Modal from "./Modal";
 import RangeInput from "./RangeInput";
 import Required from "./Required";
 import TopicSummary from "./TopicSummary";
 
-const ProposeTopic = ({ isOpen, hide }) => {
+export { links };
+
+const ProposeTopic = ({ isOpen, hide, categories }) => {
   const fetcher = useFetcher();
 
   useEffect(() => {
@@ -62,11 +63,19 @@ const ProposeTopic = ({ isOpen, hide }) => {
           className="w-full bg-app text-app accent-app"
           required
         />
-        <CheckBoxGroup
-          values={categories?.map((name) => ({ value: name, label: name })) || []}
+        <SelectAutofill
+          options={
+            categories?.map((name) => ({
+              value: name,
+              label: name,
+            })) || []
+          }
           name="categories"
           legend="📚 Catégories"
+          form="propose-topic"
           required
+          className="w-full"
+          isCreatable
         />
         <Input
           type="number"

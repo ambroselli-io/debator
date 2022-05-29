@@ -13,7 +13,7 @@ const Index = () => {
 
   return (
     <>
-      <header className="flex min-h-screen-1/2 flex-col items-center justify-around border-b border-gray-100 py-12 px-4">
+      <header className="flex min-h-screen-1/2 shrink-0 flex-col items-center justify-around border-b border-gray-100 py-12  px-4">
         <h1 className="font-marker text-6xl text-app">Debator</h1>
         <p className="mt-4 -rotate-12 font-[xkcd] text-3xl uppercase">
           🤪 Debattre en s'amusant
@@ -26,7 +26,7 @@ const Index = () => {
         </Link>
         <p className="rotate-6 font-[xkcd] text-3xl uppercase">S'amuser a debattre 📣</p>
       </header>
-      <section className="flex min-h-screen-1/2 flex-col items-center justify-around border-b border-gray-100 bg-app bg-opacity-10 py-16 px-4 text-2xl">
+      <section className="flex min-h-screen-1/2 shrink-0 flex-col items-center justify-around border-b border-gray-100 bg-app bg-opacity-10 py-16 px-4 text-2xl">
         <h1 className="font-marker text-4xl text-app">Comment ça marche ?</h1>
         <ol>
           <li className="mb-2 text-center font-[xkcd]">
@@ -48,7 +48,7 @@ const Index = () => {
           C'est parti !
         </Link>
       </section>
-      <section className="flex min-h-screen-1/2 flex-col items-center justify-around border-b border-gray-100 py-16 px-4">
+      <section className="flex min-h-screen-1/2 shrink-0 flex-col items-center justify-around border-b border-gray-100 py-16 px-4">
         <PetitManifeste />
         {/* <button
           className="mt-4 rounded-lg border border-app bg-white px-4 py-2 text-app"
@@ -63,7 +63,7 @@ const Index = () => {
           C'est parti !
         </Link>
       </section>
-      <footer className="flex flex-wrap items-center justify-around bg-app bg-opacity-10 p-4 text-app">
+      <footer className="flex shrink-0 flex-wrap items-center justify-around bg-app bg-opacity-10 p-4 text-app">
         <span className="shrink-0">© Debator - {dayjs().format("YYYY")}</span>
         <Link
           to="/?contactez-nous=true"

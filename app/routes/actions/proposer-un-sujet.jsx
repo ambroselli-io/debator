@@ -11,5 +11,5 @@ export const action = async ({ request }) => {
   const existingTopic = await TopicModel.findOne({ title: newTopic.title });
   if (existingTopic) return json({ ok: false, error: "Ce sujet existe déjà !" });
   const topic = await TopicModel.create(newTopic);
-  return json({ ok: true, topic });
+  return json({ ok: true, topic: topic.format() });
 };

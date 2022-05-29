@@ -9,7 +9,7 @@ import TopicSummary from "./TopicSummary";
 
 export { links };
 
-const ProposeTopic = ({ isOpen, hide, hideAndOpen, categories }) => {
+const ProposeTopic = ({ isOpen, hide, showNewForm, categories }) => {
   const fetcher = useFetcher();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const ProposeTopic = ({ isOpen, hide, hideAndOpen, categories }) => {
           </button>
           <button
             type="button"
-            onClick={hideAndOpen}
+            onClick={showNewForm}
             className="mt-4 rounded-lg border border-app bg-white px-4 py-2 text-app"
           >
             Proposer un autre

@@ -7,6 +7,7 @@ import ProposeChallenge from "app/components/ProposeChallenge";
 import ProposeTopic, { links } from "app/components/ProposeTopic";
 import TopicModel from "app/db/models/topic.server";
 import useSearchParamState from "app/services/searchParamsUtils";
+import { useState } from "react";
 
 export { links };
 
@@ -34,6 +35,7 @@ const GameLayout = () => {
     false,
     { removeParamOnDefaultValue: true }
   );
+  const [proposeTopicKey, setProposeTopicKey] = useState(0);
   const [showProposeChallenge, setShowProposeChallenge] = useSearchParamState(
     "proposer-un-defi",
     false,
@@ -83,12 +85,10 @@ const GameLayout = () => {
         <Outlet />
         {!!showProposeTopic && (
           <ProposeTopic
+            key={proposeTopicKey}
             isOpen
             hide={() => setShowProposeTopic(false)}
-            hideAndOpen={() => {
-              setShowProposeTopic(false);
-              setShowProposeTopic(true);
-            }}
+            showNewForm={() => setProposeTopicKey((k) => k + 1)}
             categories={categories}
           />
         )}

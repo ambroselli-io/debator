@@ -9,7 +9,7 @@ import TopicSummary from "./TopicSummary";
 
 export { links };
 
-const ProposeTopic = ({ isOpen, hide, categories }) => {
+const ProposeTopic = ({ isOpen, hide, hideAndOpen, categories }) => {
   const fetcher = useFetcher();
 
   useEffect(() => {
@@ -25,9 +25,16 @@ const ProposeTopic = ({ isOpen, hide, categories }) => {
           <button
             type="button"
             onClick={hide}
-            className="mt-4 rounded-lg border border-app bg-app px-4 py-2 text-white disabled:opacity-50"
+            className="mt-4 rounded-lg border border-app bg-app px-4 py-2 text-white"
           >
             Fermer
+          </button>
+          <button
+            type="button"
+            onClick={hideAndOpen}
+            className="mt-4 rounded-lg border border-app bg-white px-4 py-2 text-app"
+          >
+            Proposer un autre
           </button>
         </div>
       </Modal>

@@ -86,8 +86,8 @@ const GameLayout = () => {
             isOpen
             hide={() => setShowProposeTopic(false)}
             hideAndOpen={() => {
-              setShowProposeTopic(() => false);
-              setShowProposeTopic(() => true);
+              setShowProposeTopic(false);
+              setShowProposeTopic(true);
             }}
             categories={categories}
           />

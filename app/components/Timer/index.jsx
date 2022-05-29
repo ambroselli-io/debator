@@ -92,7 +92,6 @@ const TimerCountdown = ({ size = 250, stroke = 5, countdown = 60, onReset }) => 
             r={size / 2 - stroke / 2}
             ref={timerDOMRef}
             onAnimationEnd={() => {
-              console.log("hein ?");
               setTimeRemaining(0);
               setPlayState("paused");
             }} // needed to be able to restart the animation

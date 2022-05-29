@@ -44,7 +44,7 @@ const GameLayout = () => {
   return (
     <>
       <header className="flex items-center justify-between border-b border-gray-100 py-2 px-4 text-app">
-        <h1 className="font-marker text-xl">Debat'OR</h1>
+        <h1 className="font-marker text-xl">Debator</h1>
         <BurgerMenu>
           <button
             className="py-2 px-4 text-left"

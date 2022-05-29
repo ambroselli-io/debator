@@ -16,7 +16,7 @@ export const getTodaysTopicSuite = async ({ populate = true } = {}) => {
   let topicsSuite = await TopicsSuiteModel.findOne(topicsSuiteQuery);
   // if it doesn't exist yet, it's the first time it's requested
   // so let's create it
-  if (topicsSuite && topicsSuite.length !== totalTopics) {
+  if (topicsSuite && topicsSuite.topics.length !== totalTopics) {
     await TopicsSuiteModel.findByIdAndDelete(topicsSuite._id);
     topicsSuite = null;
   }

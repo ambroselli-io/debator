@@ -126,13 +126,13 @@ export const migrate = async () => {
     { title: "En une seule phrase", excludeEnvironment: [] },
     { title: "En trois mots", excludeEnvironment: [] },
     {
-      title: "Strip Debat'or",
+      title: "Strip Debator",
       description:
         "À chaque victoire ou à chaque argument qui fait mouche, c'est selon, vous demandez à votre adversaire d'enlever un vêtement, ou c'est vous qui enlevez un de vos vêtements, c'est selon",
       excludeEnvironment: ["Éducation", "Famille"],
     },
     {
-      title: "Debat'or shots",
+      title: "Debator shots",
       description:
         "À chaque victoire ou à chaque argument qui fait mouche, c'est selon, vous demandez à votre adversaire de prendre un shot, ou c'est vous qui trinquez, ou tout le monde, c'est selon",
       excludeEnvironment: ["Éducation", "Famille"],

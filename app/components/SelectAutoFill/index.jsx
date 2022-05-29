@@ -68,6 +68,9 @@ const SelectAutofill = ({
     .getAll(name)
     .map((id) => options.find((opt) => opt.value === id));
 
+  // FIXME: timeout so the Form can consider the new input hidden
+  const onChangeRequest = (args) => setTimeout(() => onChange(args));
+
   return (
     <fieldset className={`flex flex-wrap gap-2 ${className}`}>
       <legend className="mb-2 flex-shrink-0 basis-full">
@@ -78,7 +81,7 @@ const SelectAutofill = ({
         name={name}
         options={options}
         defaultValue={checkedValues}
-        onChange={onChange}
+        onChange={onChangeRequest}
         form={form}
         isCreatable={isCreatable}
       />

@@ -79,7 +79,7 @@ const GameLayout = () => {
           </button>
         </BurgerMenu>
       </header>
-      <div id="root" className="flex w-full flex-col items-center p-3">
+      <div id="root" className="flex w-full shrink-0 grow flex-col items-center p-3">
         <Outlet />
         {!!showProposeTopic && (
           <ProposeTopic

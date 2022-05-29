@@ -89,12 +89,14 @@ const ChooseATopic = () => {
         className="flex w-full max-w-md flex-col items-center"
         onChange={(e) => submit(e.currentTarget)}
       >
-        <label className="mt-4 max-w-md text-sm" htmlFor="search">
+        {/* <label className="mt-4 w-full max-w-md text-left text-sm" htmlFor="search">
           🔪 Filtrer un peu ?
-        </label>
+        </label> */}
         <SearchInput
-          placeholder="Entrez un mot-clé, un thème, un auteur"
+          placeholder="Si vous voulez, entrez un mot-clé, un thème, un auteur"
+          label="Si vous voulez, entrez un mot-clé, un thème, un auteur"
           name="search"
+          className="mt-4"
           defaultValue={searchParams.get("search") || ""}
         />
         {!topic?._id && (

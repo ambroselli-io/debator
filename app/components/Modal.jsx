@@ -29,7 +29,7 @@ const Modal = ({ title, children, isOpen = true, hide = null }) => {
     <dialog
       onCancel={onCancel}
       ref={dialogRef}
-      className="fixed !inset-0 flex w-[90vw] max-w-md !transform-none flex-col items-center justify-start overflow-y-visible  rounded bg-white !p-0"
+      className="fixed !inset-0 flex w-[90vw] max-w-[68ch] !transform-none flex-col items-center justify-start overflow-y-visible  rounded bg-white !p-0"
     >
       <div className="w-full p-4 pt-20">{children}</div>
       <h4 className="absolute top-0 left-0 flex w-full justify-between bg-white bg-gradient-to-t from-transparent to-white p-4 pb-5 text-xl font-bold">

@@ -56,7 +56,7 @@ const SearchChallenge = () => {
 
   return (
     <>
-      <details className="w-full" open>
+      <details className="w-full max-w-[68ch]" open>
         <summary className="w-full">
           <h2 className="ml-2 mb-2 inline w-full text-lg font-bold">
             Recherchez un défi
@@ -88,7 +88,7 @@ const SearchChallenge = () => {
         </Form>
       </details>
       {!challenges.length && (
-        <p className="text-center text-sm">
+        <p className="max-w-[68ch] text-center text-sm">
           Désolé, nous n'avons aucun défi en stock correspondant à ces critères&nbsp;🤷‍♀️
           <br />
           <br />
@@ -97,7 +97,7 @@ const SearchChallenge = () => {
         </p>
       )}
       {!!challenges.length && (
-        <details className="w-full" open>
+        <details className="w-full max-w-[68ch]" open>
           <summary className="w-full">
             <h2 className="ml-2 mt-4 mb-2 inline w-full text-lg font-bold">
               Voici les défis disponibles 👇

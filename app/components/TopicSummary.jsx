@@ -12,11 +12,7 @@ const TopicSummary = ({
   const [searchParams] = useSearchParams();
   return (
     <>
-      <Component
-        className={`min-h-8 relative my-0 w-full text-center text-3xl ${
-          !topic?._id ? "pointer-events-none invisible" : ""
-        }`}
-      >
+      <Component className="min-h-8 relative my-0 w-full max-w-md text-center text-3xl">
         <div
           className="pointer-events-none invisible w-full opacity-0"
           aria-hidden={true}

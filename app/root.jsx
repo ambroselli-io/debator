@@ -78,7 +78,7 @@ const App = () => {
         <Meta />
         <Links />
       </head>
-      <body className="h-screen w-screen overflow-x-hidden bg-[#fafbfe] outline-app">
+      <body className="flex h-screen w-screen flex-col overflow-x-hidden bg-[#fafbfe] outline-app">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

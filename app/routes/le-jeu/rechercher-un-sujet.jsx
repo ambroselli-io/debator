@@ -40,7 +40,7 @@ export const loader = async ({ request }) => {
   if (!searchParams.get("search")?.length) {
     // get topics
 
-    if (searchParams.getAll("categories")?.length) {
+    if (searchParams.getAll("categories")?.filter(Boolean)?.length) {
       query.categories = { $in: searchParams.getAll("categories") };
     }
 
@@ -115,7 +115,7 @@ const SearchTopic = () => {
 
   return (
     <>
-      <details className="w-full" open>
+      <details className="w-full max-w-[68ch]" open>
         <summary className="w-full">
           <h2 className="ml-2 mb-2 inline w-full text-lg font-bold">
             Recherchez un sujet
@@ -147,9 +147,7 @@ const SearchTopic = () => {
             name="categories"
             legend="🤌 Choisissez des catégories"
             form="topic-advanced-search"
-            onChange={() =>
-              setTimeout(() => submit(document.getElementById("topic-advanced-search")))
-            }
+            onChange={() => submit(document.getElementById("topic-advanced-search"))}
           />
           <label htmlFor="difficulty">🍬 Difficulté</label>
           <RangeInput
@@ -180,10 +178,12 @@ const SearchTopic = () => {
         </p>
       )}
       {!!topics.length && (
-        <details className="w-full" open>
+        <details className="w-full max-w-[68ch]" open>
           <summary className="w-full">
             <h2 className="ml-2 mt-4 mb-2 inline w-full text-lg font-bold">
-              Voici les sujets disponibles 👇
+              {topics.length > 1
+                ? `Voici les sujets disponibles (${topics.length}) 👇`
+                : "Voici le sujet disponible 👇"}
             </h2>
           </summary>
           <main className="flex flex-col p-4">

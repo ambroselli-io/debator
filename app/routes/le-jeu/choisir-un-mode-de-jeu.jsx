@@ -36,7 +36,7 @@ const ChooseAGameMode = () => {
         <br />
         <i className="text-app">Choisissez un mode de jeu</i>
       </small>
-      <main className="mt-5 flex w-full flex-wrap justify-center gap-3">
+      <main className="mt-5 flex w-full max-w-5xl flex-wrap justify-center gap-3">
         {games.map((game) => {
           return (
             <div

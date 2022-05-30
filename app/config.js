@@ -1,13 +1,11 @@
-const MONGO_URL =
-  process.env.MONGODB_ADDON_URI ||
-  "***REMOVED***";
+const MONGO_URL = process.env.MONGODB_ADDON_URI;
 const MONGODB_DB_NAME = "Debator";
 const APP_URL = process.env.APP_URL;
 const APP_NAME = "Debator";
 const PORT = process.env.PORT || 8080;
 const SECRET = process.env.SECRET || "not_so_secret";
 const ENVIRONMENT = process.env.NODE_ENV;
-const SENTRY_DSN = process.env.SENTRY_DSN;
+const SENTRY_XXX = process.env.SENTRY_XXX;
 const WHITE_LIST_DOMAINS = process.env.WHITE_LIST_DOMAINS;
 const TIPIMAIL_API_USER = process.env.TIPIMAIL_API_USER;
 const TIPIMAIL_API_KEY = process.env.TIPIMAIL_API_KEY;
@@ -16,6 +14,12 @@ const CELLAR_ADDON_KEY_ID = process.env.CELLAR_ADDON_KEY_ID;
 const CELLAR_ADDON_KEY_SECRET = process.env.CELLAR_ADDON_KEY_SECRET;
 const PUBLIC_BUCKET_NAME = "debator";
 
+const FINTECTURE_APP_ID = process.env.FINTECTURE_APP_ID;
+const FINTECTURE_APP_SECRET = process.env.FINTECTURE_APP_SECRET;
+const FINTECTURE_PRIVATE_KEY = process.env.FINTECTURE_PRIVATE_KEY;
+// const FINTECTURE_ENV = ENVIRONMENT === "production" ? "production" : "sandbox";
+const FINTECTURE_ENV = "sandbox";
+
 export {
   MONGO_URL,
   APP_URL,
@@ -23,7 +27,7 @@ export {
   PORT,
   SECRET,
   ENVIRONMENT,
-  SENTRY_DSN,
+  SENTRY_XXX,
   WHITE_LIST_DOMAINS,
   TIPIMAIL_API_USER,
   TIPIMAIL_API_KEY,
@@ -32,4 +36,8 @@ export {
   CELLAR_ADDON_KEY_SECRET,
   PUBLIC_BUCKET_NAME,
   MONGODB_DB_NAME,
+  FINTECTURE_APP_ID,
+  FINTECTURE_APP_SECRET,
+  FINTECTURE_PRIVATE_KEY,
+  FINTECTURE_ENV,
 };

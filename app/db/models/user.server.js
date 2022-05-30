@@ -14,8 +14,12 @@ const Schema = new mongoose.Schema(
       match: [/^.+@(?:[\w-]+\.)+\w+$/, "Please fill a valid email address"],
     },
     name: { type: String, index: "text" },
+    firstName: { type: String },
+    lastName: { type: String },
     job: { type: String },
     urlOrigin: { type: String },
+    password: { type: String },
+    lastLoginAt: { type: Date },
   },
   { timestamps: true }
 );

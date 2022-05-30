@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import dayjs from "dayjs";
 import "dayjs/locale/fr"; // use locale globally
@@ -43,6 +44,13 @@ export const meta = () => ({
   "og:type": "website",
 });
 
+// load browser env variables here, the inject in the script below
+export const loader = () => ({
+  ENV: JSON.stringify({
+    SENTRY_XXX: process.env.SENTRY_XXX,
+  }),
+});
+
 export const links = () => {
   return [
     { rel: "stylesheet", href: fontFace },
@@ -72,6 +80,7 @@ export function ErrorBoundary({ error }) {
 }
 
 const App = () => {
+  const data = useLoaderData();
   return (
     <html lang="en" className="h-screen w-screen scroll-smooth">
       <head>
@@ -82,6 +91,12 @@ const App = () => {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV=${data.ENV};`,
+          }}
+        />
         <LiveReload />
       </body>
     </html>

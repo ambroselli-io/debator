@@ -7,7 +7,7 @@ import ProposeChallenge from "app/components/ProposeChallenge";
 import ProposeTopic, { links } from "app/components/ProposeTopic";
 import TopicModel from "app/db/models/topic.server";
 import useSearchParamState from "app/services/searchParamsUtils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export { links };
 
@@ -23,7 +23,6 @@ export const loader = async () => {
       },
     },
   ]);
-
   return { categories: categories.map(({ _id }) => _id) };
 };
 

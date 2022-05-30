@@ -57,6 +57,13 @@ const ProposeTopic = ({ isOpen, hide, showNewForm, categories }) => {
           placeholder="Être ou ne pas être ?"
           required
         />
+        <Input
+          type="text"
+          name="author"
+          id="propose-topic-author"
+          label="✍️ Auteur de la citation"
+          placeholder="Si c'est une citation !"
+        />
         <label htmlFor="propose-topic-difficulty" className="-mb-6 w-full">
           🍬 Difficulté <Required />
         </label>

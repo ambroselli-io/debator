@@ -1,10 +1,13 @@
-import Input from "app/components/Input";
 import ISOCountries from "i18n-iso-countries";
+import Input from "app/components/Input";
 import { Select, links } from "app/components/Selects";
 import { Form, useActionData, useFetcher, useLoaderData } from "remix";
 import { getClientLocales } from "remix-utils";
+import { capture } from "app/services/sentry";
 
 export const loader = ({ request }) => {
+  capture("locales", { extra: { locales: getClientLocales(request) } });
+  console.log(getClientLocales(request));
   const twoLettersLocales = getClientLocales(request)?.filter((l) => !l.includes("-"));
   let locale = twoLettersLocales?.[0] || "en"; // filter all 'en-US' and stuff like that
   if (!ISOCountries.getSupportedLanguages().includes(locale)) locale = "en";

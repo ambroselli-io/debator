@@ -99,6 +99,7 @@ export const action = async ({ request }) => {
   const transaction = await TransactionModel.create({ user, amount, currency, country });
 
   let tokens = await FintectureAPI.getAccessToken();
+  console.log({ tokens });
   let connect = await FintectureAPI.getPisConnect(tokens.access_token, {
     amount,
     currency,

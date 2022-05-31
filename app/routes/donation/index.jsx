@@ -5,8 +5,8 @@ import { Form, useActionData, useFetcher, useLoaderData } from "remix";
 import { getClientLocales } from "remix-utils";
 
 export const loader = ({ request }) => {
-  const twoLettersLocales = getClientLocales(request).filter((l) => !l.includes("-"));
-  let locale = twoLettersLocales[0]; // filter all 'en-US' and stuff like that
+  const twoLettersLocales = getClientLocales(request)?.filter((l) => !l.includes("-"));
+  let locale = twoLettersLocales?.[0] || "en"; // filter all 'en-US' and stuff like that
   if (!ISOCountries.getSupportedLanguages().includes(locale)) locale = "en";
   const countries = ISOCountries.getNames(locale, { select: "official" });
   const arrayOfCountriesForSelect = Object.entries(countries).map(([value, label]) => ({

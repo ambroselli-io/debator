@@ -72,6 +72,7 @@ const Donation = () => {
         placeholder="Votre don"
         required
         autoComplete="transaction-amount"
+        defaultValue={30}
       />
       <Select
         options={countries}
@@ -82,6 +83,7 @@ const Donation = () => {
         required
         autoComplete="country"
         instanceId="donation-transaction-country"
+        defaultValue={{ value: "fr", label: "France" }}
       />
       <Select
         options={currencies}
@@ -91,6 +93,7 @@ const Donation = () => {
         required
         autoComplete="transaction-currency"
         instanceId="donation-transaction-currency"
+        defaultValue={currencies[0]}
       />
       <button
         type="submit"

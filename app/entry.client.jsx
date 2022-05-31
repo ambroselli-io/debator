@@ -3,11 +3,13 @@ import { hydrate } from "react-dom";
 import * as Sentry from "@sentry/browser";
 import { Integrations } from "@sentry/tracing";
 
-Sentry.init({
-  dsn: window.ENV.SENTRY_XXX,
-  environment: "app",
-  tracesSampleRate: 1.0,
-  integrations: [new Integrations.BrowserTracing()],
-});
+if (process.env.NODE_ENV === "production") {
+  Sentry.init({
+    dsn: window.ENV.SENTRY_XXX,
+    environment: "app",
+    tracesSampleRate: 1.0,
+    integrations: [new Integrations.BrowserTracing()],
+  });
+}
 
 hydrate(<RemixBrowser />, document);

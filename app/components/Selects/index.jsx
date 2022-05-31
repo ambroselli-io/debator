@@ -1,4 +1,4 @@
-import Select from "react-select";
+import ReactSelect from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useSearchParams } from "remix";
 import Required from "../Required";
@@ -6,19 +6,18 @@ import styles from "./styles.css";
 
 export const links = () => [{ rel: "stylesheet", href: styles }];
 
-const SelectAutofillRoot = ({
+const SelectRoot = ({
   name,
   options,
   defaultValue,
   onChange,
   form,
   isCreatable,
+  ...props
 }) => {
-  const Component = isCreatable ? CreatableSelect : Select;
+  const Component = isCreatable ? CreatableSelect : ReactSelect;
   return (
     <Component
-      isMulti
-      instanceId="my-select-id"
       defaultValue={defaultValue}
       name={name}
       form={form}
@@ -49,6 +48,7 @@ const SelectAutofillRoot = ({
           neutral5: "rgba(253, 126, 65, 0.05)",
         },
       })}
+      {...props}
     />
   );
 };
@@ -62,6 +62,7 @@ const SelectAutofill = ({
   isCreatable,
   className = "",
   required = false,
+  ...props
 }) => {
   const [searchParams] = useSearchParams();
   const checkedValues = searchParams
@@ -69,7 +70,7 @@ const SelectAutofill = ({
     .map((id) => options.find((opt) => opt.value === id));
 
   // FIXME: timeout so the Form can consider the new input hidden
-  const onChangeRequest = (args) => setTimeout(() => onChange(args));
+  const onChangeRequest = (args) => setTimeout(() => onChange?.(args));
 
   return (
     <fieldset className={`flex flex-wrap gap-2 ${className}`}>
@@ -77,16 +78,54 @@ const SelectAutofill = ({
         {legend}
         {required && <Required />}
       </legend>
-      <SelectAutofillRoot
+      <SelectRoot
         name={name}
         options={options}
         defaultValue={checkedValues}
         onChange={onChangeRequest}
         form={form}
         isCreatable={isCreatable}
+        isMulti
+        {...props}
       />
     </fieldset>
   );
 };
 
-export default SelectAutofill;
+const Select = ({
+  legend,
+  name,
+  options,
+  onChange,
+  form,
+  className = "",
+  required = false,
+  ...props
+}) => {
+  const [searchParams] = useSearchParams();
+  const checkedValues = searchParams
+    .getAll(name)
+    .map((id) => options.find((opt) => opt.value === id));
+
+  // FIXME: timeout so the Form can consider the new input hidden
+  const onChangeRequest = (args) => setTimeout(() => onChange?.(args));
+
+  return (
+    <fieldset className={`flex flex-wrap gap-2 ${className}`}>
+      <legend className="mb-2 flex-shrink-0 basis-full">
+        {legend}
+        {required && <Required />}
+      </legend>
+      <SelectRoot
+        name={name}
+        options={options}
+        defaultValue={checkedValues}
+        onChange={onChangeRequest}
+        form={form}
+        {...props}
+      />
+    </fieldset>
+  );
+};
+
+export { SelectAutofill, Select };

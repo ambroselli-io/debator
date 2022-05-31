@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useFetcher } from "remix";
-import SelectAutofill, { links } from "app/components/SelectAutoFill";
+import { SelectAutofill, links } from "app/components/Selects";
 import Input from "./Input";
 import Modal from "./Modal";
 import RangeInput from "./RangeInput";

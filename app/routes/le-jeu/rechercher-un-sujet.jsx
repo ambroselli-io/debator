@@ -1,5 +1,5 @@
 import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
-import SelectAutofill, { links } from "app/components/SelectAutoFill";
+import { SelectAutofill, links } from "app/components/Selects";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 import RangeInput from "../../components/RangeInput";
 import SearchInput from "../../components/SearchInput";

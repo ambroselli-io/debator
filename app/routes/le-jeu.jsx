@@ -7,7 +7,7 @@ import ProposeChallenge from "app/components/ProposeChallenge";
 import ProposeTopic, { links } from "app/components/ProposeTopic";
 import TopicModel from "app/db/models/topic.server";
 import useSearchParamState from "app/services/searchParamsUtils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export { links };
 

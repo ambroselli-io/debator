@@ -3,6 +3,7 @@ import Input from "app/components/Input";
 import { Select } from "app/components/Selects";
 import { useFetcher, useLoaderData } from "remix";
 import { getClientLocales } from "remix-utils";
+import { useEffect } from "react";
 
 export const loader = ({ request }) => {
   let locales = getClientLocales(request);
@@ -28,6 +29,9 @@ export const loader = ({ request }) => {
 const Donation = () => {
   const { countries, currencies } = useLoaderData();
   const fetcher = useFetcher();
+  useEffect(() => {
+    if (fetcher?.data?.connect?.url) window.location.href = fetcher?.data?.connect?.url;
+  }, [fetcher?.data?.connect?.url]);
 
   return (
     <fetcher.Form

@@ -120,5 +120,5 @@ export const action = async ({ request }) => {
   });
   await transaction.save();
 
-  return redirect(connect.url);
+  return json({ ok: true, connect });
 };

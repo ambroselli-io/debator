@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import dbConnection from "../mongo.server";
-const MODELNAME = "TransactionModel";
+const MODELNAME = "Transaction";
 
 const Schema = new mongoose.Schema(
   {
@@ -11,6 +11,7 @@ const Schema = new mongoose.Schema(
     country: String,
     currency: String,
     language: String,
+    fintecture_session_id: String,
   },
   { timestamps: true }
 );

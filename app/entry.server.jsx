@@ -13,7 +13,7 @@ export default function handleRequest(
 
   responseHeaders.set("Content-Type", "text/html");
 
-  if (responseStatusCode >= 500) {
+  if (responseStatusCode >= 400) {
     capture(remixContext.appState.error, {
       extra: {
         request,

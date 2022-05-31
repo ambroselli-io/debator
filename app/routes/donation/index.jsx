@@ -1,9 +1,8 @@
 import ISOCountries from "i18n-iso-countries";
 import Input from "app/components/Input";
-import { Select, links } from "app/components/Selects";
-import { Form, useActionData, useFetcher, useLoaderData } from "remix";
+import { Select } from "app/components/Selects";
+import { useFetcher, useLoaderData } from "remix";
 import { getClientLocales } from "remix-utils";
-import { capture } from "app/services/sentry.server";
 
 export const loader = ({ request }) => {
   let locales = getClientLocales(request);
@@ -20,8 +19,8 @@ export const loader = ({ request }) => {
   return {
     countries: arrayOfCountriesForSelect,
     currencies: [
-      { value: "eur", label: "€ Euro" },
-      { value: "dollar", label: "$ Dollar" },
+      { value: "EUR", label: "€ Euro" },
+      { value: "DOLLAR", label: "$ Dollar" },
     ],
   };
 };
@@ -30,12 +29,12 @@ const Donation = () => {
   const { countries, currencies } = useLoaderData();
   const fetcher = useFetcher();
 
-  console.log({ fetcher });
   return (
     <fetcher.Form
       id="donation"
       method="POST"
       action="/actions/fintecture/payment-request"
+      className="flex w-full flex-col items-center gap-8"
     >
       <Input
         type="text"
@@ -59,8 +58,8 @@ const Donation = () => {
         type="email"
         name="email"
         id="donation-email"
-        label="Nom"
-        placeholder="Votre nom"
+        label="Email"
+        placeholder="Votre email"
         required
         autoComplete="email"
       />

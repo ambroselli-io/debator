@@ -3,15 +3,18 @@ import TransactionModel from "app/db/models/transaction.server";
 import UserModel from "app/db/models/user.server";
 import FintectureAPI from "app/services/fintecture.server";
 import { capture } from "app/services/sentry.server";
-import { json } from "remix";
-import { getClientIPAddress } from "remix-utils";
+import { json, redirect } from "remix";
+import { getClientIPAddress, getClientLocales } from "remix-utils";
 
 export const action = async ({ request }) => {
-  console.log("ON EST LA");
   const formData = await request.formData();
-  const { firstName, lastName, amount, email, country, language, currency } =
+  let locales = getClientLocales(request);
+  if (!locales) locales = ["en"];
+  if (typeof locales === "string") locales = [locales];
+  const twoLettersLocales = locales?.map((local) => local.split("-")[0]);
+  let locale = twoLettersLocales?.[0] || "en";
+  const { firstName, lastName, amount, email, country, currency } =
     Object.fromEntries(formData);
-  console.log({ firstName, lastName, amount, email, country, language, currency });
   if (!firstName?.length)
     return json(
       {
@@ -64,8 +67,6 @@ export const action = async ({ request }) => {
   // check if user first
   let user = await UserModel.findOne({ email });
 
-  console.log({ user });
-
   if (user) {
     if (user.firstName !== formData.get("firstName")) {
       capture("NOT SAME FIRST NAME", { extra: { request, formData }, user });
@@ -93,27 +94,31 @@ export const action = async ({ request }) => {
   if (!user) {
     user = await UserModel.create({ email, firstName, lastName });
   }
-  console.log({ user });
 
   // create transaction
   const transaction = await TransactionModel.create({ user, amount, currency, country });
 
   let tokens = await FintectureAPI.getAccessToken();
-  console.log({ tokens });
-  let connect = await FintectureAPI.getPisConnect(tokens.access_token, {
+  const config = {
     amount,
-    currency,
-    communication: `MON-CROISSANT-${transaction._id}`,
+    currency: currency.toLocaleUpperCase(),
+    communication: `DEBATOR${transaction._id}`,
     customer_full_name: `${user.firstName} ${user.lastName}`,
     customer_email: user.email,
-    customer_ip: getClientIPAddress(request),
-    state: JSON.stringify({ user, transaction }),
+    customer_ip: getClientIPAddress(request) || "127.0.0.1",
+    state: "somestate",
+    language: locale,
     country,
-    language: language || "en",
-    redirect_uri: `${APP_URL}/transaction/redirect`,
+    redirect_uri: `${APP_URL}/donation/merci`,
+  };
+
+  let connect = await FintectureAPI.getPisConnect(tokens.access_token, config);
+
+  transaction.set({
+    fintecture_session_id: connect.session_id,
+    fintecture_url: connect.url,
   });
+  await transaction.save();
 
-  console.log({ connect, transaction });
-
-  return json({ ok: true, connect });
+  return redirect(connect.url);
 };

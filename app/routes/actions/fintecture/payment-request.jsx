@@ -109,7 +109,7 @@ export const action = async ({ request }) => {
     state: "somestate",
     language: locale,
     country,
-    // redirect_uri: `${APP_URL}/donation/merci`,
+    redirect_uri: `https://debator.cleverapps.io/donation/merci`,
   };
 
   let connect = await FintectureAPI.getPisConnect(tokens.access_token, config);

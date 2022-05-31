@@ -2,7 +2,7 @@ import { APP_URL } from "app/config";
 import TransactionModel from "app/db/models/transaction.server";
 import UserModel from "app/db/models/user.server";
 import FintectureAPI from "app/services/fintecture.server";
-import { capture } from "app/services/sentry";
+import { capture } from "app/services/sentry.server";
 import { json } from "remix";
 import { getClientIPAddress } from "remix-utils";
 

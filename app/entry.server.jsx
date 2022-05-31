@@ -1,7 +1,7 @@
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
 import "./db/mongo.server";
-import { capture } from "./services/sentry";
+import { capture } from "./services/sentry.server";
 
 export default function handleRequest(
   request,

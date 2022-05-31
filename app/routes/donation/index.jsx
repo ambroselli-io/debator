@@ -3,11 +3,13 @@ import Input from "app/components/Input";
 import { Select, links } from "app/components/Selects";
 import { Form, useActionData, useFetcher, useLoaderData } from "remix";
 import { getClientLocales } from "remix-utils";
-import { capture } from "app/services/sentry";
+import { capture } from "app/services/sentry.server";
 
 export const loader = ({ request }) => {
   capture("locales", { extra: { locales: getClientLocales(request) } });
   console.log(getClientLocales(request));
+  const locales = getClientLocales(request);
+  console.log({ locales });
   const twoLettersLocales = getClientLocales(request)?.filter((l) => !l.includes("-"));
   let locale = twoLettersLocales?.[0] || "en"; // filter all 'en-US' and stuff like that
   if (!ISOCountries.getSupportedLanguages().includes(locale)) locale = "en";

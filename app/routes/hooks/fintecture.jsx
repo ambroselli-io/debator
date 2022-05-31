@@ -2,7 +2,7 @@ import { json } from "remix";
 import { ENVIRONMENT } from "app/config";
 import TransactionLogModel from "app/db/models/transactionLog.server";
 import FintectureAPI from "app/services/fintecture.server";
-import { capture } from "app/services/sentry";
+import { capture } from "app/services/sentry.server";
 
 export const action = async ({ request }) => {
   const headers = Object.fromEntries(request.headers);
@@ -32,6 +32,7 @@ export const action = async ({ request }) => {
     log.set({ content: JSON.stringify({ headers, body, verification, payment }) });
     await log.save();
   } catch (e) {
+    console.log(e);
     capture(e, { extra: { headers, body, url } });
   }
   return json({ ok: true });

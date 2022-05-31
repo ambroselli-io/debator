@@ -6,11 +6,10 @@ import { getClientLocales } from "remix-utils";
 import { capture } from "app/services/sentry.server";
 
 export const loader = ({ request }) => {
-  capture("locales", { extra: { locales: getClientLocales(request) } });
-  console.log(getClientLocales(request));
-  const locales = getClientLocales(request);
-  console.log({ locales });
-  const twoLettersLocales = getClientLocales(request)?.filter((l) => !l.includes("-"));
+  let locales = getClientLocales(request);
+  if (!locales) locales = ["en"];
+  if (typeof locales === "string") locales = [locales];
+  const twoLettersLocales = locales?.map((local) => local.split("-")[0]);
   let locale = twoLettersLocales?.[0] || "en"; // filter all 'en-US' and stuff like that
   if (!ISOCountries.getSupportedLanguages().includes(locale)) locale = "en";
   const countries = ISOCountries.getNames(locale, { select: "official" });

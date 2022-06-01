@@ -130,22 +130,6 @@ export const action = async ({ request }) => {
     redirect_uri: `https://debator.cleverapps.io/donation/merci`,
   };
 
-  console.log({
-    amount,
-    currency: currency.toLocaleUpperCase(),
-    communication: `DEBATOR${transaction._id}`,
-    customer_full_name: `${user.firstName} ${user.lastName}`,
-    customer_email: user.email,
-    customer_ip: getClientIPAddress(request) || "127.0.0.1",
-    state: "noneed",
-    language: locale,
-    country,
-    redirect_uri: `https://debator.cleverapps.io/donation/merci`,
-    FINTECTURE_APP_ID,
-    FINTECTURE_APP_SECRET,
-    FINTECTURE_PRIVATE_KEY,
-  });
-
   let connect = await FintectureAPI.getPisConnect(tokens.access_token, config);
 
   transaction.set({

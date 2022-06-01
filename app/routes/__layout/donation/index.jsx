@@ -42,7 +42,6 @@ const Donation = () => {
     if (fetcher?.data?.connect?.url) window.location.href = fetcher?.data?.connect?.url;
   }, [fetcher?.data?.connect?.url]);
 
-  console.log(fetcher);
   useEffect(() => {
     // https://help.fintecture.com/en/articles/5843235-how-to-test-the-module-before-going-into-production
     // On the Connect (payment interface), choose the CIC or Crédit Mutuel bank

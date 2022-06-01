@@ -14,6 +14,7 @@ export default function handleRequest(
   responseHeaders.set("Content-Type", "text/html");
 
   if (responseStatusCode >= 400) {
+    console.log("PAS BON", process.env.NODE_ENV === "production");
     if (process.env.NODE_ENV === "production") {
       capture(remixContext.appState.error, {
         extra: {

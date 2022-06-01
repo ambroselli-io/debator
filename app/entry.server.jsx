@@ -14,14 +14,16 @@ export default function handleRequest(
   responseHeaders.set("Content-Type", "text/html");
 
   if (responseStatusCode >= 400) {
-    capture(remixContext.appState.error, {
-      extra: {
-        request,
-        responseStatusCode,
-        responseHeaders,
-        remixContext,
-      },
-    });
+    if (process.env.NODE_ENV === "production") {
+      capture(remixContext.appState.error, {
+        extra: {
+          request,
+          responseStatusCode,
+          responseHeaders,
+          remixContext,
+        },
+      });
+    }
   }
 
   return new Response("<!DOCTYPE html>" + markup, {

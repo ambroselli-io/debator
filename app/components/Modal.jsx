@@ -20,14 +20,23 @@ const Modal = ({ title, children, isOpen = true, hide = null }) => {
 
   const onCancel = () => {
     document.body.style.overflow = currentOverflow.current;
+    // clear inputs storage
+    window.sessionStorage.clear();
     if (!hide) return navigate(-1);
     hide(false); // for setShowModal(false)
     dialogRef.current.close();
   };
 
+  const onClose = () => {
+    // clear inputs storage
+    // not working...
+    window.sessionStorage.clear();
+  };
+
   return (
     <dialog
       onCancel={onCancel}
+      onClose={onClose}
       ref={dialogRef}
       className="fixed !inset-0 flex w-[90vw] max-w-[68ch] !transform-none flex-col items-center justify-start overflow-y-visible rounded bg-white !p-0"
     >

@@ -1,6 +1,5 @@
 import ContactUs from "app/components/ContactUs";
 import PetitManifeste from "app/components/PetitManifeste";
-import useSearchParamState from "app/services/searchParamsUtils";
 import dayjs from "dayjs";
 import { Link, useNavigate, useSearchParams } from "remix";
 
@@ -71,6 +70,9 @@ const Index = () => {
           className="shrink-0 py-2 px-4 text-left"
         >
           Nous contacter
+        </Link>
+        <Link to="/donation" className="shrink-0 py-2 px-4 text-left">
+          Acheter une licence (prix libre)
         </Link>
       </footer>
       {!!showContactUs && (

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useFetcher } from "remix";
-import Challenge from "./Challenge";
 import Input from "./Input";
 import Modal from "./Modal";
 
@@ -13,7 +12,7 @@ const ContactUs = ({ isOpen, hide }) => {
 
   if (fetcher.type === "done" && fetcher.data.ok === true) {
     return (
-      <Modal isOpen={isOpen} hide={hide} title="Proposer un défi">
+      <Modal isOpen={isOpen} hide={hide} title="Nous contacter">
         <div className="flex flex-col items-center">
           <p className="text-center">Merci !</p>
           <button
@@ -71,6 +70,9 @@ const ContactUs = ({ isOpen, hide }) => {
           {["loading", "submitting"].includes(fetcher.state)
             ? "Envoi en cours"
             : "Envoyer"}
+        </button>
+        <button type="button" onClick={hide} className="mt-2 underline">
+          Annuler
         </button>
       </fetcher.Form>
     </Modal>

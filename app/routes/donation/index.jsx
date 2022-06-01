@@ -5,6 +5,8 @@ import { useFetcher, useLoaderData } from "remix";
 import { getClientLocales } from "remix-utils";
 import { useEffect, useRef, useState } from "react";
 import OpenInNewWindowIcon from "app/components/icons/OpenInNewWindowIcon";
+import useSearchParamState from "app/services/searchParamsUtils";
+import ContactUs from "app/components/ContactUs";
 
 export const loader = ({ request }) => {
   let locales = getClientLocales(request);
@@ -37,9 +39,11 @@ const Donation = () => {
     if (fetcher?.data?.connect?.url) window.location.href = fetcher?.data?.connect?.url;
   }, [fetcher?.data?.connect?.url]);
 
-  console.log(fetcher);
-
   const [donation, setDonation] = useState("");
+  const [showContactUs, setShowContactUs] = useSearchParamState("contactez-nous", false, {
+    removeParamOnDefaultValue: true,
+  });
+
   const monthlyLicenceRef = useRef();
   const yearlyLicenceRef = useRef();
   const lifelyLicenceRef = useRef();
@@ -94,7 +98,16 @@ const Donation = () => {
           <li>tout don inférieur à 10€ donne une licence valable pendant 1 mois</li>
         </ul>
         <p className="mt-4 w-full max-w-[68ch]">
-          Choisissez votre licence, avant de renseigner vos informations
+          Choisissez votre licence, avant de renseigner vos informations. Si vous êtes
+          intéressé(es) par Debator mais que vous n'avez pas les moyens,{" "}
+          <button
+            type="button"
+            className="underline"
+            onClick={() => setShowContactUs(true)}
+          >
+            contactez-nous
+          </button>{" "}
+          et nous vous enverrons une version complète gratuite.
         </p>
         <div className="flex justify-center">
           <Input
@@ -107,10 +120,7 @@ const Donation = () => {
             autoComplete="transaction-amount"
             className="w-40 rounded-r-none border-r-0"
             value={donation}
-            onChange={(e) => {
-              console.log(e.target.value);
-              setDonation(e.target.value);
-            }}
+            onChange={(e) => setDonation(e.target.value)}
           />
           <Select
             options={currencies}
@@ -239,7 +249,7 @@ const Donation = () => {
         </p>
         <button
           type="submit"
-          className="my-4 rounded-lg border border-app bg-app px-4 py-2 text-white disabled:opacity-50"
+          className="mt-4 rounded-lg border border-app bg-app px-4 py-2 text-white disabled:opacity-50"
           disabled={fetcher.state !== "idle" || fetcher?.data?.ok}
         >
           {fetcher?.state === "submitting"
@@ -248,7 +258,15 @@ const Donation = () => {
             ? "Redirection"
             : "Je donne !"}
         </button>
+        <button
+          type="button"
+          className="my-4 text-sm text-app underline"
+          onClick={() => setShowContactUs(true)}
+        >
+          Nous contacter
+        </button>
       </fetcher.Form>
+      {!!showContactUs && <ContactUs isOpen hide={() => setShowContactUs(false)} />}
     </>
   );
 };

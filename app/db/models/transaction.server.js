@@ -6,7 +6,7 @@ const Schema = new mongoose.Schema(
   {
     user: { type: mongoose.Types.ObjectId, ref: "User", index: true },
     amount: Number,
-    status: String,
+    currentStatus: String,
     statuses: { type: [String], default: [] },
     country: String,
     currency: String,

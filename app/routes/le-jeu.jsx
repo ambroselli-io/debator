@@ -1,4 +1,4 @@
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import BurgerMenu from "app/components/BurgerMenu";
 import ContactUs from "app/components/ContactUs";
 import Modal from "app/components/Modal";
@@ -55,7 +55,9 @@ const GameLayout = () => {
   return (
     <>
       <header className="flex items-center justify-between border-b border-gray-100 py-2 px-4 text-app">
-        <h1 className="font-marker text-xl">Debator</h1>
+        <h1 className="font-marker text-xl">
+          <Link to="/">Debator</Link>
+        </h1>
         <BurgerMenu>
           <button
             className="py-2 px-4 text-left"
@@ -69,15 +71,21 @@ const GameLayout = () => {
           >
             <small>Proposer un défi</small>
           </button>
+          <hr className="my-2 border-none" />
           <button className="py-2 px-4 text-left" onClick={() => setShowContactUs(true)}>
             <small>Nous contacter</small>
           </button>
+          <hr className="my-2 border-none" />
           <button
             className="py-2 px-4 text-left"
             onClick={() => setShowPetitManifeste(true)}
           >
             <small>Petit manifeste</small>
           </button>
+          <hr className="my-2 border-none" />
+          <Link to="/donation" className="py-2 px-4 text-left">
+            <small>Acheter une licence (prix libre)</small>
+          </Link>
         </BurgerMenu>
       </header>
       <div id="root" className="flex w-full shrink-0 grow flex-col items-center p-3">

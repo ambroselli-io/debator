@@ -73,7 +73,9 @@ const Donation = () => {
         action="/actions/fintecture/payment-request"
         className="flex w-full max-w-[68ch] flex-col items-center gap-8"
       >
-        <h1 className="text-3xl font-bold text-app">Acheter une licence de Debator</h1>
+        <h1 className="mt-8 mb-4 text-3xl font-bold text-app">
+          Acheter une licence de Debator
+        </h1>
         <p className="mt-4 max-w-[68ch]">
           Nous avons décidé de ne pas mettre de prix fixe, mais un prix en fonction de
           l'utilité que vous y trouvez ou de ce que vous avez envie de donner pour en
@@ -82,18 +84,16 @@ const Donation = () => {
         <p className="mt-4 max-w-[68ch]">
           Les licences sont limitées dans le temps, parce que nous faisons évoluer Debator
           au fil des retours utilisateurs, nous enrichissons constamment les sujets, les
-          défis...
-        </p>
-        <p className="mt-4 w-full max-w-[68ch]">
-          Les seules contraintes que nous avons sont:
+          défis... Les seules contraintes que nous avons sont:
         </p>
         <ul className="list-inside list-disc">
           <li>
-            pour avoir une licence à vie, votre don doit être supérieur ou égal à 100€
+            pour avoir une <b>licence à vie</b>, votre don doit être supérieur ou égal à{" "}
+            <b>100€</b>
           </li>
           <li>
-            pour avoir une licence pendant 1 an, votre don doit être supérieur ou égal à
-            10€
+            pour avoir une <b>licence pendant 1 an</b>, votre don doit être supérieur ou
+            égal à <b>10€</b>
           </li>
           <li>tout don inférieur à 10€ donne une licence valable pendant 1 mois</li>
         </ul>

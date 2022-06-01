@@ -35,10 +35,6 @@ const Input = ({
         className={`block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-gray-900 outline-app dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${className}`}
         placeholder={placeholder}
         required={required}
-        onSubmit={() => {
-          console.log("BIM");
-          console.log(id);
-        }}
         onKeyUp={(e) => window.sessionStorage.setItem(id, e.currentTarget.value)}
         {...props}
       />

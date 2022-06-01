@@ -6,12 +6,14 @@ import PetitManifeste from "app/components/PetitManifeste";
 import ProposeChallenge from "app/components/ProposeChallenge";
 import ProposeTopic, { links } from "app/components/ProposeTopic";
 import TopicModel from "app/db/models/topic.server";
+import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import useSearchParamState from "app/services/searchParamsUtils";
 import { useState } from "react";
 
 export { links };
 
-export const loader = async () => {
+export const loader = async ({ request }) => {
+  const user = await getUnauthentifiedUserFromCookie(request);
   // get categories with number of topics
   const categories = await TopicModel.aggregate([
     {
@@ -23,11 +25,11 @@ export const loader = async () => {
       },
     },
   ]);
-  return { categories: categories.map(({ _id }) => _id) };
+  return { categories: categories.map(({ _id }) => _id), user };
 };
 
-const GameLayout = () => {
-  const { categories } = useLoaderData();
+const Layout = () => {
+  const { categories, user } = useLoaderData();
 
   const [showProposeTopic, setShowProposeTopic] = useSearchParamState(
     "proposer-un-sujet",
@@ -59,36 +61,54 @@ const GameLayout = () => {
           <Link to="/">Debator</Link>
         </h1>
         <BurgerMenu>
+          <Link to="/le-jeu" className="py-2 px-4 text-left">
+            <span className="mr-6">🗣</span>Le jeu
+          </Link>
           <button
             className="py-2 px-4 text-left"
             onClick={() => setShowProposeTopic(true)}
           >
-            <small>Proposer un nouveau sujet</small>
+            <span className="mr-6">💬</span>Proposer un nouveau sujet
           </button>
           <button
             className="py-2 px-4 text-left"
             onClick={() => setShowProposeChallenge(true)}
           >
-            <small>Proposer un défi</small>
+            <span className="mr-6">🥸</span>Proposer un défi
           </button>
           <hr className="my-2 border-none" />
           <button className="py-2 px-4 text-left" onClick={() => setShowContactUs(true)}>
-            <small>Nous contacter</small>
+            <span className="mr-6">✉️</span>Nous contacter
           </button>
           <hr className="my-2 border-none" />
           <button
             className="py-2 px-4 text-left"
             onClick={() => setShowPetitManifeste(true)}
           >
-            <small>Petit manifeste</small>
+            <span className="mr-6">📣</span>Petit manifeste
           </button>
           <hr className="my-2 border-none" />
           <Link to="/donation" className="py-2 px-4 text-left">
-            <small>Acheter une licence (prix libre)</small>
+            <span className="mr-6">🪙</span>Acheter une licence (prix libre)
+          </Link>
+          <hr className="my-2 border-none" />
+          <Link to="/profil" className="py-2 px-4 text-left">
+            {user?.email ? (
+              <>
+                <span className="mr-6">😬</span>Mon profil
+              </>
+            ) : (
+              <>
+                <span className="mr-6">🗝</span>Se connecter
+              </>
+            )}
           </Link>
         </BurgerMenu>
       </header>
-      <div id="root" className="flex w-full shrink-0 grow flex-col items-center p-3">
+      <div
+        id="root"
+        className="flex w-full shrink-0 grow flex-col items-center p-3 pb-60"
+      >
         <Outlet />
         {!!showProposeTopic && (
           <ProposeTopic
@@ -113,4 +133,4 @@ const GameLayout = () => {
   );
 };
 
-export default GameLayout;
+export default Layout;

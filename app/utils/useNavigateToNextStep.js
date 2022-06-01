@@ -1,4 +1,4 @@
-import { useSearchParams } from "remix";
+import { useSearchParams } from "@remix-run/react";
 
 const cleanSearchParams = (searchParams) => {
   if (searchParams.get("topicIndex")) searchParams.delete("topicIndex"); // special case for debator...

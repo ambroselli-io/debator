@@ -1,6 +1,6 @@
 import ReactSelect from "react-select";
 import CreatableSelect from "react-select/creatable";
-import { useSearchParams } from "remix";
+import { useSearchParams } from "@remix-run/react";
 import Required from "../Required";
 import styles from "./styles.css";
 

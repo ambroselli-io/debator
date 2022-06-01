@@ -3,11 +3,11 @@ import { SelectAutofill, links } from "app/components/Selects";
 import { topicFormat } from "app/db/methods/topic-format.server";
 import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
-import RangeInput from "../../components/RangeInput";
-import SearchInput from "../../components/SearchInput";
-import TopicCard from "../../components/TopicCard";
-import TopicModel from "../../db/models/topic.server";
-import { getTodaysTopicSuite } from "../../db/queries/topicsSuite.server";
+import RangeInput from "../../../components/RangeInput";
+import SearchInput from "../../../components/SearchInput";
+import TopicCard from "../../../components/TopicCard";
+import TopicModel from "../../../db/models/topic.server";
+import { getTodaysTopicSuite } from "../../../db/queries/topicsSuite.server";
 
 export { links };
 

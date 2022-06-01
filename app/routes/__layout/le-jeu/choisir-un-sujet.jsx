@@ -3,9 +3,9 @@ import SearchInput from "app/components/SearchInput";
 import { topicFormat } from "app/db/methods/topic-format.server";
 import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
-import TopicSummary from "../../components/TopicSummary";
-import TopicModel from "../../db/models/topic.server";
-import { getTodaysTopicSuite } from "../../db/queries/topicsSuite.server";
+import TopicSummary from "../../../components/TopicSummary";
+import TopicModel from "../../../db/models/topic.server";
+import { getTodaysTopicSuite } from "../../../db/queries/topicsSuite.server";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);

@@ -48,6 +48,7 @@ const ContactUs = ({ isOpen, hide }) => {
           type="email"
           name="email"
           autoComplete="email"
+          inputMode="email"
           id="contact-us-email"
           label="＠ Votre Email"
           placeholder="Votre email"

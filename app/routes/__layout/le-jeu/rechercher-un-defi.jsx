@@ -3,7 +3,7 @@ import ChallengeCard from "app/components/ChallengeCard";
 import { challengeFormat } from "app/db/methods/challenge-format.server";
 import ChallengeModel from "app/db/models/challenge.server";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
-import SearchInput from "../../components/SearchInput";
+import SearchInput from "../../../components/SearchInput";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);

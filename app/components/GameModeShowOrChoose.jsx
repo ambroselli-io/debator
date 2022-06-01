@@ -1,5 +1,5 @@
 import games from "app/games";
-import { Link, useSearchParams } from "remix";
+import { Link, useSearchParams } from "@remix-run/react";
 import EditSvg from "./icons/EditSvg";
 
 const GameModeShowOrChoose = () => {

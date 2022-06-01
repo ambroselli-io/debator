@@ -1,5 +1,5 @@
 import useSearchParamState from "app/services/searchParamsUtils";
-import { Link, useSearchParams } from "remix";
+import { Link, useSearchParams } from "@remix-run/react";
 import EditSvg from "./icons/EditSvg";
 import Modal from "./Modal";
 

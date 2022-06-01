@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { useLoaderData } from "@remix-run/react";
-import games from "../../games";
-import GameModeCard from "../../components/GameModeCard";
-import TopicModel from "../../db/models/topic.server";
+import games from "../../../games";
+import GameModeCard from "../../../components/GameModeCard";
+import TopicModel from "../../../db/models/topic.server";
 import TopicShowOrChoose from "app/components/TopicShowOrChoose";
 import useSearchParamState from "app/services/searchParamsUtils";
 import GameInfos from "app/components/GameInfos";

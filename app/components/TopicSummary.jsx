@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useSearchParams } from "remix";
+import { Link, useSearchParams } from "@remix-run/react";
 import EditSvg from "./icons/EditSvg";
 import Star from "./Star";
 

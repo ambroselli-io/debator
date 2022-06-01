@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Link, useLoaderData, useSearchParams } from "@remix-run/react";
-import TopicModel from "../../db/models/topic.server";
+import TopicModel from "../../../db/models/topic.server";
 import TopicShowOrChoose from "app/components/TopicShowOrChoose";
 import GameModeShowOrChoose from "app/components/GameModeShowOrChoose";
 import ChallengeModel from "app/db/models/challenge.server";

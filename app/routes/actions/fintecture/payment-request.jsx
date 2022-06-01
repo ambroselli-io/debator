@@ -1,5 +1,6 @@
 import TransactionModel from "app/db/models/transaction.server";
 import UserModel from "app/db/models/user.server";
+import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import FintectureAPI from "app/services/fintecture.server";
 import { capture } from "app/services/sentry.server";
 import { json } from "remix";
@@ -12,6 +13,7 @@ import {
 
 // https://help.fintecture.com/en/articles/5843235-how-to-test-the-module-before-going-into-production
 export const action = async ({ request }) => {
+  const registeredUser = await getUnauthentifiedUserFromCookie(request);
   const formData = await request.formData();
   // get locale
   let locales = getClientLocales(request);
@@ -20,9 +22,13 @@ export const action = async ({ request }) => {
   const twoLettersLocales = locales?.map((local) => local.split("-")[0]);
   const locale = twoLettersLocales?.[0] || "en";
 
-  const { firstName, lastName, amount, email, country, currency, licence } =
+  let { firstName, lastName, amount, email, country, currency, licence } =
     Object.fromEntries(formData);
-  if (!licence?.length)
+
+  if (registeredUser?.email) email = registeredUser?.email;
+  if (registeredUser?.licence === "lifely") licence = "lifely";
+
+  if (!licence?.length && registeredUser?.licence !== "lifely") {
     return json(
       {
         ok: false,
@@ -30,6 +36,7 @@ export const action = async ({ request }) => {
       },
       { status: 400 }
     );
+  }
   if (!firstName?.length)
     return json(
       {
@@ -83,28 +90,14 @@ export const action = async ({ request }) => {
   let user = await UserModel.findOne({ email });
 
   if (user) {
-    if (user.firstName !== formData.get("firstName")) {
+    if (!!user.firstName && user.firstName !== formData.get("firstName")) {
       capture("NOT SAME FIRST NAME", { extra: { request, formData }, user });
-      return json(
-        {
-          ok: false,
-          error:
-            "Your first name doesn't correspond to the one already registered. We'll get back to you soon to solve this issue !",
-        },
-        { status: 400 }
-      );
     }
-    if (user.lastName !== formData.get("lastName")) {
+    if (!!user.lastName && user.lastName !== formData.get("lastName")) {
       capture("NOT SAME LAST NAME", { extra: { request, formData }, user });
-      return json(
-        {
-          ok: false,
-          error:
-            "Your last name doesn't correspond to the one already registered. We'll get back to you soon to solve this issue !",
-        },
-        { status: 400 }
-      );
     }
+    user.set({ firstName, lastName });
+    await user.save();
   }
   if (!user) {
     user = await UserModel.create({
@@ -160,11 +153,13 @@ export const action = async ({ request }) => {
     fintecture_url: connect.url,
   });
   await transaction.save();
-  user.set({
-    licence,
-    licenceStartedAt: Date.now(),
-  });
-  await user.save();
+  if (user.licence !== "lifely") {
+    user.set({
+      licence,
+      licenceStartedAt: Date.now(),
+    });
+    await user.save();
+  }
 
   return json({ ok: true, connect });
 };

@@ -1,7 +1,7 @@
 import ContactUs from "app/components/ContactUs";
 import PetitManifeste from "app/components/PetitManifeste";
 import dayjs from "dayjs";
-import { Link, useNavigate, useSearchParams } from "remix";
+import { Link, useNavigate, useSearchParams } from "@remix-run/react";
 
 export const unstable_shouldReload = () => false;
 

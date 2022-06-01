@@ -1,17 +1,23 @@
-import { useSearchParams, redirect } from "@remix-run/node";
-import UserModel from "../../db/models/user.server";
-import { createMagicLinkEmail } from "../../services/magic-link";
-import { sendEmail } from "../../services/email.server";
+import { redirect } from "@remix-run/node";
+import { useSearchParams } from "@remix-run/react";
+import UserModel from "app/db/models/user.server";
+import { sendEmail } from "app/services/email.server";
+import { createMagicLinkEmail } from "app/services/magic-link";
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const email = formData.get("email");
   if (!email) return { alert: "Veuillez fournir un email" };
   let user = await UserModel.findOne({ email });
-  if (!user) user = await UserModel.create({ email });
+  if (!user)
+    user = await UserModel.create({
+      email,
+      licence: "monthly",
+      licenceStartedAt: Date.now(),
+    });
   const magicLinkEmail = createMagicLinkEmail(user);
   await sendEmail(magicLinkEmail);
-  return redirect(`/welcome/login-redirect?email=${email}`);
+  return redirect(`/profil/login-redirect?email=${email}`);
 };
 
 const Index = () => {

@@ -8,6 +8,7 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
 import "dayjs/locale/fr"; // use locale globally
 import tailwindStyles from "./styles/tailwind.css";
 import globalStyles from "./styles/global.css";
@@ -16,7 +17,12 @@ import fontFace from "./styles/font.css";
 import smoothscroll from "smoothscroll-polyfill";
 import dialogPolyfillCSS from "dialog-polyfill/dist/dialog-polyfill.css";
 import { APP_DESCRIPTION, APP_NAME } from "./services/appName";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "../tailwind.config.js";
+const fullConfig = resolveConfig(tailwindConfig);
+
 dayjs.locale("fr");
+dayjs.extend(advancedFormat);
 
 if (typeof document !== "undefined") {
   smoothscroll.polyfill();
@@ -25,7 +31,7 @@ if (typeof document !== "undefined") {
 export const meta = () => ({
   charset: "utf-8",
   viewport: "width=device-width,initial-scale=1",
-  "theme-color": "#e700e7",
+  "theme-color": fullConfig.theme.colors.app,
   title: `${APP_NAME} | ${APP_DESCRIPTION}`,
   description: `${APP_NAME} | ${APP_DESCRIPTION}`,
   "og:title": `${APP_NAME}`,

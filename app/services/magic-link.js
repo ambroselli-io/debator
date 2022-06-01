@@ -1,7 +1,10 @@
 import fs from "fs";
 import path from "path";
-import { APP_URL, APP_NAME, SECRET } from "../config";
 import crypto from "crypto";
+import { APP_NAME, APP_URL, SECRET } from "app/config";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "../../tailwind.config";
+const fullConfig = resolveConfig(tailwindConfig);
 
 const linkExpirationTime = 1000 * 60 * 30;
 const magicLinkSearchParam = "kodyKey";
@@ -41,7 +44,7 @@ export const createMagicLink = (emailAddress) => {
   });
   const encryptedString = encrypt(stringToEncrypt);
   const url = new URL(APP_URL);
-  url.pathname = "welcome/magic";
+  url.pathname = "profil/magic";
   url.searchParams.set(magicLinkSearchParam, encryptedString);
   return url.toString();
 };
@@ -78,6 +81,7 @@ P.S. Si vous n'avez pas demandé à recevoir cet email, vous pouvez l'ignorer.
     .split("{APP_URL}")
     .join(APP_URL)
     .replace("{MAGIC_LINK}", magicLink)
+    .replace("{APP_COLOR}", fullConfig.theme.colors.app)
     .replace("{BUTTON_CAPTION}", userExists ? "Se connecter" : "Créer mon compte")
     .replace(
       "{WELCOME_MESSAGE}",
@@ -88,7 +92,7 @@ P.S. Si vous n'avez pas demandé à recevoir cet email, vous pouvez l'ignorer.
 
   return {
     emails: [emailAddress],
-    subject: `Voici votre lien de connection vers ${APP_NAME} 🩺`,
+    subject: `Voici votre lien de connection vers ${APP_NAME}`,
     text,
     html,
   };

@@ -1,7 +1,7 @@
 import games from "app/games";
 import useSearchParamState from "app/services/searchParamsUtils";
 import { useMemo } from "react";
-import { Link, useSearchParams } from "remix";
+import { Link, useSearchParams } from "@remix-run/react";
 import GameInfos from "./GameInfos";
 import EditSvg from "./icons/EditSvg";
 

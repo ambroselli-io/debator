@@ -7,8 +7,9 @@ import { useEffect, useRef, useState } from "react";
 import OpenInNewWindowIcon from "app/components/icons/OpenInNewWindowIcon";
 import useSearchParamState from "app/services/searchParamsUtils";
 import ContactUs from "app/components/ContactUs";
+import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 
-export const loader = ({ request }) => {
+export const loader = async ({ request }) => {
   let locales = getClientLocales(request);
   if (!locales) locales = ["en"];
   if (typeof locales === "string") locales = [locales];
@@ -20,8 +21,10 @@ export const loader = ({ request }) => {
     value,
     label,
   }));
+  const user = await getUnauthentifiedUserFromCookie(request);
   return {
     countries: arrayOfCountriesForSelect,
+    user,
     currencies: [
       { value: "EUR", label: "€ Euro" },
       { value: "DOLLAR", label: "$ Dollar" },
@@ -30,7 +33,7 @@ export const loader = ({ request }) => {
 };
 
 const Donation = () => {
-  const { countries, currencies } = useLoaderData();
+  const { countries, currencies, user } = useLoaderData();
   const fetcher = useFetcher();
 
   useEffect(() => {
@@ -38,6 +41,13 @@ const Donation = () => {
     // On the Connect (payment interface), choose the CIC or Crédit Mutuel bank
     if (fetcher?.data?.connect?.url) window.location.href = fetcher?.data?.connect?.url;
   }, [fetcher?.data?.connect?.url]);
+
+  console.log(fetcher);
+  useEffect(() => {
+    // https://help.fintecture.com/en/articles/5843235-how-to-test-the-module-before-going-into-production
+    // On the Connect (payment interface), choose the CIC or Crédit Mutuel bank
+    if (fetcher?.data?.error) alert(fetcher?.data?.error);
+  }, [fetcher?.data?.error]);
 
   const [donation, setDonation] = useState("");
   const [showContactUs, setShowContactUs] = useSearchParamState("contactez-nous", false, {
@@ -64,7 +74,8 @@ const Donation = () => {
       if (yearlyLicenceRef.current.checked) yearlyLicenceRef.current.checked = false;
       if (lifelyLicenceRef.current.checked) lifelyLicenceRef.current.checked = false;
     }
-  }, [donation]);
+  }, [donation, user?.licence]);
+
   return (
     <>
       <fetcher.Form
@@ -74,48 +85,63 @@ const Donation = () => {
         className="flex w-full max-w-[68ch] flex-col items-center gap-8"
       >
         <h1 className="mt-8 mb-4 text-3xl font-bold text-app">
-          Acheter une licence de Debator
+          {!user?.licence
+            ? "Acheter une licence Debator"
+            : user.licence !== "lifely"
+            ? "Renouveler ma licence Debator"
+            : "Faire un don à Debator"}
         </h1>
-        <p className="mt-4 max-w-[68ch]">
-          Nous avons décidé de ne pas mettre de prix fixe, mais un prix en fonction de
-          l'utilité que vous y trouvez ou de ce que vous avez envie de donner pour en
-          avoir une version.
-        </p>
-        <p className="mt-4 max-w-[68ch]">
-          Les licences sont limitées dans le temps, parce que nous faisons évoluer Debator
-          au fil des retours utilisateurs, nous enrichissons constamment les sujets, les
-          défis... Les seules contraintes que nous avons sont:
-        </p>
-        <ul className="list-inside list-disc">
-          <li>
-            pour avoir une <b>licence à vie</b>, votre don doit être supérieur ou égal à{" "}
-            <b>100€</b>
-          </li>
-          <li>
-            pour avoir une <b>licence pendant 1 an</b>, votre don doit être supérieur ou
-            égal à <b>10€</b>
-          </li>
-          <li>tout don inférieur à 10€ donne une licence valable pendant 1 mois</li>
-        </ul>
-        <p className="mt-4 w-full max-w-[68ch]">
-          Choisissez votre licence, avant de renseigner vos informations. Si vous êtes
-          intéressé(es) par Debator mais que vous n'avez pas les moyens,{" "}
-          <button
-            type="button"
-            className="underline"
-            onClick={() => setShowContactUs(true)}
-          >
-            contactez-nous
-          </button>{" "}
-          et nous vous enverrons une version complète gratuite.
-        </p>
+        {user.licence !== "lifely" ? (
+          <>
+            <p className="mt-4 max-w-[68ch]">
+              Nous avons décidé de ne pas mettre de prix fixe, mais un prix en fonction de
+              l'utilité que vous y trouvez ou de ce que vous avez envie de donner pour en
+              avoir une version.
+            </p>
+            <p className="mt-4 max-w-[68ch]">
+              Les licences sont limitées dans le temps, parce que nous faisons évoluer
+              Debator au fil des retours utilisateurs, nous enrichissons constamment les
+              sujets, les défis... Les seules contraintes que nous avons sont:
+            </p>
+            <ul className="list-inside list-disc">
+              <li>
+                pour avoir une <b>licence à vie</b>, votre prix doit être supérieur ou
+                égal à <b>100€</b>
+              </li>
+              <li>
+                pour avoir une <b>licence pendant 1 an</b>, votre prix doit être supérieur
+                ou égal à <b>10€</b>
+              </li>
+              <li>tout prix inférieur à 10€ donne une licence valable pendant 1 mois</li>
+            </ul>
+            <p className="mt-4 w-full max-w-[68ch]">
+              Choisissez votre licence, avant de renseigner vos informations. Si vous êtes
+              intéressé(es) par Debator mais que vous n'avez pas les moyens,{" "}
+              <button
+                type="button"
+                className="underline"
+                onClick={() => setShowContactUs(true)}
+              >
+                contactez-nous
+              </button>{" "}
+              et nous vous enverrons une version complète gratuite.
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="mt-4 max-w-[68ch]">
+              Vous aimez Debator et vous souhaitez nous soutenir ? Vous pouvez faire le
+              don que vous souhaitez !
+            </p>
+          </>
+        )}
         <div className="flex justify-center">
           <Input
             type="number"
             name="amount"
             id="donation-amount"
             onWheel={(e) => e.currentTarget.blur()}
-            placeholder="Votre don"
+            placeholder="Votre prix"
             required
             autoComplete="transaction-amount"
             className="w-40 rounded-r-none border-r-0"
@@ -138,7 +164,11 @@ const Donation = () => {
             }}
           />
         </div>
-        <div className="flex w-full flex-wrap justify-evenly gap-5">
+        <div
+          className={`flex w-full flex-wrap justify-evenly gap-5 ${
+            user?.licence === "lifely" ? "hidden" : ""
+          }`}
+        >
           <fieldset className="flex shrink-0 grow-0 basis-52" disabled={donation <= 0}>
             <input
               type="radio"
@@ -205,6 +235,7 @@ const Donation = () => {
           placeholder="Votre prénom"
           required
           autoComplete="given-name"
+          defaultValue={user?.firstName || ""}
         />
         <Input
           type="text"
@@ -214,15 +245,19 @@ const Donation = () => {
           placeholder="Votre nom"
           required
           autoComplete="family-name"
+          defaultValue={user?.lastName || ""}
         />
         <Input
           type="email"
           name="email"
           id="donation-email"
+          inputMode="email"
           label="Email"
           placeholder="Votre email"
-          required
+          required={!user?.email}
           autoComplete="email"
+          defaultValue={user?.email || ""}
+          disabled={!!user?.email}
         />
         <Select
           options={countries}

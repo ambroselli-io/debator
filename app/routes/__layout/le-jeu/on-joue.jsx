@@ -1,6 +1,6 @@
 import React from "react";
 import { useLoaderData } from "@remix-run/react";
-import TopicModel from "../../db/models/topic.server";
+import TopicModel from "../../../db/models/topic.server";
 import ChallengeModel from "app/db/models/challenge.server";
 import ChallengePlay from "app/components/ChallengePlay";
 import { redirect } from "remix";

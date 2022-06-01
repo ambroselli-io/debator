@@ -1,8 +1,8 @@
 import { Link } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/node";
-import { createUserSession } from "../../services/auth.server";
-import UserModel from "../../db/models/user.server";
-import { validateMagicLink } from "../../services/magic-link";
+import { validateMagicLink } from "app/services/magic-link";
+import { createUserSession } from "app/services/auth.server";
+import UserModel from "app/db/models/user.server";
 
 export const loader = async ({ request }) => {
   try {
@@ -11,7 +11,7 @@ export const loader = async ({ request }) => {
     if (!user) {
       throw new Error("Sign in link invalid. Please request a new one.");
     }
-    return createUserSession(request, user, "/");
+    return createUserSession(request, user, "/le-jeu");
   } catch (error) {
     return {
       ok: false,

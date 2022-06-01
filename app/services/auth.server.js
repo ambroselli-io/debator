@@ -30,7 +30,7 @@ export const getUserFromCookie = async (
   const userId = session.get("userId");
   const user = await UserModel.findById(userId);
   if (!user && !noRedirect) throw redirect(redirectTo);
-  if (!isUserOnboarded(user) && !noRedirect) return redirect("/welcome/login-profile");
+  if (!isUserOnboarded(user) && !noRedirect) return redirect("/profil");
   return user;
 };
 
@@ -42,7 +42,7 @@ export const createUserSession = async (request, user, redirectTo = "/") => {
   session.set("userId", user._id);
   user.set({ lastLoginAt: Date.now() });
   await user.save();
-  if (!isUserOnboarded(user)) redirectTo = "/welcome/login-profile";
+  if (!isUserOnboarded(user)) redirectTo = "/profil";
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await commitSession(session),

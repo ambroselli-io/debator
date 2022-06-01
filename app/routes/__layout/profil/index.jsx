@@ -44,6 +44,7 @@ export default function Index() {
         >
           <Input
             label="Votre email"
+            id="email-connect"
             name="email"
             type="email"
             autoComplete="email"

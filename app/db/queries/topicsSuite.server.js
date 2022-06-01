@@ -1,13 +1,11 @@
 import dayjs from "dayjs";
-import { shuffle } from "../../services/arrays";
+import { shuffle } from "../../utils/arrays";
 import TopicModel from "../models/topic.server";
 import TopicsSuiteModel from "../models/topicsSuite.server";
 
 export const getTodaysTopicSuite = async ({ populate = true } = {}) => {
   // find the daily topics suite if exists
-  const topicsSuiteQuery = {
-    createdAt: { $gte: dayjs().startOf("day"), $lt: dayjs().endOf("day") },
-  };
+  const topicsSuiteQuery = { date: dayjs().format("YYYY-MM-DD") };
   const topicPopulate = {
     path: "topics",
     model: "Topic",
@@ -23,8 +21,10 @@ export const getTodaysTopicSuite = async ({ populate = true } = {}) => {
 
   if (!topicsSuite) {
     const topics = await TopicModel.find().select("_id");
-    await TopicsSuiteModel.create({ topics: shuffle(topics) });
-    topicsSuite = await TopicsSuiteModel.findOne(topicsSuiteQuery);
+    topicsSuite = await TopicsSuiteModel.create({
+      topics: shuffle(topics),
+      ...topicsSuiteQuery,
+    });
   }
 
   // then populate it

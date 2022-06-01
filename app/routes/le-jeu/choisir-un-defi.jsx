@@ -6,19 +6,23 @@ import GameModeShowOrChoose from "app/components/GameModeShowOrChoose";
 import ChallengeModel from "app/db/models/challenge.server";
 import Challenge from "app/components/Challenge";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
+import { topicFormat } from "app/db/methods/topic-format.server";
+import { challengeFormat } from "app/db/methods/challenge-format.server";
+import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
+  const freeTopicIds = await getTopicIdsNotToObfuscate(request);
 
   const challenges = await ChallengeModel.find();
 
   let topic = null;
   const topicId = url.searchParams.get("topicId");
-  if (topicId) topic = (await TopicModel.findById(topicId)).format();
+  if (topicId) topic = topicFormat(await TopicModel.findById(topicId), freeTopicIds);
 
   const challengeId = url.searchParams.get("challengeId");
   if (challengeId) {
-    const challenge = (await ChallengeModel.findById(challengeId)).format();
+    const challenge = challengeFormat(await ChallengeModel.findById(challengeId));
     return {
       challenge,
       maxIndex: challenges.length,
@@ -29,7 +33,7 @@ export const loader = async ({ request }) => {
   const challengeIndex = Number(url.searchParams.get("challengeIndex")) || 0;
 
   return {
-    challenge: challenges[challengeIndex].format(),
+    challenge: challengeFormat(challenges[challengeIndex]),
     maxIndex: challenges.length,
     topic,
   };

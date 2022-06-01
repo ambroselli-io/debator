@@ -7,18 +7,21 @@ import { redirect } from "remix";
 import TopicSummary from "app/components/TopicSummary";
 import GamePlay from "app/components/GamePlay";
 import Timer, { links } from "app/components/Timer";
-import { useLocalStorage } from "app/services/localStorageUtils";
+import { useLocalStorage } from "app/services/useLocalStorage";
+import { topicFormat } from "app/db/methods/topic-format.server";
+import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
 
 export { links };
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
+  const freeTopicIds = await getTopicIdsNotToObfuscate(request);
 
   let topic = null;
   const topicId = url.searchParams.get("topicId");
   if (!topicId)
     return redirect(`/le-jeu/choisir-un-sujet?${url.searchParams.toString()}`);
-  if (topicId) topic = (await TopicModel.findById(topicId)).format();
+  if (topicId) topic = topicFormat(await TopicModel.findById(topicId), freeTopicIds);
 
   let challenge = null;
   const challengeId = url.searchParams.get("challengeId");

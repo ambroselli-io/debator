@@ -28,15 +28,6 @@ const Schema = new mongoose.Schema(
 
 Schema.index({ name: "text" });
 
-Schema.methods.me = function () {
-  return {
-    _id: this._id,
-    firstName: this.firstName,
-    lastName: this.lastName,
-    job: this.job,
-  };
-};
-
 const UserModel = dbConnection.models[MODELNAME] || dbConnection.model(MODELNAME, Schema);
 
 UserModel.syncIndexes();

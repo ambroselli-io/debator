@@ -1,12 +1,13 @@
 import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
 import { SelectAutofill, links } from "app/components/Selects";
+import { topicFormat } from "app/db/methods/topic-format.server";
+import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 import RangeInput from "../../components/RangeInput";
 import SearchInput from "../../components/SearchInput";
 import TopicCard from "../../components/TopicCard";
 import TopicModel from "../../db/models/topic.server";
 import { getTodaysTopicSuite } from "../../db/queries/topicsSuite.server";
-import { removeDiacritics } from "../../services/formatSearch.server";
 
 export { links };
 
@@ -14,6 +15,7 @@ export const loader = async ({ request }) => {
   const query = {};
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
+  const freeTopicIds = await getTopicIdsNotToObfuscate(request);
 
   // get categories with number of topics
   const topicsGroupedByCategory = await TopicModel.aggregate([
@@ -55,7 +57,7 @@ export const loader = async ({ request }) => {
       topics: topicsIdsOrder
         .map((tId) => topics.find(({ _id }) => _id.equals(tId)))
         .filter(Boolean)
-        .map((t) => t.format()),
+        .map((t) => topicFormat(t, freeTopicIds)),
       categories,
     };
   }
@@ -102,7 +104,7 @@ export const loader = async ({ request }) => {
   }
 
   return {
-    topics: topics.map((t) => ({ ...t, title: removeDiacritics(t.title) })),
+    topics: topics.map((t) => topicFormat(t, freeTopicIds)),
     categories,
   };
 };

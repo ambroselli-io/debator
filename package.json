@@ -54,7 +54,8 @@
     "remix": "^1.4.3",
     "remix-utils": "^3.2.0",
     "slugify": "^1.6.5",
-    "smoothscroll-polyfill": "^0.4.4"
+    "smoothscroll-polyfill": "^0.4.4",
+    "text-obfuscator": "^1.1.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.4.3",

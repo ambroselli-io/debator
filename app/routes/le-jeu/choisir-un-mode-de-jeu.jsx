@@ -6,14 +6,17 @@ import TopicModel from "../../db/models/topic.server";
 import TopicShowOrChoose from "app/components/TopicShowOrChoose";
 import useSearchParamState from "app/services/searchParamsUtils";
 import GameInfos from "app/components/GameInfos";
+import { topicFormat } from "app/db/methods/topic-format.server";
+import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
+  const freeTopicIds = await getTopicIdsNotToObfuscate(request);
 
   const topicId = url.searchParams.get("topicId");
   if (topicId) {
     const topic = await TopicModel.findById(topicId);
-    return { topic: topic.format() };
+    return { topic: topicFormat(topic, freeTopicIds) };
   }
   return {};
 };

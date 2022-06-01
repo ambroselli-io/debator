@@ -1,7 +1,7 @@
 import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
 import ChallengeCard from "app/components/ChallengeCard";
+import { challengeFormat } from "app/db/methods/challenge-format.server";
 import ChallengeModel from "app/db/models/challenge.server";
-import { removeDiacritics } from "app/services/formatSearch.server";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 import SearchInput from "../../components/SearchInput";
 
@@ -16,7 +16,7 @@ export const loader = async ({ request }) => {
     const challenges = await ChallengeModel.find();
 
     return {
-      challenges: challenges.map((c) => c.format()),
+      challenges: challenges.map(challengeFormat),
     };
   }
 
@@ -44,7 +44,7 @@ export const loader = async ({ request }) => {
   ]);
 
   return {
-    challenges: challenges.map((c) => ({ ...c, title: removeDiacritics(c.title) })),
+    challenges: challenges.map(challengeFormat),
   };
 };
 

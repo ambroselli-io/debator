@@ -1,4 +1,3 @@
-import { removeDiacritics } from "app/services/formatSearch.server";
 import mongoose from "mongoose";
 import dbConnection from "../mongo.server";
 const MODELNAME = "Challenge";
@@ -14,15 +13,6 @@ const Schema = new mongoose.Schema(
 );
 
 Schema.index({ title: "text", description: "text" });
-
-Schema.methods.format = function () {
-  return {
-    _id: this._id,
-    title: removeDiacritics(this.title),
-    description: this.description,
-    excludeEnvironment: this.excludeEnvironment,
-  };
-};
 
 const ChallengeModel =
   dbConnection.models[MODELNAME] || dbConnection.model(MODELNAME, Schema);

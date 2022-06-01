@@ -87,11 +87,11 @@ const Donation = () => {
         <h1 className="mt-8 mb-4 text-3xl font-bold text-app">
           {!user?.licence
             ? "Acheter une licence Debator"
-            : user.licence !== "lifely"
+            : user?.licence !== "lifely"
             ? "Renouveler ma licence Debator"
             : "Faire un don à Debator"}
         </h1>
-        {user.licence !== "lifely" ? (
+        {user?.licence !== "lifely" ? (
           <>
             <p className="mt-4 max-w-[68ch]">
               Nous avons décidé de ne pas mettre de prix fixe, mais un prix en fonction de

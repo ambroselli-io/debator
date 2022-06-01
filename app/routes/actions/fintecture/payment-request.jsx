@@ -1,20 +1,30 @@
-import { APP_URL } from "app/config";
 import TransactionModel from "app/db/models/transaction.server";
 import UserModel from "app/db/models/user.server";
 import FintectureAPI from "app/services/fintecture.server";
 import { capture } from "app/services/sentry.server";
-import { json, redirect } from "remix";
+import { json } from "remix";
 import { getClientIPAddress, getClientLocales } from "remix-utils";
 
+// https://help.fintecture.com/en/articles/5843235-how-to-test-the-module-before-going-into-production
 export const action = async ({ request }) => {
   const formData = await request.formData();
+  // get locale
   let locales = getClientLocales(request);
   if (!locales) locales = ["en"];
   if (typeof locales === "string") locales = [locales];
   const twoLettersLocales = locales?.map((local) => local.split("-")[0]);
-  let locale = twoLettersLocales?.[0] || "en";
-  const { firstName, lastName, amount, email, country, currency } =
+  const locale = twoLettersLocales?.[0] || "en";
+
+  const { firstName, lastName, amount, email, country, currency, licence } =
     Object.fromEntries(formData);
+  if (!licence?.length)
+    return json(
+      {
+        ok: false,
+        error: "Please choose a licence, if not you would pay for nothing !",
+      },
+      { status: 400 }
+    );
   if (!firstName?.length)
     return json(
       {
@@ -92,11 +102,21 @@ export const action = async ({ request }) => {
     }
   }
   if (!user) {
-    user = await UserModel.create({ email, firstName, lastName });
+    user = await UserModel.create({
+      email,
+      firstName,
+      lastName,
+    });
   }
 
   // create transaction
-  const transaction = await TransactionModel.create({ user, amount, currency, country });
+  const transaction = await TransactionModel.create({
+    user,
+    amount,
+    currency,
+    country,
+    licence,
+  });
 
   let tokens = await FintectureAPI.getAccessToken();
   const config = {
@@ -106,7 +126,7 @@ export const action = async ({ request }) => {
     customer_full_name: `${user.firstName} ${user.lastName}`,
     customer_email: user.email,
     customer_ip: getClientIPAddress(request) || "127.0.0.1",
-    state: "somestate",
+    state: "noneed",
     language: locale,
     country,
     redirect_uri: `https://debator.cleverapps.io/donation/merci`,
@@ -119,6 +139,11 @@ export const action = async ({ request }) => {
     fintecture_url: connect.url,
   });
   await transaction.save();
+  user.set({
+    licence,
+    licenceStartedAt: Date.now(),
+  });
+  await user.save();
 
   return json({ ok: true, connect });
 };

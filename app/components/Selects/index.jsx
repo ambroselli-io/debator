@@ -31,7 +31,7 @@ const customTheme = (theme) => ({
   },
 });
 
-const customStyles = {
+const rootCustomStyles = (control = {}) => ({
   placeholder: (provided, state) => ({
     ...provided,
     color: "#9ca3af",
@@ -39,6 +39,7 @@ const customStyles = {
   control: (provided, state) => ({
     ...provided,
     borderColor: "rgb(209, 213, 219, 1)",
+    ...control,
   }),
   valueContainer: (provided, state) => ({
     ...provided,
@@ -49,7 +50,7 @@ const customStyles = {
     margin: 0,
     padding: 0,
   }),
-};
+});
 
 const SelectRoot = ({
   name,
@@ -58,6 +59,7 @@ const SelectRoot = ({
   onChange,
   form,
   isCreatable,
+  customStyles,
   ...props
 }) => {
   const Component = isCreatable ? CreatableSelect : ReactSelect;
@@ -71,7 +73,7 @@ const SelectRoot = ({
       className="w-full"
       classNamePrefix="select"
       theme={customTheme}
-      styles={customStyles}
+      styles={rootCustomStyles(customStyles)}
       {...props}
     />
   );

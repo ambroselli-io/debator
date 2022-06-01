@@ -3,8 +3,8 @@ import Input from "app/components/Input";
 import { Select } from "app/components/Selects";
 import { useFetcher, useLoaderData } from "remix";
 import { getClientLocales } from "remix-utils";
-import { useEffect, useState } from "react";
-import CheckBoxGroup from "app/components/CheckBoxGroup";
+import { useEffect, useRef, useState } from "react";
+import OpenInNewWindowIcon from "app/components/icons/OpenInNewWindowIcon";
 
 export const loader = ({ request }) => {
   let locales = getClientLocales(request);
@@ -30,12 +30,37 @@ export const loader = ({ request }) => {
 const Donation = () => {
   const { countries, currencies } = useLoaderData();
   const fetcher = useFetcher();
+
   useEffect(() => {
+    // https://help.fintecture.com/en/articles/5843235-how-to-test-the-module-before-going-into-production
+    // On the Connect (payment interface), choose the CIC or Crédit Mutuel bank
     if (fetcher?.data?.connect?.url) window.location.href = fetcher?.data?.connect?.url;
   }, [fetcher?.data?.connect?.url]);
 
-  const [donation, setDonation] = useState(null);
+  console.log(fetcher);
 
+  const [donation, setDonation] = useState("");
+  const monthlyLicenceRef = useRef();
+  const yearlyLicenceRef = useRef();
+  const lifelyLicenceRef = useRef();
+  useEffect(() => {
+    if (donation >= 100) {
+      lifelyLicenceRef.current.checked = true;
+    }
+    if (donation < 100) {
+      if (lifelyLicenceRef.current.checked) lifelyLicenceRef.current.checked = false;
+      if (donation >= 10) yearlyLicenceRef.current.checked = true;
+    }
+    if (donation < 10) {
+      if (yearlyLicenceRef.current.checked) yearlyLicenceRef.current.checked = false;
+      if (donation >= 0) monthlyLicenceRef.current.checked = true;
+    }
+    if (donation <= 0) {
+      if (monthlyLicenceRef.current.checked) monthlyLicenceRef.current.checked = false;
+      if (yearlyLicenceRef.current.checked) yearlyLicenceRef.current.checked = false;
+      if (lifelyLicenceRef.current.checked) lifelyLicenceRef.current.checked = false;
+    }
+  }, [donation]);
   return (
     <>
       <fetcher.Form
@@ -57,28 +82,35 @@ const Donation = () => {
         </p>
         <p className="mt-4 w-full max-w-[68ch]">
           Les seules contraintes que nous avons sont:
-          <ul className="list-inside list-disc">
-            <li>
-              pour avoir une licence à vie, votre don doit être supérieur ou égal à 100€
-            </li>
-            <li>
-              pour avoir une licence pendant 1 an, votre don doit être supérieur ou égal à
-              10€
-            </li>
-            <li>tout don inférieur à 10€ donne une licence valable pendant 1 mois</li>
-          </ul>
+        </p>
+        <ul className="list-inside list-disc">
+          <li>
+            pour avoir une licence à vie, votre don doit être supérieur ou égal à 100€
+          </li>
+          <li>
+            pour avoir une licence pendant 1 an, votre don doit être supérieur ou égal à
+            10€
+          </li>
+          <li>tout don inférieur à 10€ donne une licence valable pendant 1 mois</li>
+        </ul>
+        <p className="mt-4 w-full max-w-[68ch]">
+          Choisissez votre licence, avant de renseigner vos informations
         </p>
         <div className="flex justify-center">
           <Input
             type="number"
             name="amount"
             id="donation-amount"
+            onWheel={(e) => e.currentTarget.blur()}
             placeholder="Votre don"
             required
             autoComplete="transaction-amount"
-            className="w-40"
+            className="w-40 rounded-r-none border-r-0"
             value={donation}
-            onChange={(e) => setDonation(e.target.value)}
+            onChange={(e) => {
+              console.log(e.target.value);
+              setDonation(e.target.value);
+            }}
           />
           <Select
             options={currencies}
@@ -88,39 +120,73 @@ const Donation = () => {
             autoComplete="transaction-currency"
             instanceId="donation-transaction-currency"
             defaultValue={currencies[0]}
-            className="shrink-0"
+            className="shrink-0 rounded-l-none border-l-0"
+            customStyles={{
+              borderLeft: "none",
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
+            }}
           />
         </div>
-        <div className="flex w-full justify-evenly gap-10">
-          <button
-            type="button"
-            disabled={donation <= 0}
-            className="tex-4xl shrink-0 grow rounded-lg border-2 border-app bg-white p-10 font-bold text-app disabled:opacity-50"
-          >
-            Licence
-            <br />
-            mensuelle
-          </button>
-          <button
-            type="button"
-            disabled={donation <= 10}
-            className="tex-4xl shrink-0 grow rounded-lg border-2 border-app bg-white p-10 font-bold text-app disabled:opacity-50"
-          >
-            Licence
-            <br />
-            annuelle
-          </button>
-          <button
-            type="button"
-            disabled={donation <= 100}
-            className="tex-4xl shrink-0 grow rounded-lg border-2 border-app bg-white p-10 font-bold text-app disabled:opacity-50"
-          >
-            Licence
-            <br />à vie
-          </button>
+        <div className="flex w-full flex-wrap justify-evenly gap-5">
+          <fieldset className="flex shrink-0 grow-0 basis-52" disabled={donation <= 0}>
+            <input
+              type="radio"
+              required
+              className="peer"
+              name="licence"
+              id="monthly"
+              value="monthly"
+              ref={monthlyLicenceRef}
+            />
+            <label
+              htmlFor="monthly"
+              className="shrink-0 grow cursor-pointer rounded-lg border border-app border-opacity-60 bg-white p-10 text-center text-xl font-bold text-app disabled:opacity-50 peer-checked:border-2 peer-checked:border-opacity-100 peer-invalid:border-app peer-disabled:pointer-events-none peer-disabled:opacity-30"
+            >
+              Licence
+              <br />
+              mensuelle
+            </label>
+          </fieldset>
+          <fieldset className="flex shrink-0 grow-0 basis-52" disabled={donation <= 10}>
+            <input
+              type="radio"
+              required
+              className="peer"
+              name="licence"
+              id="yearly"
+              value="yearly"
+              ref={yearlyLicenceRef}
+            />
+            <label
+              htmlFor="yearly"
+              className="shrink-0 grow cursor-pointer rounded-lg border border-app border-opacity-60 bg-white p-10 text-center text-xl font-bold text-app disabled:opacity-50 peer-checked:border-2 peer-checked:border-opacity-100 peer-invalid:border-app peer-disabled:pointer-events-none peer-disabled:opacity-30"
+            >
+              Licence
+              <br />
+              annuelle
+            </label>
+          </fieldset>
+          <fieldset className="flex shrink-0 grow-0 basis-52" disabled={donation <= 100}>
+            <input
+              type="radio"
+              required
+              className="peer"
+              name="licence"
+              id="lifely"
+              value="lifely"
+              ref={lifelyLicenceRef}
+            />
+            <label
+              htmlFor="lifely"
+              className="shrink-0 grow cursor-pointer rounded-lg border border-app border-opacity-60 bg-white p-10 text-center text-xl font-bold text-app disabled:opacity-50 peer-checked:border-2 peer-checked:border-opacity-100 peer-invalid:border-app peer-disabled:pointer-events-none peer-disabled:opacity-30"
+            >
+              Licence
+              <br />à vie
+            </label>
+          </fieldset>
         </div>
         <article className="flex flex-col rounded-lg border border-app"></article>
-
         <Input
           type="text"
           name="firstName"
@@ -160,22 +226,27 @@ const Donation = () => {
           // defaultValue={{ value: "fr", label: "France" }}
           className="w-full"
         />
-        <Select
-          options={currencies}
-          name="currency"
-          legend="Devise"
-          form="donation"
-          required
-          autoComplete="transaction-currency"
-          instanceId="donation-transaction-currency"
-          defaultValue={currencies[0]}
-          className="w-full"
-        />
+        <p className="mt-4 w-full max-w-[68ch]">
+          Lorsque vous cliquerez sur le bouton <b className="text-app">Je donne</b>{" "}
+          ci-dessous, vous serez redirigé vers une page de paiement direct de banque à
+          banque, géré par l'entreprise{" "}
+          <a
+            className="inline-flex items-center gap-2 underline"
+            href="https://www.fintecture.com"
+          >
+            Fintecture <OpenInNewWindowIcon className="h-3 w-3" />
+          </a>
+        </p>
         <button
           type="submit"
-          className="mt-4 rounded-lg border border-app bg-app px-4 py-2 text-white"
+          className="my-4 rounded-lg border border-app bg-app px-4 py-2 text-white disabled:opacity-50"
+          disabled={fetcher.state !== "idle" || fetcher?.data?.ok}
         >
-          Je donne !
+          {fetcher?.state === "submitting"
+            ? "Demande en cours"
+            : fetcher?.data?.ok
+            ? "Redirection"
+            : "Je donne !"}
         </button>
       </fetcher.Form>
     </>

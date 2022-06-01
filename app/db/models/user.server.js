@@ -17,6 +17,8 @@ const Schema = new mongoose.Schema(
     firstName: { type: String },
     lastName: { type: String },
     job: { type: String },
+    licence: { type: String, enum: ["monthly", "yearly", "lifely"] },
+    licenceStartedAt: { type: Date },
     urlOrigin: { type: String },
     password: { type: String },
     lastLoginAt: { type: Date },

@@ -2,15 +2,12 @@ import { json } from "@remix-run/node";
 import { capture } from "./sentry.server";
 
 export const catchErrors = (fn) => {
-  console.log("CACAPIPI");
-  return function (object) {
+  return async (...args) => {
     try {
-      return fn(object);
+      await fn(...args);
     } catch (e) {
-      console.log("PUTIN DE CROTTE");
-      capture(e, { extra: object });
+      capture(e, { extra: args });
     }
-    console.log("MERDE ALORS");
     return json({
       ok: false,
       error:

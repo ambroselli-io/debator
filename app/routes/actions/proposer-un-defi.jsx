@@ -1,7 +1,8 @@
 import ChallengeModel from "app/db/models/challenge.server";
 import { json } from "@remix-run/node";
+import { catchErrors } from "app/services/catchErrors";
 
-export const action = async ({ request }) => {
+export const action = catchErrors(async ({ request }) => {
   const formData = await request.formData();
   const newChallenge = Object.fromEntries(formData);
   newChallenge.validated = false;
@@ -9,4 +10,4 @@ export const action = async ({ request }) => {
   if (existingChallenge) return json({ ok: false, error: "Ce défi existe déjà !" });
   const challenge = await ChallengeModel.create(newChallenge);
   return json({ ok: true, challenge });
-};
+});

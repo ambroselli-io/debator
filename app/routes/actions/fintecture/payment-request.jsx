@@ -112,37 +112,32 @@ export const action = catchErrors(async ({ request }) => {
     licence,
   });
 
-  try {
-    let tokens = await FintectureAPI.getAccessToken();
-    const config = {
-      amount,
-      currency: currency.toLocaleUpperCase(),
-      communication: `DEBATOR${transaction._id}`,
-      customer_full_name: `${user.firstName} ${user.lastName}`,
-      customer_email: user.email,
-      customer_ip: getClientIPAddress(request) || "127.0.0.1",
-      state: "noneed",
-      language: locale,
-      country,
-      redirect_uri: `https://debator.cleverapps.io/donation/merci`,
-    };
-    let connect = await FintectureAPI.getPisConnect(tokens.access_token, config);
-    transaction.set({
-      fintecture_session_id: connect.session_id,
-      fintecture_url: connect.url,
+  let tokens = await FintectureAPI.getAccessToken();
+  const config = {
+    amount,
+    currency: currency.toLocaleUpperCase(),
+    communication: `DEBATOR${transaction._id}`,
+    customer_full_name: `${user.firstName} ${user.lastName}`,
+    customer_email: user.email,
+    customer_ip: getClientIPAddress(request) || "127.0.0.1",
+    state: "noneed",
+    language: "FR",
+    country,
+    redirect_uri: `https://debator.cleverapps.io/donation/merci`,
+  };
+  let connect = await FintectureAPI.getPisConnect(tokens.access_token, config);
+  transaction.set({
+    fintecture_session_id: connect.session_id,
+    fintecture_url: connect.url,
+  });
+  await transaction.save();
+  if (user.licence !== "lifely") {
+    user.set({
+      licence,
+      licenceStartedAt: Date.now(),
     });
-    await transaction.save();
-    if (user.licence !== "lifely") {
-      user.set({
-        licence,
-        licenceStartedAt: Date.now(),
-      });
-      await user.save();
-    }
-
-    return json({ ok: true, connect });
-  } catch (e) {
-    console.log("PUTIN DE CHISASS");
-    throw e;
+    await user.save();
   }
+
+  return json({ ok: true, connect });
 });

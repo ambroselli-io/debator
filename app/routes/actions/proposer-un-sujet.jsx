@@ -2,8 +2,9 @@ import { topicFormat } from "app/db/methods/topic-format.server";
 import TopicModel from "app/db/models/topic.server";
 import { capitalizeFirstLetter } from "app/services/strings";
 import { json } from "@remix-run/node";
+import { catchErrors } from "app/services/catchErrors";
 
-export const action = async ({ request }) => {
+export const action = catchErrors(async ({ request }) => {
   const formData = await request.formData();
   const categories = formData.getAll("categories");
   const newTopic = Object.fromEntries(formData);
@@ -13,4 +14,4 @@ export const action = async ({ request }) => {
   if (existingTopic) return json({ ok: false, error: "Ce sujet existe déjà !" });
   const topic = await TopicModel.create(newTopic);
   return json({ ok: true, topic: topicFormat(topic) });
-};
+});

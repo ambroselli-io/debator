@@ -1,7 +1,8 @@
+import { catchErrors } from "app/services/catchErrors";
 import { sendEmail } from "app/services/email.server";
 import { json } from "remix";
 
-export const action = async ({ request }) => {
+export const action = catchErrors(async ({ request }) => {
   const formData = await request.formData();
   const response = await sendEmail({
     emails: ["arnaud@ambroselli.io"],
@@ -11,4 +12,4 @@ export const action = async ({ request }) => {
   });
   if (response.ok) return json({ ok: true, response });
   return json({ ok: false });
-};
+});

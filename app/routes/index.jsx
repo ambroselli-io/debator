@@ -26,7 +26,7 @@ const Index = () => {
         <p className="rotate-6 font-[xkcd] text-3xl uppercase">S'amuser a debattre 📣</p>
       </header>
       <section className="flex min-h-screen-1/2 shrink-0 flex-col items-center justify-around border-b border-gray-100 bg-app bg-opacity-10 py-16 px-4 text-2xl">
-        <h1 className="font-marker text-4xl text-app">Comment ça marche ?</h1>
+        <h1 className="font-marker text-4xl text-app">Comment ça marche&nbsp;?</h1>
         <ol>
           <li className="mb-2 text-center font-[xkcd]">
             <em className="font-bold not-italic text-app">I.</em> Je choisis un sujet 🥸

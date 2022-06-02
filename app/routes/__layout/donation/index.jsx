@@ -187,7 +187,7 @@ const Donation = () => {
               mensuelle
             </label>
           </fieldset>
-          <fieldset className="flex shrink-0 grow-0 basis-52" disabled={donation <= 10}>
+          <fieldset className="flex shrink-0 grow-0 basis-52" disabled={donation < 10}>
             <input
               type="radio"
               required
@@ -206,7 +206,7 @@ const Donation = () => {
               annuelle
             </label>
           </fieldset>
-          <fieldset className="flex shrink-0 grow-0 basis-52" disabled={donation <= 100}>
+          <fieldset className="flex shrink-0 grow-0 basis-52" disabled={donation < 100}>
             <input
               type="radio"
               required

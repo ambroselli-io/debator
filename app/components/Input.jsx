@@ -1,45 +1,81 @@
-import { useEffect, useRef } from "react";
-import { useFetcher } from "remix";
+import { forwardRef, useEffect, useRef } from "react";
 import Required from "./Required";
 
 // https://flowbite.com/docs/forms/search-input/
-const Input = ({
-  type,
-  label,
-  placeholder,
-  name,
-  className = "",
-  id,
-  required = false,
-  textarea = false,
-  ...props
-}) => {
-  const ref = useRef(null);
-  useEffect(() => {
-    if (window.sessionStorage.getItem(id)?.length)
-      ref.current.value = window.sessionStorage.getItem(id);
-  }, [id]);
+const Input = forwardRef(
+  (
+    {
+      type,
+      label,
+      placeholder,
+      name,
+      className = "",
+      id,
+      required = false,
+      textarea = false,
+      notFancy = false,
+      onChange = null,
+      ...props
+    },
+    refForwarded
+  ) => {
+    const ref = useShareForwardedRef(refForwarded);
 
-  const Tag = textarea ? "textarea" : "input";
-  return (
-    <div className="flex w-full flex-col items-start gap-2">
-      <label htmlFor={`${name}-${id}`}>
-        {label}
-        {label && required && <Required />}
-      </label>
-      <Tag
-        type={type}
-        ref={ref}
-        id={`${name}-${id}`}
-        name={name}
-        className={`block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-gray-900 outline-app dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${className}`}
-        placeholder={placeholder}
-        required={required}
-        onKeyUp={(e) => window.sessionStorage.setItem(id, e.currentTarget.value)}
-        {...props}
-      />
-    </div>
-  );
+    useEffect(() => {
+      if (window.sessionStorage.getItem(id)?.length) {
+        ref.current.value = window.sessionStorage.getItem(id);
+        onChange?.({ target: ref.current });
+      }
+    }, [id, ref, onChange]);
+
+    const Tag = textarea ? "textarea" : "input";
+    return (
+      <div className="flex w-full flex-col items-start gap-2">
+        <label htmlFor={`${name}-${id}`}>
+          {label}
+          {label && required && <Required />}
+        </label>
+        <Tag
+          type={type}
+          ref={ref}
+          id={`${name}-${id}`}
+          name={name}
+          className={`${
+            notFancy
+              ? ""
+              : "block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-gray-900 outline-app dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+          } ${className}`}
+          placeholder={placeholder}
+          required={required}
+          onKeyUp={(e) => window.sessionStorage.setItem(id, e.currentTarget.value)}
+          onChange={onChange}
+          {...props}
+        />
+      </div>
+    );
+  }
+);
+
+Input.displayName = "Input";
+// https://itnext.io/reusing-the-ref-from-forwardref-with-react-hooks-4ce9df693dd
+const useShareForwardedRef = (forwardedRef) => {
+  // final ref that will share value with forward ref. this is the one we will attach to components
+  const innerRef = useRef(null);
+
+  useEffect(() => {
+    // after every render - try to share current ref value with forwarded ref
+    if (!forwardedRef) {
+      return;
+    }
+    if (typeof forwardedRef === "function") {
+      forwardedRef(innerRef.current);
+    } else {
+      // by default forwardedRef.current is readonly. Let's ignore it
+      forwardedRef.current = innerRef.current;
+    }
+  });
+
+  return innerRef;
 };
 
 export default Input;

@@ -17,8 +17,7 @@ const PUBLIC_BUCKET_NAME = "debator";
 const FINTECTURE_APP_ID = process.env.FINTECTURE_APP_ID;
 const FINTECTURE_APP_SECRET = process.env.FINTECTURE_APP_SECRET;
 const FINTECTURE_PRIVATE_KEY = process.env.FINTECTURE_PRIVATE_KEY;
-// const FINTECTURE_ENV = ENVIRONMENT === "production" ? "production" : "sandbox";
-const FINTECTURE_ENV = "sandbox";
+const FINTECTURE_ENV = process.env.FINTECTURE_ENV;
 
 export {
   MONGO_URL,

@@ -1,18 +1,14 @@
 import TransactionModel from "app/db/models/transaction.server";
 import UserModel from "app/db/models/user.server";
 import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
+import { catchErrors } from "app/services/catchErrors";
 import FintectureAPI from "app/services/fintecture.server";
 import { capture } from "app/services/sentry.server";
 import { json } from "remix";
 import { getClientIPAddress, getClientLocales } from "remix-utils";
-import {
-  FINTECTURE_APP_ID,
-  FINTECTURE_APP_SECRET,
-  FINTECTURE_PRIVATE_KEY,
-} from "../../../config";
 
 // https://help.fintecture.com/en/articles/5843235-how-to-test-the-module-before-going-into-production
-export const action = async ({ request }) => {
+export const action = catchErrors(async ({ request }) => {
   const registeredUser = await getUnauthentifiedUserFromCookie(request);
   const formData = await request.formData();
   // get locale
@@ -116,34 +112,37 @@ export const action = async ({ request }) => {
     licence,
   });
 
-  let tokens = await FintectureAPI.getAccessToken();
-  const config = {
-    amount,
-    currency: currency.toLocaleUpperCase(),
-    communication: `DEBATOR${transaction._id}`,
-    customer_full_name: `${user.firstName} ${user.lastName}`,
-    customer_email: user.email,
-    customer_ip: getClientIPAddress(request) || "127.0.0.1",
-    state: "noneed",
-    language: locale,
-    country,
-    redirect_uri: `https://debator.cleverapps.io/donation/merci`,
-  };
-
-  let connect = await FintectureAPI.getPisConnect(tokens.access_token, config);
-
-  transaction.set({
-    fintecture_session_id: connect.session_id,
-    fintecture_url: connect.url,
-  });
-  await transaction.save();
-  if (user.licence !== "lifely") {
-    user.set({
-      licence,
-      licenceStartedAt: Date.now(),
+  try {
+    let tokens = await FintectureAPI.getAccessToken();
+    const config = {
+      amount,
+      currency: currency.toLocaleUpperCase(),
+      communication: `DEBATOR${transaction._id}`,
+      customer_full_name: `${user.firstName} ${user.lastName}`,
+      customer_email: user.email,
+      customer_ip: getClientIPAddress(request) || "127.0.0.1",
+      state: "noneed",
+      language: locale,
+      country,
+      redirect_uri: `https://debator.cleverapps.io/donation/merci`,
+    };
+    let connect = await FintectureAPI.getPisConnect(tokens.access_token, config);
+    transaction.set({
+      fintecture_session_id: connect.session_id,
+      fintecture_url: connect.url,
     });
-    await user.save();
-  }
+    await transaction.save();
+    if (user.licence !== "lifely") {
+      user.set({
+        licence,
+        licenceStartedAt: Date.now(),
+      });
+      await user.save();
+    }
 
-  return json({ ok: true, connect });
-};
+    return json({ ok: true, connect });
+  } catch (e) {
+    console.log("PUTIN DE CHISASS");
+    console.log(e);
+  }
+});

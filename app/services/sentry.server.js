@@ -1,12 +1,10 @@
 const Sentry = require("@sentry/node");
 const { SENTRY_XXX, ENVIRONMENT } = require("app/config");
 
-if (process.env.NODE_ENV === "production") {
-  Sentry.init({
-    dsn: SENTRY_XXX,
-    environment: `api-${ENVIRONMENT}`,
-  });
-}
+Sentry.init({
+  dsn: SENTRY_XXX,
+  environment: `api-${ENVIRONMENT}`,
+});
 
 // https://docs.sentry.io/platforms/javascript/enriching-events/context/#example-usages
 

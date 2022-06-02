@@ -26,7 +26,8 @@ const Input = forwardRef(
         ref.current.value = window.sessionStorage.getItem(id);
         onChange?.({ target: ref.current });
       }
-    }, [id, ref, onChange]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id, ref]);
 
     const Tag = textarea ? "textarea" : "input";
     return (

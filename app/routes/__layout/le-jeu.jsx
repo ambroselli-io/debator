@@ -18,20 +18,28 @@ const GameLayout = () => {
       {!licenceIsValid && (
         <footer className="fixed bottom-0 w-full bg-app px-4 py-2 text-center text-white">
           <p className="text-sm">
-            Vous êtes limités à trois sujets par jour, nous avons brouillé les autres.
+            Vous êtes limité(es) à trois sujets par jour, nous avons brouillé les autres.
             <br />
             Pour débloquer les {totalTopics} sujets 👉
             <Link
               to="/donation"
-              className="inline-block rounded-lg bg-white p-2 text-app"
+              className="mb-2 inline-block rounded-lg bg-white p-2 text-app"
             >
               Achetez&nbsp;<em className="font-marker">Debator</em>
               <sup>*</sup>
             </Link>
             <br />
-            <p className="mt-2 text-xs">
+            Offre de lancement: 1 mois gratuit lors de votre inscription 👉{" "}
+            <Link
+              to="/profil"
+              className="inline-block rounded-lg border border-white bg-app px-2 py-1 text-white"
+            >
+              Connectez-vous
+            </Link>
+            <br />
+            <span className="mt-2 text-xs">
               * prix libre selon votre bon vouloir, gratuit si vous n'avez pas les moyens
-            </p>
+            </span>
           </p>
         </footer>
       )}

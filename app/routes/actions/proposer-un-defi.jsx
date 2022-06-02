@@ -1,5 +1,5 @@
 import ChallengeModel from "app/db/models/challenge.server";
-import { json } from "remix";
+import { json } from "@remix-run/node";
 
 export const action = async ({ request }) => {
   const formData = await request.formData();

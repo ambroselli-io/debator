@@ -1,7 +1,7 @@
 import { topicFormat } from "app/db/methods/topic-format.server";
 import TopicModel from "app/db/models/topic.server";
 import { capitalizeFirstLetter } from "app/services/strings";
-import { json } from "remix";
+import { json } from "@remix-run/node";
 
 export const action = async ({ request }) => {
   const formData = await request.formData();

@@ -4,7 +4,7 @@ import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import { catchErrors } from "app/services/catchErrors";
 import FintectureAPI from "app/services/fintecture.server";
 import { capture } from "app/services/sentry.server";
-import { json } from "remix";
+import { json } from "@remix-run/node";
 import { getClientIPAddress, getClientLocales } from "remix-utils";
 
 // https://help.fintecture.com/en/articles/5843235-how-to-test-the-module-before-going-into-production
@@ -143,6 +143,6 @@ export const action = catchErrors(async ({ request }) => {
     return json({ ok: true, connect });
   } catch (e) {
     console.log("PUTIN DE CHISASS");
-    console.log(e);
+    throw e;
   }
 });

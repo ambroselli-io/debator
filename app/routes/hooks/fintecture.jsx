@@ -1,4 +1,4 @@
-import { json } from "remix";
+import { json } from "@remix-run/node";
 import { ENVIRONMENT } from "app/config";
 import TransactionLogModel from "app/db/models/transactionLog.server";
 import FintectureAPI from "app/services/fintecture.server";

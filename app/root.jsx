@@ -54,6 +54,8 @@ export const meta = () => ({
   "msapplication-square310x310logo": "/assets/icons/mstile-icon-558.png",
   "msapplication-wide310x150logo": "/assets/icons/mstile-icon-558-270.png",
   "apple-mobile-web-app-capable": "yes",
+  "mobile-web-app-capable": "yes",
+  "apple-mobile-web-app-status-bar-style": fullConfig.theme.colors.app,
 });
 
 // load browser env variables here, the inject in the script below

@@ -48,6 +48,11 @@ export const meta = () => ({
   // "og:image:alt": "Copie de la page d'accueil",
   // "twitter:image:alt": "Copie de la page d'accueil",
   "og:type": "website",
+  "msapplication-square70x70logo": "/assets/icons/mstile-icon-128.png",
+  "msapplication-square150x150logo": "/assets/icons/mstile-icon-270.png",
+  "msapplication-square310x310logo": "/assets/icons/mstile-icon-558.png",
+  "msapplication-wide310x150logo": "/assets/icons/mstile-icon-558-270.png",
+  "apple-mobile-web-app-capable": "yes",
 });
 
 // load browser env variables here, the inject in the script below
@@ -57,65 +62,43 @@ export const loader = () => ({
   }),
 });
 
+// prettier-ignore
 export const links = () => {
   return [
+    { rel:"icon", type:"image/png", sizes:"196x196", href:"/assets/icons/favicon-196.png" },
     { rel: "stylesheet", href: fontFace },
     { rel: "stylesheet", href: resetStyles },
     { rel: "stylesheet", href: tailwindStyles },
     { rel: "stylesheet", href: globalStyles },
     { rel: "stylesheet", type: "text/css", href: dialogPolyfillCSS },
     { rel: "manifest", type: "text/css", href: "/debator.webmanifest" },
-    {
-      rel: "icon",
-      type: "image/png",
-      sizes: "16x16",
-      href: "/assets/icons/icon-16x16.png",
-    },
-    {
-      rel: "icon",
-      type: "image/png",
-      sizes: "32x32",
-      href: "/assets/icons/icon-32x32.png",
-    },
-    {
-      rel: "icon",
-      type: "image/png",
-      sizes: "96x96",
-      href: "/assets/icons/icon-96x96.png",
-    },
-    {
-      rel: "icon",
-      type: "image/png",
-      sizes: "128x128",
-      href: "/assets/icons/icon-128x128.png",
-    },
-    {
-      rel: "icon",
-      type: "image/png",
-      sizes: "196x196",
-      href: "/assets/icons/icon-196x196.png",
-    },
-    {
-      rel: "icon",
-      type: "image/png",
-      sizes: "228x228",
-      href: "/assets/icons/icon-228x228.png",
-    },
-    {
-      rel: "apple-touch-icon-precomposed",
-      sizes: "152x152",
-      href: "/assets/icons/icon-152x152.png",
-    },
-    {
-      rel: "apple-touch-icon-precomposed",
-      sizes: "167x167",
-      href: "/assets/icons/icon-167x167.png",
-    },
-    {
-      rel: "apple-touch-icon-precomposed",
-      sizes: "180x180",
-      href: "/assets/icons/icon-180x180.png",
-    },
+    { rel: "apple-touch-icon", href:"/assets/icons/apple-icon-180.png" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-2048-2732.jpg", media:"(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-2732-2048.jpg", media:"(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1668-2388.jpg", media:"(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-2388-1668.jpg", media:"(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1536-2048.jpg", media:"(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-2048-1536.jpg", media:"(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1668-2224.jpg", media:"(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-2224-1668.jpg", media:"(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1620-2160.jpg", media:"(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-2160-1620.jpg", media:"(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1284-2778.jpg", media:"(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-2778-1284.jpg", media:"(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1170-2532.jpg", media:"(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-2532-1170.jpg", media:"(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1125-2436.jpg", media:"(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-2436-1125.jpg", media:"(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1242-2688.jpg", media:"(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-2688-1242.jpg", media:"(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-828-1792.jpg", media:"(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1792-828.jpg", media:"(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1242-2208.jpg", media:"(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-2208-1242.jpg", media:"(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-750-1334.jpg", media:"(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1334-750.jpg", media:"(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-640-1136.jpg", media:"(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" },
+    { rel: "apple-touch-startup-image", href:"/assets/icons/apple-splash-1136-640.jpg", media:"(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" },
   ];
 };
 

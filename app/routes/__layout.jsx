@@ -68,6 +68,13 @@ const Layout = () => {
         <h1 className="font-marker text-xl">
           <Link to="/">Debator</Link>
         </h1>
+        <button
+          id="add-button-to-destkop-home"
+          className="py-2 px-4 text-left"
+          suppressHydrationWarning
+        >
+          Add to home screen
+        </button>
         <BurgerMenu>
           <Link to="/le-jeu" className="py-2 px-4 text-left">
             <span className="mr-6">🗣</span>Le jeu

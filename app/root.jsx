@@ -64,6 +64,58 @@ export const links = () => {
     { rel: "stylesheet", href: tailwindStyles },
     { rel: "stylesheet", href: globalStyles },
     { rel: "stylesheet", type: "text/css", href: dialogPolyfillCSS },
+    { rel: "manifest", type: "text/css", href: "/debator.webmanifest" },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "16x16",
+      href: "/assets/icons/icon-16x16.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "32x32",
+      href: "/assets/icons/icon-32x32.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "96x96",
+      href: "/assets/icons/icon-96x96.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "128x128",
+      href: "/assets/icons/icon-128x128.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "196x196",
+      href: "/assets/icons/icon-196x196.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "228x228",
+      href: "/assets/icons/icon-228x228.png",
+    },
+    {
+      rel: "apple-touch-icon-precomposed",
+      sizes: "152x152",
+      href: "/assets/icons/icon-152x152.png",
+    },
+    {
+      rel: "apple-touch-icon-precomposed",
+      sizes: "167x167",
+      href: "/assets/icons/icon-167x167.png",
+    },
+    {
+      rel: "apple-touch-icon-precomposed",
+      sizes: "180x180",
+      href: "/assets/icons/icon-180x180.png",
+    },
   ];
 };
 
@@ -101,6 +153,42 @@ const App = () => {
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `window.ENV=${data.ENV};`,
+          }}
+        />
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `
+            // https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen#javascript_for_handling_the_install
+            let deferredPrompt;
+            const addBtn = document.getElementById('add-button-to-destkop-home');
+            addBtn.classList.add('hidden');
+
+              window.addEventListener('beforeinstallprompt', (e) => {
+              // Prevent Chrome 67 and earlier from automatically showing the prompt
+              e.preventDefault();
+              // Stash the event so it can be triggered later.
+              deferredPrompt = e;
+              // Update UI to notify the user they can add to home screen
+              addBtn.classList.remove('hidden');
+
+              addBtn.addEventListener('click', (e) => {
+                // hide our user interface that shows our A2HS button
+                addBtn.classList.add('hidden');
+                // Show the prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                      console.log('User accepted the A2HS prompt');
+                    } else {
+                      console.log('User dismissed the A2HS prompt');
+                    }
+                    deferredPrompt = null;
+                  });
+              });
+            });
+            `,
           }}
         />
         <LiveReload />

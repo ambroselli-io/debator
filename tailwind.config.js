@@ -12,10 +12,10 @@ module.exports = {
     },
     extend: {
       colors: {
-        app: "#ed8550",
+        app: "#03bfc6",
       },
       accent: {
-        app: "#ed8550",
+        app: "#03bfc6",
       },
       borderColor: {
         DEFAULT: "#000",

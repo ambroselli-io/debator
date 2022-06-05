@@ -1,14 +1,17 @@
-const Sentry = require("@sentry/node");
-const { SENTRY_XXX, ENVIRONMENT } = require("app/config");
+import * as Sentry from "@sentry/node";
+import { SENTRY_XXX, ENVIRONMENT } from "app/config";
 
-Sentry.init({
-  dsn: SENTRY_XXX,
-  environment: `api-${ENVIRONMENT}`,
-});
+if (process.env.NODE_ENV === "production") {
+  Sentry.init({
+    dsn: SENTRY_XXX,
+    environment: `api-${ENVIRONMENT}`,
+  });
+}
 
 // https://docs.sentry.io/platforms/javascript/enriching-events/context/#example-usages
 
-function capture(err, context = {}) {
+export const capture = (err, context = {}) => {
+  console.log("SENTRYYYYYYY", process.env.NODE_ENV);
   if (typeof context === "string") {
     context = JSON.parse(context);
   } else {
@@ -33,6 +36,4 @@ function capture(err, context = {}) {
       console.log("capture", err, JSON.stringify(context, null, 2));
     }
   }
-}
-
-module.exports = { capture };
+};

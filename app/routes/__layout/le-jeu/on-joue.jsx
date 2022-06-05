@@ -43,19 +43,29 @@ const countdowns = [
 const LetsPlay = () => {
   const { topic, challenge } = useLoaderData();
   const [countdown, setCountdown] = useLocalStorage("countdown", 60);
+  const [editable, setEditable] = useLocalStorage("editable", false);
 
   return (
     <div className="flex min-h-full w-full flex-col items-center lg:flex-row lg:justify-center">
       <div className="flex w-full max-w-[68ch] flex-col items-center">
-        <TopicSummary topic={topic} editable onlyAuthor Component="h1" />
-        <GamePlay />
-        <ChallengePlay challenge={challenge} />
+        <TopicSummary topic={topic} editable={editable} onlyAuthor Component="h1" />
+        <GamePlay editable={editable} />
+        <ChallengePlay challenge={challenge} editable={editable} />
+        <button
+          type="button"
+          className="mt-4 text-xs text-app underline opacity-80"
+          onClick={() => setEditable(!editable)}
+        >
+          {editable ? "Ne plus modifier" : "Modifier ?"}
+        </button>
       </div>
       <div className="flex w-full max-w-[68ch] flex-col items-center lg:border-l lg:border-app">
         <p className="max-w-lg text-center">
           Répartissez les rôles, faites la préparation que vous souhaitez, et quand la
           joute débutera, servez-vous du chronomètre ci-dessous pour rythmer les
-          différents temps de jeu (débats, échanges, délibérations...).
+          différents temps de jeu
+          <br />
+          (débats, échanges, délibérations...).
           <br />
           <b>C'est parti&nbsp;!</b>
         </p>

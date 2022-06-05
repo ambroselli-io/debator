@@ -50,7 +50,7 @@ const TopicSummary = ({
             {topic?.title.includes(" !") ? <>&nbsp;!</> : ""}
             {!!editable && (
               <Link to={`../choisir-un-sujet?${searchParams.toString()}`}>
-                <EditSvg className="ml-3 h-3 w-3" />
+                <EditSvg className="ml-3 h-5 w-5" />
               </Link>
             )}
             {!!topic?.author && (

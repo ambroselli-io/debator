@@ -13,6 +13,13 @@ const Schema = new mongoose.Schema(
 const TopicsSuiteModel =
   dbConnection.models[MODELNAME] || dbConnection.model(MODELNAME, Schema);
 
-TopicsSuiteModel.syncIndexes();
+if (process.env.NODE_ENV === "production") {
+  TopicsSuiteModel.syncIndexes();
+} else {
+  // if (!global.__syncIndexes.includes(MODELNAME)) {
+  //   global.__syncIndexes.push(MODELNAME);
+  //   TopicsSuiteModel.syncIndexes();
+  // }
+}
 
 export default TopicsSuiteModel;

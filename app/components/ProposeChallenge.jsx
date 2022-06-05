@@ -58,6 +58,25 @@ const ProposeChallenge = ({ isOpen, hide }) => {
           label="🥸 Description"
           placeholder="Vous devez faire votre argumentation en vous pinçant le nez 👃"
         />
+        <Input
+          type="text"
+          name="userName"
+          autoComplete="name"
+          id="contact-us-name"
+          label="🐒 Votre nom"
+          placeholder="Votre nom"
+          required
+        />
+        <Input
+          type="email"
+          name="userEmail"
+          autoComplete="email"
+          inputMode="email"
+          id="contact-us-email"
+          label="＠ Votre Email"
+          placeholder="Pour que nous puissions discuter de votre proposition !"
+          required
+        />
         <button
           type="submit"
           disabled={["loading", "submitting"].includes(fetcher.state)}

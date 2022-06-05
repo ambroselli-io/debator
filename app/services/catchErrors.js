@@ -4,7 +4,7 @@ import { capture } from "./sentry.server";
 export const catchErrors = (fn) => {
   return async (...args) => {
     try {
-      await fn(...args);
+      return await fn(...args);
     } catch (e) {
       capture(e, { extra: args });
     }

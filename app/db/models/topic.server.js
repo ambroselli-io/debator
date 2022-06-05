@@ -16,19 +16,31 @@ const Schema = new mongoose.Schema(
     minAge: { type: Number, required: true },
     maxAge: { type: Number },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    userName: String, // for proposed topics
+    userEmail: String, // for proposed topics
     verified: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
 
-Schema.index(
-  { title: "text", author: "text", categories: "text" },
-  { default_language: "french" }
-);
-
 const TopicModel =
   dbConnection.models[MODELNAME] || dbConnection.model(MODELNAME, Schema);
 
-TopicModel.syncIndexes();
+if (process.env.NODE_ENV === "production") {
+  Schema.index(
+    { title: "text", author: "text", categories: "text" },
+    { default_language: "french" }
+  );
+  TopicModel.syncIndexes();
+} else {
+  // if (!global.__syncIndexes.includes(MODELNAME)) {
+  //   global.__syncIndexes.push(MODELNAME);
+  //   Schema.index(
+  //     { title: "text", author: "text", categories: "text" },
+  //     { default_language: "french" }
+  //   );
+  //   TopicModel.syncIndexes();
+  // }
+}
 
 export default TopicModel;

@@ -7,7 +7,7 @@ const GameInfos = ({ isOpen = true, game, hide }) => (
       <React.Fragment key={index}>
         {!!item.title && <h5 className="mt-3 mb-2 mr-auto font-bold">{item.title}</h5>}
         {!!item.content && typeof item.content === "string" && (
-          <p dangerouslySetInnerHTML={{ __html: item.content }} />
+          <p className="mt-4" dangerouslySetInnerHTML={{ __html: item.content }} />
         )}
         {!!item.content && typeof item.content !== "string" && (
           <ul>

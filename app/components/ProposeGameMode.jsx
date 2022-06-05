@@ -3,7 +3,7 @@ import { useFetcher } from "remix";
 import Input from "./Input";
 import Modal from "./Modal";
 
-const ContactUs = ({ isOpen, hide }) => {
+const ProposeGameMode = ({ isOpen, hide }) => {
   const fetcher = useFetcher();
 
   useEffect(() => {
@@ -28,14 +28,32 @@ const ContactUs = ({ isOpen, hide }) => {
   }
 
   return (
-    <Modal isOpen={isOpen} hide={hide} title="Nous contacter">
+    <Modal isOpen={isOpen} hide={hide} title="Proposer un mode de jeu">
       <fetcher.Form
         method="POST"
         action="/actions/contact-us"
         id="contact-us"
         className="flex w-full flex-col items-center gap-8"
       >
-        <input type="hidden" name="subject" defaultValue="Une demande de Debator" />
+        <input type="hidden" name="subject" defaultValue="Proposition de mode de jeu" />
+        <Input
+          type="text"
+          name="name"
+          autoComplete="name"
+          id="contact-us-name"
+          label="🎳 Nom du mode de jeu "
+          placeholder="Face à face"
+          required
+        />
+        <Input
+          textarea
+          type="text"
+          name="description"
+          id="contact-us-description"
+          label="🎙 Comment fonctionne ce jeu ?"
+          placeholder="Décrivez le mode de jeu"
+          required
+        />
         <Input
           type="text"
           name="name"
@@ -52,16 +70,7 @@ const ContactUs = ({ isOpen, hide }) => {
           inputMode="email"
           id="contact-us-email"
           label="＠ Votre Email"
-          placeholder="Votre email"
-          required
-        />
-        <Input
-          textarea
-          type="text"
-          name="description"
-          id="contact-us-description"
-          label="🎙 Que voulez-vous nous dire ?"
-          placeholder="Une demande particulière ? Un message de soutien ? Une critique ? Allez-y !"
+          placeholder="Pour que nous puissions discuter de votre proposition !"
           required
         />
         <button
@@ -81,4 +90,4 @@ const ContactUs = ({ isOpen, hide }) => {
   );
 };
 
-export default ContactUs;
+export default ProposeGameMode;

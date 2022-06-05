@@ -20,6 +20,13 @@ const Schema = new mongoose.Schema(
 const TransactionLogModel =
   dbConnection.models[MODELNAME] || dbConnection.model(MODELNAME, Schema);
 
-TransactionLogModel.syncIndexes();
+if (process.env.NODE_ENV === "production") {
+  TransactionLogModel.syncIndexes();
+} else {
+  // if (!global.__syncIndexes.includes(MODELNAME)) {
+  //   global.__syncIndexes.push(MODELNAME);
+  //   TransactionLogModel.syncIndexes();
+  // }
+}
 
 export default TransactionLogModel;

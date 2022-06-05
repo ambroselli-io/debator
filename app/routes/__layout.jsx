@@ -4,6 +4,7 @@ import ContactUs from "app/components/ContactUs";
 import Modal from "app/components/Modal";
 import PetitManifeste from "app/components/PetitManifeste";
 import ProposeChallenge from "app/components/ProposeChallenge";
+import ProposeGameMode from "app/components/ProposeGameMode";
 import ProposeTopic, { links } from "app/components/ProposeTopic";
 import TopicModel from "app/db/models/topic.server";
 import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
@@ -42,6 +43,13 @@ const Layout = () => {
     false,
     { removeParamOnDefaultValue: true }
   );
+  const [showProposeGameMode, setShowProposeGameMode] = useSearchParamState(
+    "proposez-un-mode-de-jeu",
+    false,
+    {
+      removeParamOnDefaultValue: true,
+    }
+  );
   const [showContactUs, setShowContactUs] = useSearchParamState("contactez-nous", false, {
     removeParamOnDefaultValue: true,
   });
@@ -56,7 +64,7 @@ const Layout = () => {
 
   return (
     <>
-      <header className="flex items-center justify-between border-b border-gray-100 py-2 px-4 text-app">
+      <header className="sticky top-0 -left-0 right-0 z-50 flex items-center justify-between border-b border-gray-100 bg-[#fafbfe] py-2 px-4 text-app">
         <h1 className="font-marker text-xl">
           <Link to="/">Debator</Link>
         </h1>
@@ -64,11 +72,18 @@ const Layout = () => {
           <Link to="/le-jeu" className="py-2 px-4 text-left">
             <span className="mr-6">🗣</span>Le jeu
           </Link>
+          <hr className="my-2 border-none" />
           <button
             className="py-2 px-4 text-left"
             onClick={() => setShowProposeTopic(true)}
           >
             <span className="mr-6">💬</span>Proposer un nouveau sujet
+          </button>
+          <button
+            className="py-2 px-4 text-left"
+            onClick={() => setShowProposeGameMode(true)}
+          >
+            <span className="mr-6">🎳</span>Proposer un mode de jeu
           </button>
           <button
             className="py-2 px-4 text-left"
@@ -121,6 +136,9 @@ const Layout = () => {
         )}
         {!!showProposeChallenge && (
           <ProposeChallenge isOpen hide={() => setShowProposeChallenge(false)} />
+        )}
+        {!!showProposeGameMode && (
+          <ProposeGameMode isOpen hide={() => setShowProposeGameMode(false)} />
         )}
         {!!showContactUs && <ContactUs isOpen hide={() => setShowContactUs(false)} />}
         {!!showPetitManifeste && (

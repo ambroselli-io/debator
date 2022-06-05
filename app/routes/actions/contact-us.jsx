@@ -8,8 +8,10 @@ export const action = catchErrors(async ({ request }) => {
     emails: ["arnaud@ambroselli.io"],
     text: JSON.stringify(Object.fromEntries(formData)),
     from: "Debator",
-    subject: "Une demande de Debator",
+    subject: formData.get("subject"),
   });
-  if (response.ok) return json({ ok: true, response });
+  console.log(response, response.status);
+  if (response.status < 300 && response.status >= 200)
+    return json({ ok: true, response });
   return json({ ok: false });
 });

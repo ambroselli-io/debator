@@ -12,6 +12,7 @@ if (process.env.NODE_ENV === "production") {
   if (!global.__db) {
     global.__db = mongoose.createConnection(MONGO_URL);
     global.__db.models = {};
+    global.__syncIndexes = [];
   }
   dbConnection = global.__db;
   dbConnection.models = dbConnection.models || {};

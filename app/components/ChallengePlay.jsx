@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "@remix-run/react";
 import EditSvg from "./icons/EditSvg";
 import Modal from "./Modal";
 
-const ChallengePlay = ({ challenge }) => {
+const ChallengePlay = ({ challenge, editable }) => {
   const [searchParams] = useSearchParams();
 
   const [showChallengeInfos, setShowChallengeInfos] = useSearchParamState(
@@ -33,22 +33,26 @@ const ChallengePlay = ({ challenge }) => {
       <div className="flex flex-col items-center p-3">
         <h2 className="flex flex-col items-center text-center text-xl">
           Le défi&nbsp;:
-          <b>{challenge?.title}</b>
+          <strong className="inline-flex">
+            {challenge?.title}{" "}
+            {!!challenge?.description && (
+              <button
+                onClick={() => setShowChallengeInfos(true)}
+                className="ml-2 h-6 w-6 shrink-0 items-center justify-center rounded-full border border-app text-sm text-app"
+              >
+                ?
+              </button>
+            )}
+          </strong>
         </h2>
         <div className="flex items-center gap-2 text-center text-xl">
-          <Link
-            to={`../choisir-un-defi?${searchParams.toString()}`}
-            className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-center text-xs text-app"
-          >
-            <EditSvg className="h-2 w-2" />
-          </Link>
-          {!!showChallengeInfos && (
-            <button
-              onClick={() => setShowChallengeInfos(true)}
-              className="w-5 shrink-0 rounded-full text-xs text-app"
+          {editable && (
+            <Link
+              to={`../choisir-un-defi?${searchParams.toString()}`}
+              className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-center text-xs text-app"
             >
-              ?
-            </button>
+              <EditSvg className="h-5 w-5" />
+            </Link>
           )}
         </div>
         <div className="flex w-full items-center justify-center"></div>

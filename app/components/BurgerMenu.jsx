@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-const BurgerMenu = ({ children }) => {
+const BurgerMenu = ({ children, duration = 150 }) => {
   const [activateMenu, setActivateMenu] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -10,9 +10,9 @@ const BurgerMenu = ({ children }) => {
     } else {
       setTimeout(() => {
         setShowMenu(false);
-      }, 155);
+      }, duration + 10);
     }
-  }, [activateMenu]);
+  }, [activateMenu, duration]);
 
   const className = useMemo(() => {
     if (!activateMenu) {
@@ -56,7 +56,7 @@ const BurgerMenu = ({ children }) => {
         </div>
       </button>
       <nav
-        className={`max-w-screen absolute top-0 right-0 z-10 flex h-screen w-80 max-w-full flex-col border-l border-app border-opacity-30 bg-[#fafbfe] pt-12 transition-all ${className}`}
+        className={`max-w-screen absolute top-0 right-0 z-10 flex h-screen w-80 max-w-full flex-col border-l border-app border-opacity-30 bg-[#fafbfe] pt-12 transition-all duration-${duration} ${className}`}
         onClick={() => setShowMenu((s) => !s)}
       >
         {children}

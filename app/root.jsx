@@ -66,7 +66,7 @@ export const loader = () => ({
 // prettier-ignore
 export const links = () => {
   return [
-    { rel:"icon", type:"image/png", sizes:"196x196", href:"/assets/icons/favicon-196.png" },
+    { rel:"icon", type:"image/png", sizes:"196x196", href:"/favicon.png" },
     { rel: "stylesheet", href: fontFace },
     { rel: "stylesheet", href: resetStyles },
     { rel: "stylesheet", href: tailwindStyles },

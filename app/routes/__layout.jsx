@@ -64,7 +64,7 @@ const Layout = () => {
 
   return (
     <>
-      <header className="sticky top-0 -left-0 right-0 z-50 flex items-center justify-between border-b border-gray-100 bg-[#fafbfe] py-2 px-4 text-app">
+      <header className="sticky top-0 -left-0 right-0 z-50 flex items-center justify-between  border-b border-gray-100 bg-[#fafbfe] py-2 px-4 text-app">
         <h1 className="font-marker text-xl">
           <Link to="/">Debator</Link>
         </h1>

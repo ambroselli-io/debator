@@ -4,6 +4,9 @@ import { useSearchParams } from "@remix-run/react";
 import Required from "../Required";
 import styles from "./styles.css";
 import { ClientOnly } from "remix-utils";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "../../../tailwind.config.js";
+const fullConfig = resolveConfig(tailwindConfig);
 
 export const links = () => [{ rel: "stylesheet", href: styles }];
 
@@ -20,20 +23,20 @@ const customTheme = (theme) => ({
   borderRadius: `0.5rem`,
   colors: {
     ...theme.colors,
-    primary: hexToRgb("#03bfc6", 1),
-    primary75: hexToRgb("#03bfc6", 0.75),
-    primary50: hexToRgb("#03bfc6", 0.5),
-    primary25: hexToRgb("#03bfc6", 0.25),
-    neutral: hexToRgb("#03bfc6", 1.0),
-    neutral90: hexToRgb("#03bfc6", 0.9),
+    primary: hexToRgb(fullConfig.theme.colors.app, 1),
+    primary75: hexToRgb(fullConfig.theme.colors.app, 0.75),
+    primary50: hexToRgb(fullConfig.theme.colors.app, 0.5),
+    primary25: hexToRgb(fullConfig.theme.colors.app, 0.25),
+    neutral: hexToRgb(fullConfig.theme.colors.app, 1.0),
+    neutral90: hexToRgb(fullConfig.theme.colors.app, 0.9),
     neutral80: "rgb(17, 24, 39)", //text-black-90
-    neutral70: hexToRgb("#03bfc6", 0.7),
-    neutral60: hexToRgb("#03bfc6", 0.6),
-    neutral40: hexToRgb("#03bfc6", 0.4),
-    neutral30: hexToRgb("#03bfc6", 0.3),
-    neutral20: hexToRgb("#03bfc6", 0.2),
-    neutral10: hexToRgb("#03bfc6", 0.1),
-    neutral5: hexToRgb("#03bfc6", 0.05),
+    neutral70: hexToRgb(fullConfig.theme.colors.app, 0.7),
+    neutral60: hexToRgb(fullConfig.theme.colors.app, 0.6),
+    neutral40: hexToRgb(fullConfig.theme.colors.app, 0.4),
+    neutral30: hexToRgb(fullConfig.theme.colors.app, 0.3),
+    neutral20: hexToRgb(fullConfig.theme.colors.app, 0.2),
+    neutral10: hexToRgb(fullConfig.theme.colors.app, 0.1),
+    neutral5: hexToRgb(fullConfig.theme.colors.app, 0.05),
   },
 });
 

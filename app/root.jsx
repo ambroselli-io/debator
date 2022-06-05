@@ -31,7 +31,8 @@ if (typeof document !== "undefined") {
 export const meta = () => ({
   charset: "utf-8",
   viewport: "width=device-width,initial-scale=1",
-  "theme-color": fullConfig.theme.colors.app,
+  // "theme-color": fullConfig.theme.colors.app,
+  "theme-color": "#fafbfe",
   title: `${APP_NAME} | ${APP_DESCRIPTION}`,
   description: `${APP_NAME} | ${APP_DESCRIPTION}`,
   "og:title": `${APP_NAME}`,

@@ -15,8 +15,8 @@ const GameLayout = () => {
   return (
     <>
       <Outlet />
-      {!licenceIsValid && (
-        <footer className="fixed bottom-0 w-full bg-app px-4 py-2 text-center text-white">
+      {!!licenceIsValid && (
+        <footer className="fixed bottom-0 w-screen bg-app px-4 py-2 text-center text-white">
           <p className="text-sm">
             Vous êtes limité(es) à trois sujets par jour, nous avons brouillé les autres.
             <br />

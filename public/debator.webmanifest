@@ -1,8 +1,8 @@
 {
   "name": "Debator",
   "short_name": "Debator",
-  "theme_color": "#ffffff",
-  "background_color": "#03bfc6",
+  "theme_color": "#03bfc6",
+  "background_color": "#fafbfe",
   "display": "fullscreen",
   "scope": "./",
   "start_url": "./",

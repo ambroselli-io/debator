@@ -1,7 +1,29 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const BurgerMenu = ({ children }) => {
+  const [activateMenu, setActivateMenu] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    if (activateMenu) {
+      setShowMenu(true);
+    } else {
+      setTimeout(() => {
+        setShowMenu(false);
+      }, 155);
+    }
+  }, [activateMenu]);
+
+  const className = useMemo(() => {
+    if (!activateMenu) {
+      if (!showMenu) return "hidden";
+      if (showMenu) return "translate-x-full opacity-0";
+    }
+    if (activateMenu) {
+      if (!showMenu) return "translate-x-full opacity-0";
+      if (showMenu) return "opacity-1";
+    }
+  }, [activateMenu, showMenu]);
 
   return (
     <>
@@ -9,7 +31,7 @@ const BurgerMenu = ({ children }) => {
         className={`relative z-20 h-10 w-10 shrink-0 text-app ${
           showMenu ? "opacity-50" : ""
         }`}
-        onClick={() => setShowMenu((s) => !s)}
+        onClick={() => setActivateMenu((s) => !s)}
       >
         <span className="sr-only">Ouvrir le menu</span>
         <div className="absolute left-1/2 top-1/2 block w-1/2 -translate-x-1/2 -translate-y-1/2 transform">
@@ -34,9 +56,7 @@ const BurgerMenu = ({ children }) => {
         </div>
       </button>
       <nav
-        className={`max-w-screen absolute top-0 right-0 z-10 flex h-screen w-80 max-w-full flex-col border-l border-app border-opacity-30 bg-[#fafbfe] pt-12 transition-all ${
-          !showMenu ? "invisible translate-x-full opacity-0" : "opacity-1"
-        }`}
+        className={`max-w-screen absolute top-0 right-0 z-10 flex h-screen w-80 max-w-full flex-col border-l border-app border-opacity-30 bg-[#fafbfe] pt-12 transition-all ${className}`}
         onClick={() => setShowMenu((s) => !s)}
       >
         {children}

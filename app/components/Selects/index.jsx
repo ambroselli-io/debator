@@ -3,6 +3,7 @@ import CreatableSelect from "react-select/creatable";
 import { useSearchParams } from "@remix-run/react";
 import Required from "../Required";
 import styles from "./styles.css";
+import { ClientOnly } from "remix-utils";
 
 export const links = () => [{ rel: "stylesheet", href: styles }];
 
@@ -69,18 +70,23 @@ const SelectRoot = ({
 }) => {
   const Component = isCreatable ? CreatableSelect : ReactSelect;
   return (
-    <Component
-      defaultValue={defaultValue}
-      name={name}
-      form={form}
-      options={options}
-      onChange={onChange}
-      className="w-full"
-      classNamePrefix="select"
-      theme={customTheme}
-      styles={rootCustomStyles(customStyles)}
-      {...props}
-    />
+    <ClientOnly>
+      {() => (
+        <Component
+          defaultValue={defaultValue}
+          instanceId={`react-select-${name}`}
+          name={name}
+          form={form}
+          options={options}
+          onChange={onChange}
+          className="w-full"
+          classNamePrefix="select"
+          theme={customTheme}
+          styles={rootCustomStyles(customStyles)}
+          {...props}
+        />
+      )}
+    </ClientOnly>
   );
 };
 
@@ -104,7 +110,7 @@ const SelectAutofill = ({
   const onChangeRequest = (args) => setTimeout(() => onChange?.(args));
 
   return (
-    <fieldset className={`flex flex-wrap gap-2 ${className}`}>
+    <fieldset className={`flex flex-wrap gap-2 ${className}`} suppressHydrationWarning>
       <legend className="mb-2 flex-shrink-0 basis-full">
         {legend}
         {required && <Required />}
@@ -142,7 +148,7 @@ const Select = ({
   const onChangeRequest = (args) => setTimeout(() => onChange?.(args));
 
   return (
-    <fieldset className={`flex flex-wrap gap-2 ${className}`}>
+    <fieldset className={`flex flex-wrap gap-2 ${className}`} suppressHydrationWarning>
       <legend className="mb-2 flex-shrink-0 basis-full">
         {legend}
         {legend && required && <Required />}

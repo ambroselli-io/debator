@@ -162,7 +162,8 @@ const App = () => {
             // https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen#javascript_for_handling_the_install
             let deferredPrompt;
             const addBtn = document.getElementById('add-button-to-destkop-home');
-            addBtn.classList.add('hidden');
+            if (!!addBtn) {
+              addBtn.classList.add('hidden');
 
               window.addEventListener('beforeinstallprompt', (e) => {
               // Prevent Chrome 67 and earlier from automatically showing the prompt
@@ -186,8 +187,9 @@ const App = () => {
                     }
                     deferredPrompt = null;
                   });
+                });
               });
-            });
+            }
             `,
           }}
         />

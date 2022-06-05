@@ -70,7 +70,7 @@ const Layout = () => {
         </h1>
         <button
           id="add-button-to-destkop-home"
-          className="py-2 px-4 text-left"
+          className="hidden py-2 px-4 text-left"
           suppressHydrationWarning
         >
           Add to home screen

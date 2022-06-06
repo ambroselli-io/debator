@@ -18,7 +18,7 @@ const ProposeTopic = ({ isOpen, hide, showNewForm, categories }) => {
 
   useEffect(() => {
     if (fetcher.type === "done" && fetcher.data.ok === true) alert("Merci !");
-  }, [fetcher.type, fetcher.data.ok]);
+  }, [fetcher?.type, fetcher.data?.ok]);
 
   // if (fetcher.type === "done" && fetcher.data.ok === true) {
   //   return (

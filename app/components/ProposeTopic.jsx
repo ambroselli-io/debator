@@ -16,30 +16,34 @@ const ProposeTopic = ({ isOpen, hide, showNewForm, categories }) => {
     if (fetcher.data?.error) alert(fetcher.data.error);
   }, [fetcher.data?.error]);
 
-  if (fetcher.type === "done" && fetcher.data.ok === true) {
-    return (
-      <Modal isOpen={isOpen} hide={hide} title="Proposer un sujet">
-        <div className="flex flex-col items-center">
-          <p className="text-center">Merci ! Voici le sujet que vous avez proposé :</p>
-          <TopicSummary topic={fetcher.data.topic} />
-          <button
-            type="button"
-            onClick={hide}
-            className="mt-4 rounded-lg border border-app bg-app px-4 py-2 text-white"
-          >
-            Fermer
-          </button>
-          <button
-            type="button"
-            onClick={showNewForm}
-            className="mt-4 rounded-lg border border-app bg-white px-4 py-2 text-app"
-          >
-            Proposer un autre
-          </button>
-        </div>
-      </Modal>
-    );
-  }
+  useEffect(() => {
+    if (fetcher.type === "done" && fetcher.data.ok === true) alert("Merci !");
+  }, [fetcher.type, fetcher.data.ok]);
+
+  // if (fetcher.type === "done" && fetcher.data.ok === true) {
+  //   return (
+  //     <Modal isOpen={isOpen} hide={hide} title="Proposer un sujet">
+  //       <div className="flex flex-col items-center">
+  //         <p className="text-center">Merci ! Voici le sujet que vous avez proposé :</p>
+  //         <TopicSummary topic={fetcher.data.topic} />
+  //         <button
+  //           type="button"
+  //           onClick={hide}
+  //           className="mt-4 rounded-lg border border-app bg-app px-4 py-2 text-white"
+  //         >
+  //           Fermer
+  //         </button>
+  //         <button
+  //           type="button"
+  //           onClick={showNewForm}
+  //           className="mt-4 rounded-lg border border-app bg-white px-4 py-2 text-app"
+  //         >
+  //           Proposer un autre
+  //         </button>
+  //       </div>
+  //     </Modal>
+  //   );
+  // }
 
   return (
     <Modal isOpen={isOpen} hide={hide} title="Proposer un sujet">

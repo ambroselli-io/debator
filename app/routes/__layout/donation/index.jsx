@@ -299,7 +299,9 @@ const Donation = () => {
           Nous contacter
         </button>
       </fetcher.Form>
-      {!!showContactUs && <ContactUs isOpen hide={() => setShowContactUs(false)} />}
+      {!!showContactUs && (
+        <ContactUs isOpen hide={() => setShowContactUs(false)} user={user} />
+      )}
     </>
   );
 };

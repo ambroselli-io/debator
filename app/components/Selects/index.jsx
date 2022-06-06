@@ -6,6 +6,7 @@ import styles from "./styles.css";
 import { ClientOnly } from "remix-utils";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../../tailwind.config.js";
+import { capitalizeFirstLetter } from "app/services/strings";
 const fullConfig = resolveConfig(tailwindConfig);
 
 export const links = () => [{ rel: "stylesheet", href: styles }];
@@ -86,6 +87,9 @@ const SelectRoot = ({
           classNamePrefix="select"
           theme={customTheme}
           styles={rootCustomStyles(customStyles)}
+          formatCreateLabel={(inputValue) =>
+            `Créer la catégorie ${capitalizeFirstLetter(inputValue)}`
+          }
           {...props}
         />
       )}

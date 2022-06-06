@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { useFetcher } from "remix";
+import { useFetcher, useLocation } from "@remix-run/react";
 import Input from "./Input";
 import Modal from "./Modal";
 
-const ContactUs = ({ isOpen, hide }) => {
+const ContactUs = ({ isOpen, hide, user = null }) => {
   const fetcher = useFetcher();
+  const location = useLocation();
 
   useEffect(() => {
     if (fetcher.data?.error) alert(fetcher.data.error);
@@ -36,6 +37,11 @@ const ContactUs = ({ isOpen, hide }) => {
         className="flex w-full flex-col items-center gap-8"
       >
         <input type="hidden" name="subject" defaultValue="Une demande de Debator" />
+        <input
+          type="hidden"
+          name="origin"
+          defaultValue={location.pathname + location.search}
+        />
         <Input
           type="text"
           name="name"
@@ -43,6 +49,7 @@ const ContactUs = ({ isOpen, hide }) => {
           id="contact-us-name"
           label="🐒 Votre nom"
           placeholder="Votre nom"
+          defaultValue={user?.name}
           required
         />
         <Input
@@ -53,6 +60,7 @@ const ContactUs = ({ isOpen, hide }) => {
           id="contact-us-email"
           label="＠ Votre Email"
           placeholder="Votre email"
+          defaultValue={user?.email}
           required
         />
         <Input
@@ -61,7 +69,7 @@ const ContactUs = ({ isOpen, hide }) => {
           name="description"
           id="contact-us-description"
           label="🎙 Que voulez-vous nous dire ?"
-          placeholder="Une demande particulière ? Un message de soutien ? Une critique ? Allez-y !"
+          placeholder="Une remarque sur le sujet, le défi ou le mode de jeu que vous avez choisi ? Une demande particulière ? Un message de soutien ou une critique ? Allez-y !"
           required
         />
         <button

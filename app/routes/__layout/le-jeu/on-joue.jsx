@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
 import TopicModel from "../../../db/models/topic.server";
 import ChallengeModel from "app/db/models/challenge.server";
@@ -43,7 +43,7 @@ const countdowns = [
 const LetsPlay = () => {
   const { topic, challenge } = useLoaderData();
   const [countdown, setCountdown] = useLocalStorage("countdown", 60);
-  const [editable, setEditable] = useLocalStorage("editable", false);
+  const [editable, setEditable] = useState(false);
 
   return (
     <div className="flex min-h-full w-full flex-col items-center lg:flex-row lg:justify-center">
@@ -53,7 +53,7 @@ const LetsPlay = () => {
         <ChallengePlay challenge={challenge} editable={editable} />
         <button
           type="button"
-          className="mt-4 text-xs text-app underline opacity-80"
+          className="absolute mt-4 text-xs text-app underline opacity-80 lg:relative"
           onClick={() => setEditable(!editable)}
         >
           {editable ? "Ne plus modifier" : "Modifier ?"}

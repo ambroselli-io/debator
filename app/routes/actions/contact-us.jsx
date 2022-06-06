@@ -6,7 +6,7 @@ export const action = catchErrors(async ({ request }) => {
   const formData = await request.formData();
   const response = await sendEmail({
     emails: ["arnaud@ambroselli.io"],
-    text: JSON.stringify(Object.fromEntries(formData)),
+    text: JSON.stringify(Object.fromEntries(formData), null, 2),
     from: "Debator",
     subject: formData.get("subject"),
   });

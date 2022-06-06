@@ -9,7 +9,7 @@ import ProposeTopic, { links } from "app/components/ProposeTopic";
 import TopicModel from "app/db/models/topic.server";
 import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import useSearchParamState from "app/services/searchParamsUtils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export { links };
 
@@ -29,7 +29,7 @@ export const loader = async ({ request }) => {
   return { categories: categories.map(({ _id }) => _id), user };
 };
 
-const Layout = () => {
+const Layout = ({ children }) => {
   const { categories, user } = useLoaderData();
 
   const [showProposeTopic, setShowProposeTopic] = useSearchParamState(
@@ -68,6 +68,9 @@ const Layout = () => {
         <h1 className="font-marker text-xl">
           <Link to="/">Debator</Link>
         </h1>
+        <button className="ml-auto py-2 px-4" onClick={() => setShowContactUs(true)}>
+          Nous contacter
+        </button>
         <button
           id="add-button-to-destkop-home"
           className="hidden py-2 px-4 text-left"
@@ -131,7 +134,7 @@ const Layout = () => {
         id="root"
         className="flex w-full shrink-0 grow flex-col items-center p-3 pb-60"
       >
-        <Outlet />
+        {children ? children : <Outlet />}
         {!!showProposeTopic && (
           <ProposeTopic
             key={proposeTopicKey}
@@ -147,7 +150,9 @@ const Layout = () => {
         {!!showProposeGameMode && (
           <ProposeGameMode isOpen hide={() => setShowProposeGameMode(false)} />
         )}
-        {!!showContactUs && <ContactUs isOpen hide={() => setShowContactUs(false)} />}
+        {!!showContactUs && (
+          <ContactUs isOpen hide={() => setShowContactUs(false)} user={user} />
+        )}
         {!!showPetitManifeste && (
           <Modal isOpen hide={() => setShowPetitManifeste(false)} title="Petit Manifeste">
             <PetitManifeste />
@@ -157,5 +162,10 @@ const Layout = () => {
     </>
   );
 };
+
+export function ErrorBoundary({ error }) {
+  console.error(error);
+  return <Layout>Une erreur est survenue, désolé on s'en occupe !</Layout>;
+}
 
 export default Layout;

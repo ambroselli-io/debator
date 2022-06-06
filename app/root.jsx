@@ -116,7 +116,7 @@ export function ErrorBoundary({ error }) {
       </head>
       <body>
         {/* add the UI you want your users to see */}
-        We fucked up, it's coming !
+        Une erreur est survenue, désolé on s'en occupe !
         <Scripts />
       </body>
     </html>

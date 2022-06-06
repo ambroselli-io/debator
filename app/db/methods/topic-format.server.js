@@ -1,8 +1,8 @@
 import { removeDiacritics } from "app/services/formatSearch.server";
 import TextObfuscator from "text-obfuscator";
 
-const getTopicTitle = (topic, freeTopicIds) => {
-  if (!freeTopicIds.length) return removeDiacritics(topic.title);
+const getTopicTitle = (topic, freeTopicIds = []) => {
+  if (!freeTopicIds?.length) return removeDiacritics(topic.title);
   if (freeTopicIds.find((oid) => oid.equals(topic._id)))
     return removeDiacritics(topic.title);
   return TextObfuscator.encode(removeDiacritics(topic.title));

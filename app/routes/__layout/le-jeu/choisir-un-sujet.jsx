@@ -19,62 +19,65 @@ export const loader = async ({ request }) => {
     return {
       topic: topicFormat(topic, freeTopicIds),
       maxIndex: topics.length,
+      totalTopics: topics.length,
     };
   }
-  if (url.searchParams.get("search")?.length) {
-    let topics = await TopicModel.aggregate([
-      {
-        $match: {
-          $text: {
-            $search: url.searchParams.get("search"),
-            $caseSensitive: false,
-            $diacriticSensitive: false,
-          },
-        },
-      },
-      {
-        $project: {
-          score: { $meta: "textScore" },
-          title: 1,
-          categories: 1,
-          author: 1,
-          difficulty: 1,
-          minAge: 1,
-          maxAge: 1,
-        },
-      },
-      {
-        $sort: { score: { $meta: "textScore" } },
-      },
-    ]);
-
-    if (!topics.length) {
-      return {
-        topic: null,
-        maxIndex: 0,
-      };
-    }
-
+  if (!url.searchParams.get("search")?.length) {
     const topicIndex = Number(url.searchParams.get("topicIndex")) || 0;
 
-    const topic = topics[topicIndex % topics.length];
-
     return {
-      topic: topicFormat(topic, freeTopicIds),
+      topic: topicFormat(topics[topicIndex], freeTopicIds),
       maxIndex: topics.length,
+      totalTopics: topics.length,
+    };
+  }
+
+  let searchedTopics = await TopicModel.aggregate([
+    {
+      $match: {
+        $text: {
+          $search: url.searchParams.get("search"),
+          $caseSensitive: false,
+          $diacriticSensitive: false,
+        },
+      },
+    },
+    {
+      $project: {
+        score: { $meta: "textScore" },
+        title: 1,
+        categories: 1,
+        author: 1,
+        difficulty: 1,
+        minAge: 1,
+        maxAge: 1,
+      },
+    },
+    {
+      $sort: { score: { $meta: "textScore" } },
+    },
+  ]);
+
+  if (!searchedTopics.length) {
+    return {
+      topic: null,
+      maxIndex: 0,
     };
   }
 
   const topicIndex = Number(url.searchParams.get("topicIndex")) || 0;
 
+  const topic = searchedTopics[topicIndex % searchedTopics.length];
+
   return {
-    topic: topicFormat(topics[topicIndex], freeTopicIds),
-    maxIndex: topics.length,
+    topic: topicFormat(topic, freeTopicIds),
+    maxIndex: searchedTopics.length,
+    totalTopics: topics.length,
   };
 };
 
 const ChooseATopic = () => {
-  const { topic, maxIndex } = useLoaderData();
+  const { topic, maxIndex, totalTopics } = useLoaderData();
   const [searchParams] = useSearchParams();
   const submit = useSubmit();
   const navigateToNextStep = useNavigateToNextStep();
@@ -149,7 +152,7 @@ const ChooseATopic = () => {
         className="mt-4 text-sm text-app underline"
         to={`../rechercher-un-sujet?${searchParams.toString()}`}
       >
-        Recherche avancée
+        Recherche avancée (parmi {totalTopics})
       </Link>
     </>
   );

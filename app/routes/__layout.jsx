@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import BurgerMenu from "app/components/BurgerMenu";
 import ContactUs from "app/components/ContactUs";
@@ -9,7 +10,6 @@ import ProposeTopic, { links } from "app/components/ProposeTopic";
 import TopicModel from "app/db/models/topic.server";
 import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import useSearchParamState from "app/services/searchParamsUtils";
-import { useEffect, useState } from "react";
 
 export { links };
 

@@ -139,7 +139,6 @@ const Donation = () => {
             type="number"
             name="amount"
             id="donation-amount"
-            onWheel={(e) => e.currentTarget.blur()}
             placeholder="Votre prix"
             required
             autoComplete="transaction-amount"

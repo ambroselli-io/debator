@@ -48,6 +48,7 @@ const Input = forwardRef(
           } ${className}`}
           placeholder={placeholder}
           required={required}
+          onWheel={type === "number" ? (e) => e.currentTarget.blur() : null}
           onKeyUp={(e) => window.sessionStorage.setItem(id, e.currentTarget.value)}
           onChange={onChange}
           {...props}

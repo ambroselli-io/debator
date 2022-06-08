@@ -286,9 +286,9 @@ const Donation = () => {
           disabled={fetcher.state !== "idle" || fetcher?.data?.ok}
         >
           {fetcher?.state === "submitting"
-            ? "Demande en cours"
+            ? "Demande en cours..."
             : fetcher?.data?.ok
-            ? "Redirection"
+            ? "Redirection..."
             : "Je donne !"}
         </button>
         <button

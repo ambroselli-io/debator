@@ -2,8 +2,11 @@ import ContactUs from "app/components/ContactUs";
 import PetitManifeste from "app/components/PetitManifeste";
 import dayjs from "dayjs";
 import { Link, useNavigate, useSearchParams } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
 
 export const unstable_shouldReload = () => false;
+
+export const loader = () => redirect("/le-jeu");
 
 const Index = () => {
   const [searchParams] = useSearchParams();

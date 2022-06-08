@@ -10,7 +10,6 @@ export const action = async ({ request }) => {
   const url = new URL(request.url);
   capture("webhook fintecture", { extra: { request, formData, headers } });
   const body = Object.fromEntries(formData);
-  console.log({ body });
   try {
     // get the body
     // get a param from query

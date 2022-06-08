@@ -10,6 +10,8 @@ import ProposeTopic, { links } from "app/components/ProposeTopic";
 import TopicModel from "app/db/models/topic.server";
 import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import useSearchParamState from "app/services/searchParamsUtils";
+import { useLocalStorage } from "app/services/useLocalStorage";
+import dayjs from "dayjs";
 
 export { links };
 
@@ -38,6 +40,7 @@ const Layout = ({ children }) => {
     { removeParamOnDefaultValue: true }
   );
   const [proposeTopicKey, setProposeTopicKey] = useState(0);
+  const [showIntro, setShowIntro] = useLocalStorage("show-intro", true);
   const [showProposeChallenge, setShowProposeChallenge] = useSearchParamState(
     "proposer-un-defi",
     false,
@@ -64,7 +67,7 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <header className="sticky top-0 -left-0 right-0 z-50 flex items-center justify-between  border-b border-gray-100 bg-[#fafbfe] py-2 px-4 text-app">
+      <header className="sticky top-0 left-0 right-0 z-50 flex items-center justify-between  border-b border-gray-100 bg-[#fafbfe] py-2 px-4 text-app">
         <h1 className="font-marker text-xl">
           <Link to="/">Debator</Link>
         </h1>
@@ -128,6 +131,14 @@ const Layout = ({ children }) => {
               </>
             )}
           </Link>
+          <hr className="my-2 border-none" />
+          <button className="py-2 px-4 text-left" onClick={() => setShowIntro(true)}>
+            <span className="mr-6">🤗</span>Accueil
+          </button>
+          {/* <hr className="my-6 grow border-none" />
+          <span className="py-2 px-4 text-left">
+            © Debator - {dayjs().format("YYYY")}
+          </span> */}
         </BurgerMenu>
       </header>
       <div
@@ -156,6 +167,58 @@ const Layout = ({ children }) => {
         {!!showPetitManifeste && (
           <Modal isOpen hide={() => setShowPetitManifeste(false)} title="Petit Manifeste">
             <PetitManifeste />
+          </Modal>
+        )}
+        {!!showIntro && (
+          <Modal isOpen hide={() => setShowIntro(false)} title="Bienvenu sur Debator !">
+            <section className="flex flex-col items-center justify-around gap-4 bg-opacity-10 py-4">
+              <h1 className="font-marker text-2xl text-app">Comment ça marche&nbsp;?</h1>
+              <ol>
+                <li className="mb-2 text-center">
+                  <em className="font-bold not-italic text-app">I.</em> Je choisis un
+                  sujet 🥸
+                </li>
+                <li className="mb-2 text-center">
+                  <em className="font-bold not-italic text-app">II.</em> Je choisis le
+                  mode de jeu 💁 (joute a deux, en arene...)
+                </li>
+                <li className="mb-2 text-center">
+                  <em className="font-bold not-italic text-app">III.</em> Je choisis un
+                  defi ! 😎 (en alexandrin, en se pincant le nez...)
+                </li>
+              </ol>
+              <Link
+                to="le-jeu"
+                className="rounded-lg border border-app bg-app px-4 py-2 text-xl text-white outline-black"
+              >
+                C'est parti !
+              </Link>
+            </section>
+            <footer className="mt-4 flex shrink-0 flex-wrap items-center justify-evenly gap-2 text-sm text-app">
+              <span className="mx-4 shrink-0">© Debator - {dayjs().format("YYYY")}</span>
+              <button
+                onClick={() => setShowPetitManifeste(true)}
+                className="mx-4 underline"
+              >
+                Petit manifeste
+              </button>
+              <button
+                onClick={() => {
+                  setShowIntro(false);
+                  setShowContactUs(true);
+                }}
+                className="mx-4 underline"
+              >
+                Nous contacter
+              </button>
+              <Link
+                to="/donation"
+                onClick={() => setShowIntro(false)}
+                className="mx-4 text-center underline"
+              >
+                Acheter une licence (prix&nbsp;libre)
+              </Link>
+            </footer>
           </Modal>
         )}
       </div>

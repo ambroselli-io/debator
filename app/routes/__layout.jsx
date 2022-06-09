@@ -147,7 +147,7 @@ const Layout = ({ children }) => {
       <div
         id="root"
         className={`flex w-full shrink grow flex-col items-center overflow-y-auto overflow-x-hidden scroll-smooth p-3 ${
-          licenceIsValid ? "pb-15" : "pb-60"
+          licenceIsValid ? "pb-24" : "pb-60"
         }`}
       >
         {children ? children : <Outlet />}

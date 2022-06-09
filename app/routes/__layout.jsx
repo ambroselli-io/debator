@@ -194,12 +194,14 @@ const Layout = ({ children }) => {
                   defi ! 😎 (en rimes, en se pincant le nez...)
                 </li>
               </ol>
-              <Link
+              <button
+                type="button"
+                onClick={() => setShowIntro(false)}
                 to="le-jeu"
                 className="rounded-lg border border-app bg-app px-4 py-2 text-xl text-white"
               >
                 C'est parti !
-              </Link>
+              </button>
             </section>
             <footer className="mt-4 flex shrink-0 flex-wrap items-center justify-evenly gap-2 text-sm text-app">
               <span className="shrink-0">© Debator - {dayjs().format("YYYY")}</span>

@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "@remix-run/react";
-
 // https://css-tricks.com/prevent-page-scrolling-when-a-modal-is-open/
 
 const Modal = ({ title, children, isOpen = true, hide = null }) => {
@@ -8,10 +7,11 @@ const Modal = ({ title, children, isOpen = true, hide = null }) => {
   const dialogRef = useRef(null);
   const currentOverflow = useRef(null);
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && dialogRef.current) {
       import("dialog-polyfill").then((dialogPolyfill) => {
+        if (!dialogRef.current) return;
         dialogPolyfill.default.registerDialog(dialogRef.current);
-        dialogRef.current.showModal();
+        dialogRef.current?.showModal();
         currentOverflow.current = document.body.style.overflow;
         document.body.style.overflow = "hidden";
       });

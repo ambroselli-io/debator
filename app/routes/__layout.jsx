@@ -12,11 +12,14 @@ import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import useSearchParamState from "app/services/searchParamsUtils";
 import { useLocalStorage } from "app/services/useLocalStorage";
 import dayjs from "dayjs";
+import { isUserLicenced } from "app/utils/isUserLicenced.server";
 
 export { links };
 
 export const loader = async ({ request }) => {
   const user = await getUnauthentifiedUserFromCookie(request);
+  const licenceIsValid = isUserLicenced(user);
+
   // get categories with number of topics
   const categories = await TopicModel.aggregate([
     {
@@ -28,11 +31,11 @@ export const loader = async ({ request }) => {
       },
     },
   ]);
-  return { categories: categories.map(({ _id }) => _id), user };
+  return { categories: categories.map(({ _id }) => _id), user, licenceIsValid };
 };
 
 const Layout = ({ children }) => {
-  const { categories, user } = useLoaderData();
+  const { categories, user, licenceIsValid } = useLoaderData();
 
   const [showProposeTopic, setShowProposeTopic] = useSearchParamState(
     "proposer-un-sujet",
@@ -143,7 +146,9 @@ const Layout = ({ children }) => {
       </header>
       <div
         id="root"
-        className="flex w-full shrink-0 grow flex-col items-center p-3 pb-60"
+        className={`flex w-full shrink grow flex-col items-center overflow-y-auto overflow-x-hidden scroll-smooth p-3 ${
+          licenceIsValid ? "pb-15" : "pb-60"
+        }`}
       >
         {children ? children : <Outlet />}
         {!!showProposeTopic && (
@@ -170,9 +175,11 @@ const Layout = ({ children }) => {
           </Modal>
         )}
         {!!showIntro && (
-          <Modal isOpen hide={() => setShowIntro(false)} title="Bienvenu sur Debator !">
+          <Modal isOpen hide={() => setShowIntro(false)} title="Bienvenue sur Debator !">
             <section className="flex flex-col items-center justify-around gap-4 bg-opacity-10 py-4">
-              <h1 className="font-marker text-2xl text-app">Comment ça marche&nbsp;?</h1>
+              <h1 className="font-[xkcd] text-2xl uppercase text-app">
+                Comment ca marche&nbsp;?
+              </h1>
               <ol>
                 <li className="mb-2 text-center">
                   <em className="font-bold not-italic text-app">I.</em> Je choisis un
@@ -184,22 +191,19 @@ const Layout = ({ children }) => {
                 </li>
                 <li className="mb-2 text-center">
                   <em className="font-bold not-italic text-app">III.</em> Je choisis un
-                  defi ! 😎 (en alexandrin, en se pincant le nez...)
+                  defi ! 😎 (en rimes, en se pincant le nez...)
                 </li>
               </ol>
               <Link
                 to="le-jeu"
-                className="rounded-lg border border-app bg-app px-4 py-2 text-xl text-white outline-black"
+                className="rounded-lg border border-app bg-app px-4 py-2 text-xl text-white"
               >
                 C'est parti !
               </Link>
             </section>
             <footer className="mt-4 flex shrink-0 flex-wrap items-center justify-evenly gap-2 text-sm text-app">
-              <span className="mx-4 shrink-0">© Debator - {dayjs().format("YYYY")}</span>
-              <button
-                onClick={() => setShowPetitManifeste(true)}
-                className="mx-4 underline"
-              >
+              <span className="shrink-0">© Debator - {dayjs().format("YYYY")}</span>
+              <button onClick={() => setShowPetitManifeste(true)} className="underline">
                 Petit manifeste
               </button>
               <button
@@ -207,14 +211,14 @@ const Layout = ({ children }) => {
                   setShowIntro(false);
                   setShowContactUs(true);
                 }}
-                className="mx-4 underline"
+                className="underline"
               >
                 Nous contacter
               </button>
               <Link
                 to="/donation"
                 onClick={() => setShowIntro(false)}
-                className="mx-4 text-center underline"
+                className="text-center underline"
               >
                 Acheter une licence (prix&nbsp;libre)
               </Link>

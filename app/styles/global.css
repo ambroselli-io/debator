@@ -5,3 +5,8 @@ input[type="radio"] {
   -o-appearance: none;
   appearance: none;
 }
+
+.debug,
+.debug * {
+  border: 2px solid black;
+}

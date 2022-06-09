@@ -114,8 +114,8 @@ const Donation = () => {
               <li>tout prix inférieur à 10€ donne une licence valable pendant 1 mois</li>
             </ul>
             <p className="mt-4 w-full max-w-[68ch]">
-              Choisissez votre licence, avant de renseigner vos informations. Si vous êtes
-              intéressé(es) par Debator mais que vous n'avez pas les moyens,{" "}
+              Choisissez votre licence (prix TTC), avant de renseigner vos informations.
+              Si vous êtes intéressé(es) par Debator mais que vous n'avez pas les moyens,{" "}
               <button
                 type="button"
                 className="underline"

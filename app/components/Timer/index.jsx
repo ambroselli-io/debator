@@ -10,7 +10,13 @@ const Timer = (props) => {
   );
 };
 
-const TimerCountdown = ({ size = 250, stroke = 5, countdown = 60, onReset }) => {
+const TimerCountdown = ({
+  size = 250,
+  stroke = 5,
+  countdown = 60,
+  onReset,
+  className = "",
+}) => {
   const [timeRemaining, setTimeRemaining] = useState(countdown);
   const [playState, setPlayState] = useState("paused"); // 'running'
 
@@ -75,7 +81,7 @@ const TimerCountdown = ({ size = 250, stroke = 5, countdown = 60, onReset }) => 
   };
 
   return (
-    <div>
+    <div className={className}>
       <div
         className="timer-container relative flex items-center justify-center"
         onClick={togglePlayState}

@@ -46,7 +46,7 @@ const LetsPlay = () => {
   const [editable, setEditable] = useState(false);
 
   return (
-    <div className="flex min-h-full w-full flex-col items-center lg:flex-row lg:justify-center">
+    <div className="flex min-h-screen w-full flex-col items-center lg:flex-row lg:items-start lg:justify-center lg:pt-4">
       <div className="flex w-full max-w-[68ch] flex-col items-center">
         <TopicSummary topic={topic} editable={editable} onlyAuthor Component="h1" />
         <GamePlay editable={editable} />
@@ -60,7 +60,7 @@ const LetsPlay = () => {
         </button>
       </div>
       <div className="flex w-full max-w-[68ch] flex-col items-center lg:border-l lg:border-app">
-        <p className="max-w-lg text-center">
+        <p className="my-10 max-w-lg text-center lg:my-0">
           Répartissez les rôles, faites la préparation que vous souhaitez, et quand la
           joute débutera, servez-vous du chronomètre ci-dessous pour rythmer les
           différents temps de jeu
@@ -97,7 +97,7 @@ const LetsPlay = () => {
             </button>
           ))}
         </div>
-        <Timer key={countdown} countdown={countdown} />
+        <Timer key={countdown} countdown={countdown} className="mb-10 lg:mb-0" />
       </div>
     </div>
   );

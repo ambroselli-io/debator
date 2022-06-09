@@ -126,12 +126,12 @@ export function ErrorBoundary({ error }) {
 const App = () => {
   const data = useLoaderData();
   return (
-    <html lang="en" className="h-screen w-screen scroll-smooth">
+    <html lang="en" className="w-screen overflow-hidden">
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="flex h-screen w-screen flex-col overflow-x-hidden bg-[#fafbfe] outline-app">
+      <body className="flex min-h-screen w-screen flex-col scroll-smooth bg-[#fafbfe] outline-app">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

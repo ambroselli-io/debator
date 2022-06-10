@@ -2,6 +2,7 @@ import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-ru
 import ChallengeCard from "app/components/ChallengeCard";
 import { challengeFormat } from "app/db/methods/challenge-format.server";
 import ChallengeModel from "app/db/models/challenge.server";
+import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 import SearchInput from "../../../components/SearchInput";
 
@@ -20,6 +21,7 @@ export const loader = async ({ request }) => {
     };
   }
 
+  const user = await getUnauthentifiedUserFromCookie(request);
   const challenges = await ChallengeModel.aggregate([
     {
       $match: {
@@ -28,6 +30,7 @@ export const loader = async ({ request }) => {
           $caseSensitive: false,
           $diacriticSensitive: false,
         },
+        environments: user.environment || undefined,
       },
     },
     {

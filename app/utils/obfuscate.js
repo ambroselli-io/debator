@@ -5,6 +5,9 @@ import { isUserLicenced } from "./isUserLicenced.server";
 export const getTopicIdsNotToObfuscate = async (request) => {
   const user = await getUnauthentifiedUserFromCookie(request, { noRedirect: true });
   if (isUserLicenced(user)) return [];
-  const todaysTopicsSuite = await getTodaysTopicSuite({ populate: false });
+  const todaysTopicsSuite = await getTodaysTopicSuite({
+    populate: false,
+    environment: user.environment,
+  });
   return todaysTopicsSuite.topics.filter((_, i) => i < 3);
 };

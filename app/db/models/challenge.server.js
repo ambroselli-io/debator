@@ -25,11 +25,11 @@ if (process.env.NODE_ENV === "production") {
   Schema.index({ title: "text", description: "text" });
   ChallengeModel.syncIndexes();
 } else {
-  // if (!global.__syncIndexes.includes(MODELNAME)) {
-  //   global.__syncIndexes.push(MODELNAME);
-  //   Schema.index({ title: "text", description: "text" });
-  //   ChallengeModel.syncIndexes();
-  // }
+  if (!global.__syncIndexes.includes(MODELNAME)) {
+    global.__syncIndexes.push(MODELNAME);
+    Schema.index({ title: "text", description: "text" });
+    ChallengeModel.syncIndexes();
+  }
 }
 
 export default ChallengeModel;

@@ -117,7 +117,11 @@ export default function Index() {
           className="mx-auto mt-4 rounded-lg border border-app bg-app px-4 py-2 text-white disabled:opacity-50"
           to="/donation"
         >
-          {user.licence === "lifely" ? "Faire un nouveau don" : "Renouveler"}
+          {user.licence === "lifely"
+            ? "Faire un nouveau don"
+            : !user.licence
+            ? "Acheter une licence"
+            : "Renouveler"}
         </Link>
         <Form action="/profil/logout" className="mx-auto" method="POST">
           <button

@@ -1,3 +1,4 @@
+import environments from "app/assets/environments";
 import mongoose from "mongoose";
 import dbConnection from "../mongo.server";
 const MODELNAME = "User";
@@ -18,6 +19,7 @@ const Schema = new mongoose.Schema(
     lastName: { type: String },
     job: { type: String },
     licence: { type: String, enum: ["monthly", "yearly", "lifely"] },
+    environment: { type: String, enum: environments, default: "Éducation" },
     licenceStartedAt: { type: Date },
     urlOrigin: { type: String },
     password: { type: String },

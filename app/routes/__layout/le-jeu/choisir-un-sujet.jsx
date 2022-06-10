@@ -1,6 +1,7 @@
 import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
 import SearchInput from "app/components/SearchInput";
 import { topicFormat } from "app/db/methods/topic-format.server";
+import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 import TopicSummary from "../../../components/TopicSummary";
@@ -11,7 +12,8 @@ export const loader = async ({ request }) => {
   const url = new URL(request.url);
   const freeTopicIds = await getTopicIdsNotToObfuscate(request);
 
-  const { topics } = await getTodaysTopicSuite();
+  const user = await getUnauthentifiedUserFromCookie(request);
+  const { topics } = await getTodaysTopicSuite({ environment: user.environment });
 
   const topicId = url.searchParams.get("topicId");
   if (topicId) {
@@ -40,6 +42,7 @@ export const loader = async ({ request }) => {
           $caseSensitive: false,
           $diacriticSensitive: false,
         },
+        environments: user.environment || undefined,
       },
     },
     {

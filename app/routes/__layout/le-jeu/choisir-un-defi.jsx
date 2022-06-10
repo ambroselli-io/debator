@@ -9,18 +9,22 @@ import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 import { topicFormat } from "app/db/methods/topic-format.server";
 import { challengeFormat } from "app/db/methods/challenge-format.server";
 import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
+import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
   const freeTopicIds = await getTopicIdsNotToObfuscate(request);
 
-  const challenges = await ChallengeModel.find();
-
+  const user = await getUnauthentifiedUserFromCookie(request);
+  const challenges = await ChallengeModel.find({
+    environments: user.environment || undefined,
+  });
   let topic = null;
   const topicId = url.searchParams.get("topicId");
   if (topicId) topic = topicFormat(await TopicModel.findById(topicId), freeTopicIds);
 
   const challengeId = url.searchParams.get("challengeId");
+
   if (challengeId) {
     const challenge = challengeFormat(await ChallengeModel.findById(challengeId));
     return {

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useFetcher, useLoaderData } from "@remix-run/react";
 import BurgerMenu from "app/components/BurgerMenu";
 import ContactUs from "app/components/ContactUs";
 import Modal from "app/components/Modal";
@@ -7,7 +6,6 @@ import PetitManifeste from "app/components/PetitManifeste";
 import ProposeChallenge from "app/components/ProposeChallenge";
 import ProposeGameMode from "app/components/ProposeGameMode";
 import ProposeTopic, { links } from "app/components/ProposeTopic";
-import TopicModel from "app/db/models/topic.server";
 import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import useSearchParamState from "app/services/searchParamsUtils";
 import { useLocalStorage } from "app/services/useLocalStorage";
@@ -27,6 +25,9 @@ export const loader = async ({ request }) => {
 
 const Layout = ({ children }) => {
   const { categories, user, licenceIsValid } = useLoaderData();
+  const fetcher = useFetcher();
+  const environment =
+    fetcher.submission?.formData?.get("environment") || user.environment;
 
   const [showProposeTopic, setShowProposeTopic] = useSearchParamState(
     "proposer-un-sujet",
@@ -36,6 +37,11 @@ const Layout = ({ children }) => {
   const [showIntro, setShowIntro] = useLocalStorage("show-intro", true);
   const [showProposeChallenge, setShowProposeChallenge] = useSearchParamState(
     "proposer-un-defi",
+    false,
+    { removeParamOnDefaultValue: true }
+  );
+  const [showChooseEnvironment, setShowChooseEnvironment] = useSearchParamState(
+    "choisir-environment",
     false,
     { removeParamOnDefaultValue: true }
   );
@@ -64,6 +70,20 @@ const Layout = ({ children }) => {
         <h1 className="font-marker text-xl">
           <Link to="/">Debator</Link>
         </h1>
+        {environment && (
+          <button
+            className={`py  mr-auto ml-2 rounded-full px-4 ${
+              environment === "Éducation"
+                ? "bg-blue-500 text-white"
+                : environment === "Absurde"
+                ? "bg-black text-white"
+                : "bg-[#ff1345] text-white"
+            } `}
+            onClick={() => setShowChooseEnvironment(true)}
+          >
+            {environment}
+          </button>
+        )}
         <button className="ml-auto py-2 px-4" onClick={() => setShowContactUs(true)}>
           Nous contacter
         </button>
@@ -128,10 +148,10 @@ const Layout = ({ children }) => {
           <button className="py-2 px-4 text-left" onClick={() => setShowIntro(true)}>
             <span className="mr-6">🤗</span>Accueil
           </button>
-          {/* <hr className="my-6 grow border-none" />
+          <hr className="my-6 grow border-none" />
           <span className="py-2 px-4 text-left">
             © Debator - {dayjs().format("YYYY")}
-          </span> */}
+          </span>
         </BurgerMenu>
       </header>
       <div
@@ -169,6 +189,54 @@ const Layout = ({ children }) => {
         {!!showPetitManifeste && (
           <Modal isOpen hide={() => setShowPetitManifeste(false)} title="Petit Manifeste">
             <PetitManifeste />
+          </Modal>
+        )}
+        {!!showChooseEnvironment && (
+          <Modal
+            isOpen
+            hide={() => setShowChooseEnvironment(false)}
+            title="Choisissez votre environnement"
+          >
+            <section className="flex flex-col items-center justify-around gap-4 bg-opacity-10 py-4">
+              <p className="mb-2 text-center">
+                Certains thèmes et défis n'apparaissent pas en fonction de l'environnement
+                que vous choisissez.
+                <br />
+                Vous pouvez changer d'environnement quand vous voulez !
+              </p>
+              <fetcher.Form
+                id="choose-environment"
+                method="POST"
+                className="flex flex-wrap justify-center gap-4"
+                action="/actions/choose-environment"
+                onSubmit={() => setShowChooseEnvironment(false)}
+              >
+                <button
+                  type="submit"
+                  value="Éducation"
+                  name="environment"
+                  className="rounded-full bg-blue-500 py-2 px-6 text-white"
+                >
+                  Éducation
+                </button>
+                <button
+                  value="Tout"
+                  type="submit"
+                  name="environment"
+                  className="rounded-full bg-[#ff1345] py-2 px-6 text-white"
+                >
+                  Tout
+                </button>
+                <button
+                  value="Absurde"
+                  type="submit"
+                  name="environment"
+                  className="rounded-full bg-black py-2 px-6 text-white"
+                >
+                  Absurde
+                </button>
+              </fetcher.Form>
+            </section>
           </Modal>
         )}
         {!!showIntro && (

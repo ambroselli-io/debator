@@ -2,6 +2,7 @@ import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-ru
 import { SelectAutofill, links } from "app/components/Selects";
 import { topicFormat } from "app/db/methods/topic-format.server";
 import { getCategories } from "app/db/queries/categories.server";
+import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 import RangeInput from "../../../components/RangeInput";
@@ -17,6 +18,7 @@ export const loader = async ({ request }) => {
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
   const freeTopicIds = await getTopicIdsNotToObfuscate(request);
+  const user = await getUnauthentifiedUserFromCookie(request);
 
   const categories = await getCategories();
   // all
@@ -30,7 +32,9 @@ export const loader = async ({ request }) => {
     if (searchParams.get("difficulty")?.length && searchParams.get("difficulty") > 0) {
       query.difficulty = searchParams.get("difficulty");
     }
-    const topicsIdsOrder = (await getTodaysTopicSuite({ populate: false })).topics;
+    const topicsIdsOrder = (
+      await getTodaysTopicSuite({ populate: false, environment: user.environment })
+    ).topics;
 
     const topics = await TopicModel.find(query);
 
@@ -51,6 +55,7 @@ export const loader = async ({ request }) => {
           $caseSensitive: false,
           $diacriticSensitive: false,
         },
+        environments: user.environment || undefined,
       },
     },
     {

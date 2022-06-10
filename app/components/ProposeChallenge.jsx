@@ -1,10 +1,12 @@
+import environments from "app/assets/environments";
 import { useEffect } from "react";
 import { useFetcher } from "remix";
 import Challenge from "./Challenge";
 import Input from "./Input";
 import Modal from "./Modal";
+import { SelectAutofill } from "./Selects";
 
-const ProposeChallenge = ({ isOpen, hide }) => {
+const ProposeChallenge = ({ isOpen, hide, challenge, id, method, action }) => {
   const fetcher = useFetcher();
 
   useEffect(() => {
@@ -37,45 +39,66 @@ const ProposeChallenge = ({ isOpen, hide }) => {
   return (
     <Modal isOpen={isOpen} hide={hide} title="Proposer un défi">
       <fetcher.Form
-        method="POST"
-        action="/actions/proposer-un-defi"
-        id="propose-challenge"
+        method={method}
+        action={action}
+        id={id}
         className="flex w-full flex-col items-center gap-8"
       >
         <Input
           type="text"
           name="title"
-          id="propose-challenge-title"
+          id={`${id}-title`}
           label="💡Énoncé du défi"
           placeholder="Se pincer le nez"
           required
+          defaultValue={challenge?.title}
         />
         <Input
           textarea
           type="text"
           name="description"
-          id="propose-challenge-description"
+          id={`${id}-description`}
           label="🥸 Description"
           placeholder="Vous devez faire votre argumentation en vous pinçant le nez 👃"
+          defaultValue={challenge?.description}
+        />
+        <SelectAutofill
+          options={
+            environments?.map((name) => ({
+              value: name,
+              label: name,
+            })) || []
+          }
+          name="environments"
+          legend="🧂 Environnement de jeu"
+          form={id}
+          required
+          className="w-full"
+          defaultValue={challenge?.environments.map((name) => ({
+            value: name,
+            label: name,
+          }))}
         />
         <Input
           type="text"
           name="userName"
           autoComplete="name"
-          id="propose-challenge-name"
+          id={`${id}-name`}
           label="🐒 Votre nom"
           placeholder="Votre nom"
           required
+          defaultValue={challenge?.userName}
         />
         <Input
           type="email"
           name="userEmail"
           autoComplete="email"
           inputMode="email"
-          id="propose-challenge-email"
+          id={`${id}-email`}
           label="＠ Votre Email"
           placeholder="Pour que nous puissions discuter de votre proposition !"
           required
+          defaultValue={challenge?.userEmail}
         />
         <button
           type="submit"

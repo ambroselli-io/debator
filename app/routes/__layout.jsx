@@ -152,7 +152,13 @@ const Layout = ({ children }) => {
           />
         )}
         {!!showProposeChallenge && (
-          <ProposeChallenge isOpen hide={() => setShowProposeChallenge(false)} />
+          <ProposeChallenge
+            isOpen
+            hide={() => setShowProposeChallenge(false)}
+            method="POST"
+            action="/actions/proposer-un-defi"
+            id="propose-challenge"
+          />
         )}
         {!!showProposeGameMode && (
           <ProposeGameMode isOpen hide={() => setShowProposeGameMode(false)} />

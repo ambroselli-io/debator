@@ -11,7 +11,7 @@ const ContactUs = ({ isOpen, hide, user = null }) => {
     if (fetcher.data?.error) alert(fetcher.data.error);
   }, [fetcher.data?.error]);
 
-  if (fetcher.type === "done" && fetcher.data.ok === true) {
+  if (fetcher?.type === "done" && fetcher?.data?.ok === true) {
     return (
       <Modal isOpen={isOpen} hide={hide} title="Nous contacter">
         <div className="flex flex-col items-center">

@@ -1,6 +1,7 @@
 import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
 import { SelectAutofill, links } from "app/components/Selects";
 import { topicFormat } from "app/db/methods/topic-format.server";
+import { getCategories } from "app/db/queries/categories.server";
 import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 import RangeInput from "../../../components/RangeInput";
@@ -17,27 +18,7 @@ export const loader = async ({ request }) => {
   const searchParams = new URLSearchParams(url.search);
   const freeTopicIds = await getTopicIdsNotToObfuscate(request);
 
-  // get categories with number of topics
-  const topicsGroupedByCategory = await TopicModel.aggregate([
-    {
-      $unwind: "$categories",
-    },
-    {
-      $group: {
-        _id: "$categories",
-        category: { $first: "$categories" },
-        count: { $sum: 1 },
-      },
-    },
-  ]);
-
-  const categories = topicsGroupedByCategory.map(({ _id, category }) => ({
-    _id,
-    categoryWithCount: `${category} (${
-      topicsGroupedByCategory.find((t) => t.category === category)?.count
-    })`,
-  }));
-
+  const categories = await getCategories();
   // all
   if (!searchParams.get("search")?.length) {
     // get topics

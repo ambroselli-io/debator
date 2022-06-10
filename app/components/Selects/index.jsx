@@ -86,6 +86,7 @@ const SelectRoot = ({
           className="w-full"
           classNamePrefix="select"
           theme={customTheme}
+          placeholder="Sélectionner..."
           styles={rootCustomStyles(customStyles)}
           formatCreateLabel={(inputValue) =>
             `Créer la catégorie ${capitalizeFirstLetter(inputValue)}`

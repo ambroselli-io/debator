@@ -13,6 +13,7 @@ import useSearchParamState from "app/services/searchParamsUtils";
 import { useLocalStorage } from "app/services/useLocalStorage";
 import dayjs from "dayjs";
 import { isUserLicenced } from "app/utils/isUserLicenced.server";
+import { getCategories } from "app/db/queries/categories.server";
 
 export { links };
 
@@ -20,17 +21,7 @@ export const loader = async ({ request }) => {
   const user = await getUnauthentifiedUserFromCookie(request);
   const licenceIsValid = isUserLicenced(user);
 
-  // get categories with number of topics
-  const categories = await TopicModel.aggregate([
-    {
-      $unwind: "$categories",
-    },
-    {
-      $group: {
-        _id: "$categories",
-      },
-    },
-  ]);
+  const categories = await getCategories();
   return { categories: categories.map(({ _id }) => _id), user, licenceIsValid };
 };
 
@@ -42,7 +33,6 @@ const Layout = ({ children }) => {
     false,
     { removeParamOnDefaultValue: true }
   );
-  const [proposeTopicKey, setProposeTopicKey] = useState(0);
   const [showIntro, setShowIntro] = useLocalStorage("show-intro", true);
   const [showProposeChallenge, setShowProposeChallenge] = useSearchParamState(
     "proposer-un-defi",
@@ -153,11 +143,12 @@ const Layout = ({ children }) => {
         {children ? children : <Outlet />}
         {!!showProposeTopic && (
           <ProposeTopic
-            key={proposeTopicKey}
             isOpen
             hide={() => setShowProposeTopic(false)}
-            showNewForm={() => setProposeTopicKey((k) => k + 1)}
             categories={categories}
+            action="/actions/proposer-un-sujet"
+            method="POST"
+            id="propose-topic"
           />
         )}
         {!!showProposeChallenge && (

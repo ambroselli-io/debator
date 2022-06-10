@@ -10,7 +10,7 @@ const ProposeGameMode = ({ isOpen, hide }) => {
     if (fetcher.data?.error) alert(fetcher.data.error);
   }, [fetcher.data?.error]);
 
-  if (fetcher.type === "done" && fetcher.data.ok === true) {
+  if (fetcher?.type === "done" && fetcher?.data?.ok === true) {
     return (
       <Modal isOpen={isOpen} hide={hide} title="Nous contacter">
         <div className="flex flex-col items-center">
@@ -31,8 +31,8 @@ const ProposeGameMode = ({ isOpen, hide }) => {
     <Modal isOpen={isOpen} hide={hide} title="Proposer un mode de jeu">
       <fetcher.Form
         method="POST"
-        action="/actions/contact-us"
-        id="contact-us"
+        action="/actions/contact-us" // no db model for game mode, so propose by email
+        id="propose-game-mode"
         className="flex w-full flex-col items-center gap-8"
       >
         <input type="hidden" name="subject" defaultValue="Proposition de mode de jeu" />
@@ -40,7 +40,7 @@ const ProposeGameMode = ({ isOpen, hide }) => {
           type="text"
           name="name"
           autoComplete="name"
-          id="contact-us-name"
+          id="propose-game-mode-name"
           label="🎳 Nom du mode de jeu "
           placeholder="Face à face"
           required
@@ -49,7 +49,7 @@ const ProposeGameMode = ({ isOpen, hide }) => {
           textarea
           type="text"
           name="description"
-          id="contact-us-description"
+          id="propose-game-mode-description"
           label="🎙 Comment fonctionne ce jeu ?"
           placeholder="Décrivez le mode de jeu"
           required
@@ -58,7 +58,7 @@ const ProposeGameMode = ({ isOpen, hide }) => {
           type="text"
           name="name"
           autoComplete="name"
-          id="contact-us-name"
+          id="propose-game-mode-name"
           label="🐒 Votre nom"
           placeholder="Votre nom"
           required
@@ -68,7 +68,7 @@ const ProposeGameMode = ({ isOpen, hide }) => {
           name="email"
           autoComplete="email"
           inputMode="email"
-          id="contact-us-email"
+          id="propose-game-mode-email"
           label="＠ Votre Email"
           placeholder="Pour que nous puissions discuter de votre proposition !"
           required

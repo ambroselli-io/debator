@@ -1,3 +1,4 @@
+import environments from "app/assets/environments";
 import mongoose from "mongoose";
 import dbConnection from "../mongo.server";
 const MODELNAME = "Challenge";
@@ -6,7 +7,10 @@ const Schema = new mongoose.Schema(
   {
     title: { type: String },
     description: { type: String },
-    excludeEnvironment: [String], // education / family / nsfw
+    environments: {
+      type: [{ type: String, enum: environments }],
+      default: environments,
+    },
     verified: { type: Boolean, default: true },
     userName: String, // for proposed topics
     userEmail: String, // for proposed topics

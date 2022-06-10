@@ -11,7 +11,7 @@ const ProposeChallenge = ({ isOpen, hide }) => {
     if (fetcher.data?.error) alert(fetcher.data.error);
   }, [fetcher.data?.error]);
 
-  if (fetcher.type === "done" && fetcher.data.ok === true) {
+  if (fetcher?.type === "done" && fetcher?.data?.ok === true) {
     return (
       <Modal isOpen={isOpen} hide={hide} title="Proposer un défi">
         <div className="flex flex-col items-center">
@@ -62,7 +62,7 @@ const ProposeChallenge = ({ isOpen, hide }) => {
           type="text"
           name="userName"
           autoComplete="name"
-          id="contact-us-name"
+          id="propose-challenge-name"
           label="🐒 Votre nom"
           placeholder="Votre nom"
           required
@@ -72,7 +72,7 @@ const ProposeChallenge = ({ isOpen, hide }) => {
           name="userEmail"
           autoComplete="email"
           inputMode="email"
-          id="contact-us-email"
+          id="propose-challenge-email"
           label="＠ Votre Email"
           placeholder="Pour que nous puissions discuter de votre proposition !"
           required

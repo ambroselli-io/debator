@@ -1,3 +1,4 @@
+import environments from "app/assets/environments";
 import mongoose from "mongoose";
 import dbConnection from "../mongo.server";
 const MODELNAME = "Topic";
@@ -19,6 +20,10 @@ const Schema = new mongoose.Schema(
     userName: String, // for proposed topics
     userEmail: String, // for proposed topics
     verified: { type: Boolean, default: true },
+    environments: {
+      type: [{ type: String, enum: environments }],
+      default: environments,
+    },
   },
   { timestamps: true }
 );

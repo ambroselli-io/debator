@@ -22,6 +22,7 @@ const Schema = new mongoose.Schema(
     urlOrigin: { type: String },
     password: { type: String },
     lastLoginAt: { type: Date },
+    role: { type: String },
   },
   { timestamps: true }
 );

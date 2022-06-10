@@ -1,7 +1,16 @@
 import { useMemo } from "react";
 import { useSearchParams } from "@remix-run/react";
 
-const RangeInput = ({ min, max, step, name, className, required = false }) => {
+const RangeInput = ({
+  min,
+  max,
+  step,
+  name,
+  className,
+  required = false,
+  disabled = false,
+  defaultValue = undefined,
+}) => {
   const [searchParams] = useSearchParams();
   const options = useMemo(() => Array.from(Array(max - min).keys()), [min, max]);
   return (
@@ -13,9 +22,10 @@ const RangeInput = ({ min, max, step, name, className, required = false }) => {
         max={max}
         step={step}
         list="stars"
-        defaultValue={searchParams.get(name) || String(min)}
+        defaultValue={defaultValue || searchParams.get(name) || String(min)}
         className={className}
         required={required}
+        disabled={disabled}
       />
       <datalist id="stars">
         {options.map((_, index) => (

@@ -88,4 +88,6 @@ dialog::backdrop {
 }
 dialog {
   margin: auto;
+  max-height: calc((100% - 6px) - 2em);
+  z-index: 10000;
 }

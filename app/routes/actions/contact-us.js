@@ -10,7 +10,6 @@ export const action = catchErrors(async ({ request }) => {
     from: "Debator",
     subject: formData.get("subject"),
   });
-  console.log(response, response.status);
   if (response.status < 300 && response.status >= 200)
     return json({ ok: true, response });
   return json({ ok: false });

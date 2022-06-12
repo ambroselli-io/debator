@@ -26,7 +26,6 @@ export const loader = async ({ request }) => {
   const licenceIsValid = isUserLicenced(user);
 
   const categories = await getCategories();
-  console.log({ user, licenceIsValid, categories });
   return { categories: categories.map(({ _id }) => _id), user, licenceIsValid };
 };
 
@@ -159,40 +158,40 @@ const Layout = ({ children }) => {
         }`}
       >
         {children ? children : <Outlet />}
-        {!!showProposeTopic && (
-          <ProposeTopic
-            isOpen
-            hide={() => setShowProposeTopic(false)}
-            categories={categories}
-            action="/actions/proposer-un-sujet"
-            method="POST"
-            id="propose-topic"
-          />
-        )}
-        {!!showProposeChallenge && (
-          <ProposeChallenge
-            isOpen
-            hide={() => setShowProposeChallenge(false)}
-            method="POST"
-            action="/actions/proposer-un-defi"
-            id="propose-challenge"
-          />
-        )}
-        {!!showProposeGameMode && (
-          <ProposeGameMode isOpen hide={() => setShowProposeGameMode(false)} />
-        )}
-        {!!showContactUs && (
-          <ContactUs isOpen hide={() => setShowContactUs(false)} user={user} />
-        )}
-        {!!showPetitManifeste && (
-          <Modal isOpen hide={() => setShowPetitManifeste(false)} title="Petit Manifeste">
-            <PetitManifeste />
-          </Modal>
-        )}
-        <Legal showLegal={showLegal} setShowLegal={setShowLegal} />
-        <ChooseEnvironment fetcher={fetcher} />
-        <Intro showIntro={showIntro} setShowIntro={setShowIntro} />
       </div>
+      {!!showProposeTopic && (
+        <ProposeTopic
+          isOpen
+          hide={() => setShowProposeTopic(false)}
+          categories={categories}
+          action="/actions/proposer-un-sujet"
+          method="POST"
+          id="propose-topic"
+        />
+      )}
+      {!!showProposeChallenge && (
+        <ProposeChallenge
+          isOpen
+          hide={() => setShowProposeChallenge(false)}
+          method="POST"
+          action="/actions/proposer-un-defi"
+          id="propose-challenge"
+        />
+      )}
+      {!!showProposeGameMode && (
+        <ProposeGameMode isOpen hide={() => setShowProposeGameMode(false)} />
+      )}
+      {!!showContactUs && (
+        <ContactUs isOpen hide={() => setShowContactUs(false)} user={user} />
+      )}
+      {!!showPetitManifeste && (
+        <Modal isOpen hide={() => setShowPetitManifeste(false)} title="Petit Manifeste">
+          <PetitManifeste />
+        </Modal>
+      )}
+      <Legal showLegal={showLegal} setShowLegal={setShowLegal} />
+      <ChooseEnvironment fetcher={fetcher} />
+      <Intro showIntro={showIntro} setShowIntro={setShowIntro} />
     </>
   );
 };

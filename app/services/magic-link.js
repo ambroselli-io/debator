@@ -52,7 +52,8 @@ export const createMagicLink = (emailAddress) => {
 export const createMagicLinkEmail = (user) => {
   const emailAddress = user.email;
   if (!emailAddress) throw new Error("No email provided for magic link");
-  const userExists = Boolean(user.firstName);
+  // const userExists = Boolean(user.firstName);
+  const userExists = true;
 
   const magicLink = createMagicLink(emailAddress);
 

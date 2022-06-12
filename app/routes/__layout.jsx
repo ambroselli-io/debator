@@ -35,7 +35,7 @@ const Layout = ({ children }) => {
   const [_, mergeSearchParams] = useMergeSearchParams();
   const fetcher = useFetcher();
   const environment =
-    fetcher.submission?.formData?.get("environment") || user?.environment || "Tout";
+    fetcher.submission?.formData?.get("environment") || user?.environment;
 
   const [showProposeTopic, setShowProposeTopic] = useSearchParamState(
     "proposer-un-sujet",

@@ -3,17 +3,15 @@ import { shuffle } from "../../utils/arrays";
 import TopicModel from "../models/topic.server";
 import TopicsSuiteModel from "../models/topicsSuite.server";
 
-export const getTodaysTopicSuite = async ({
-  populate = true,
-  environment = "Tout",
-} = {}) => {
+export const getTodaysTopicSuite = async ({ populate = true, environment } = {}) => {
   // find the daily topics suite if exists
+  const topicQuery = environment ? { environments: environment } : {};
   const topicsSuiteQuery = { date: dayjs().format("YYYY-MM-DD"), environment };
   const topicPopulate = {
     path: "topics",
     model: "Topic",
   };
-  const totalTopics = await TopicModel.countDocuments({ environments: environment });
+  const totalTopics = await TopicModel.countDocuments(topicQuery);
 
   let topicsSuite = null;
   while (!topicsSuite) {
@@ -24,7 +22,7 @@ export const getTodaysTopicSuite = async ({
       await TopicsSuiteModel.findByIdAndDelete(topicsSuite._id);
       topicsSuite = null;
     } else {
-      const topics = await TopicModel.find({ environments: environment }).select("_id");
+      const topics = await TopicModel.find(topicQuery).select("_id");
       try {
         topicsSuite = await TopicsSuiteModel.create({
           environment,

@@ -49,9 +49,7 @@ const Donation = () => {
   }, [fetcher?.data?.error]);
 
   const [donation, setDonation] = useState("");
-  const [showContactUs, setShowContactUs] = useSearchParamState("contactez-nous", false, {
-    removeParamOnDefaultValue: true,
-  });
+  const [showContactUs, setShowContactUs] = useSearchParamState("contactez-nous", false);
 
   const monthlyLicenceRef = useRef();
   const yearlyLicenceRef = useRef();
@@ -93,9 +91,8 @@ const Donation = () => {
         {user?.licence !== "lifely" ? (
           <>
             <p className="mt-4 max-w-[68ch]">
-              Nous avons décidé de ne pas mettre de prix fixe, mais un prix en fonction de
-              l'utilité que vous y trouvez ou de ce que vous avez envie de donner pour en
-              avoir une version.
+              Le prix de Debator est un prix en fonction de l'utilité que vous y trouvez
+              ou de ce que vous avez envie de donner pour en avoir une version.
             </p>
             <p className="mt-4 max-w-[68ch]">
               Les licences sont limitées dans le temps, parce que nous faisons évoluer
@@ -111,11 +108,14 @@ const Donation = () => {
                 pour avoir une <b>licence pendant 1 an</b>, votre prix doit être supérieur
                 ou égal à <b>10€</b>
               </li>
-              <li>tout prix inférieur à 10€ donne une licence valable pendant 1 mois</li>
+              <li>
+                tout prix inférieur à 10€ donne une <b>licence pendant 1 mois</b>
+              </li>
             </ul>
             <p className="mt-4 w-full max-w-[68ch]">
-              Choisissez votre licence (prix TTC), avant de renseigner vos informations.
-              Si vous êtes intéressé(es) par Debator mais que vous n'avez pas les moyens,{" "}
+              Choisissez votre licence <b>(prix TTC)</b>, avant de renseigner vos
+              informations. Si vous êtes intéressé(es) par Debator mais que vous n'avez
+              pas les moyens,{" "}
               <button
                 type="button"
                 className="underline"

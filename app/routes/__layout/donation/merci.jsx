@@ -1,5 +1,7 @@
+import ContributionRule from "app/components/ContributionRule";
 import TransactionModel from "app/db/models/transaction.server";
 import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
+import { useMergeSearchParams } from "app/services/searchParamsUtils";
 import { capture } from "app/services/sentry.server";
 import dayjs from "dayjs";
 import { json, Link, useLoaderData } from "remix";
@@ -27,6 +29,7 @@ export const loader = async ({ request }) => {
 
 const Merci = () => {
   const { transaction, user } = useLoaderData();
+  const [_, mergeSearchParams] = useMergeSearchParams();
   return (
     <>
       <h1 className="my-8 max-w-sm text-center font-[xkcd] text-2xl uppercase">
@@ -56,12 +59,36 @@ const Merci = () => {
           </>
         )}
       </p>
+      <p className="mt-4 max-w-[68ch]">
+        Avoir une licence valide vous permet aussi de faire partie de la{" "}
+        <b>communauté Debator</b>, qui vous permettra de participer à l'avenir aux choix
+        stratégiques de l'entreprise. Nous vous contacterons quand l'occasion se
+        présentera.
+        <br />
+        De même que{" "}
+        <button
+          className="underline"
+          onClick={() => mergeSearchParams({ "proposer-un-sujet": true })}
+        >
+          proposer des sujets
+        </button>{" "}
+        et{" "}
+        <button
+          className="underline"
+          onClick={() => mergeSearchParams({ "proposer-un-defi": true })}
+        >
+          des défis
+        </button>{" "}
+        vous permet d'obtenir des actions et une part des dividendes lorsqu'il y en aura
+        <sup>*</sup>.
+      </p>
       <Link
         to={user?._id ? "/le-jeu" : "/profil"}
         className="my-12 rounded-lg border border-app bg-app px-4 py-2 text-white"
       >
         {user?._id ? "Retour au jeu" : "Se connecter"}
       </Link>
+      <ContributionRule startWithStar />
     </>
   );
 };

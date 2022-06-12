@@ -15,8 +15,7 @@ const GamePlay = ({ editable }) => {
 
   const [showGameModeInfos, setShowGameModeInfos] = useSearchParamState(
     "game-mode-infos",
-    false,
-    { removeParamOnDefaultValue: true }
+    false
   );
 
   return (

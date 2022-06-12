@@ -31,7 +31,9 @@ const BurgerMenu = ({ children, duration = 150 }) => {
         className={`relative z-20 h-10 w-10 shrink-0 text-app ${
           showMenu ? "opacity-50" : ""
         }`}
-        onClick={() => setActivateMenu((s) => !s)}
+        onClick={() => {
+          setActivateMenu((s) => !s);
+        }}
       >
         <span className="sr-only">Ouvrir le menu</span>
         <div className="absolute left-1/2 top-1/2 block w-1/2 -translate-x-1/2 -translate-y-1/2 transform">
@@ -57,7 +59,7 @@ const BurgerMenu = ({ children, duration = 150 }) => {
       </button>
       <nav
         className={`max-w-screen absolute top-0 right-0 z-10 flex h-screen w-80 max-w-full flex-col border-l border-app border-opacity-30 bg-[#fafbfe] pt-12 transition-all duration-${duration} ${className}`}
-        onClick={() => setShowMenu((s) => !s)}
+        onClick={() => setActivateMenu((s) => !s)}
       >
         {children}
       </nav>

@@ -25,8 +25,7 @@ const ChooseAGameMode = () => {
   const { topic } = useLoaderData();
   const [showGameModeInfos, setShowGameModeInfos] = useSearchParamState(
     "game-mode-infos-slug",
-    "",
-    { removeParamOnDefaultValue: true }
+    ""
   );
   const game = useMemo(
     () => games.find((g) => g.slug === showGameModeInfos),

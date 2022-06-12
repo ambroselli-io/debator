@@ -47,9 +47,15 @@ const setDataAsSearchParam = (data) => {
 const getDataAsSearchParam = (data, defaultValue) => {
   if (!data) return null;
   // handle objects
+  if (data === "null") return null;
+  if (data === "undefined") return undefined;
   if (typeof defaultValue === "string") return data;
   if (typeof defaultValue === "number") return Number(data);
-  if (typeof defaultValue === "boolean") return Boolean(data);
+  if (typeof data === "boolean" || ["false", "true"].includes(data)) {
+    if (data === "false") return false;
+    if (data === "true") return true;
+    return Boolean(data);
+  }
   try {
     return JSON.parse(data);
   } catch (e) {
@@ -65,9 +71,9 @@ const useSearchParamState = (
   defaultAndInitialValue,
   {
     resetOnValueChange = null,
-    setSearchParamOnMount = false,
-    listenToBackButton = false,
-    removeParamOnDefaultValue = false,
+    setSearchParamOnMount = true,
+    listenToUrlChanges = true,
+    removeParamOnDefaultValue = true,
   } = {}
 ) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -79,13 +85,18 @@ const useSearchParamState = (
       defaultAndInitialValue
   );
 
-  const setStateRequest = (newState, { sideEffect = null } = {}) => {
+  const setStateRequest = (newState, { sideEffects = {} } = {}) => {
     if (window) {
       const searchParams = new URLSearchParams(location.search);
       searchParams.set(param, setDataAsSearchParam(newState));
-      if (Array.isArray(sideEffect) && sideEffect?.length === 2) {
-        const [sideEffectParam, sideEffectValue] = sideEffect;
-        searchParams.set(sideEffectParam, setDataAsSearchParam(sideEffectValue));
+      // its not possible to update two different URLSearchParams very quickly
+      // that's why, if really needed, there is this side effect option
+      // to update two different URLSearchParams very quickly
+      for (const sideEffectParam of Object.keys(sideEffects)) {
+        searchParams.set(
+          sideEffectParam,
+          setDataAsSearchParam(sideEffects[sideEffectParam])
+        );
       }
       if (removeParamOnDefaultValue && newState === defaultAndInitialValue) {
         searchParams.delete(param);
@@ -114,17 +125,19 @@ const useSearchParamState = (
   }, [setSearchParamOnMount]);
 
   useEffect(() => {
-    if (listenToBackButton && transition?.location?.search) {
-      const transitionSearch = new URLSearchParams(transition?.location.search).get(
-        param
+    if (listenToUrlChanges && transition?.location?.search) {
+      const paramExistsInUrl = transition?.location?.search?.indexOf(`${param}=`) !== -1;
+      if (!paramExistsInUrl) return;
+      const paramValue = getDataAsSearchParam(
+        new URLSearchParams(transition?.location.search).get(param),
+        defaultAndInitialValue
       );
-      if (transitionSearch !== state) {
-        // it means clicked on back button
-        setStateRequest(transitionSearch);
+      if (paramValue !== state) {
+        setStateRequest(paramValue);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listenToBackButton, transition?.location?.search]);
+  }, [listenToUrlChanges, transition?.location?.search]);
 
   return [state, setStateRequest];
 };

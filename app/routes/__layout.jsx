@@ -7,11 +7,17 @@ import ProposeChallenge from "app/components/ProposeChallenge";
 import ProposeGameMode from "app/components/ProposeGameMode";
 import ProposeTopic, { links } from "app/components/ProposeTopic";
 import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
-import useSearchParamState from "app/services/searchParamsUtils";
+import useSearchParamState, {
+  useMergeSearchParams,
+} from "app/services/searchParamsUtils";
 import { useLocalStorage } from "app/services/useLocalStorage";
 import dayjs from "dayjs";
 import { isUserLicenced } from "app/utils/isUserLicenced.server";
 import { getCategories } from "app/db/queries/categories.server";
+import { useState } from "react";
+import Intro from "app/components/Intro";
+import ChooseEnvironment from "app/components/ChooseEnvironment";
+import Legal from "app/components/Legal";
 
 export { links };
 
@@ -25,44 +31,36 @@ export const loader = async ({ request }) => {
 
 const Layout = ({ children }) => {
   const { categories, user, licenceIsValid } = useLoaderData();
+  const [_, mergeSearchParams] = useMergeSearchParams();
   const fetcher = useFetcher();
   const environment =
     fetcher.submission?.formData?.get("environment") || user.environment;
 
   const [showProposeTopic, setShowProposeTopic] = useSearchParamState(
     "proposer-un-sujet",
-    false,
-    { removeParamOnDefaultValue: true }
+    false
   );
-  const [showIntro, setShowIntro] = useLocalStorage("show-intro", true);
   const [showProposeChallenge, setShowProposeChallenge] = useSearchParamState(
     "proposer-un-defi",
-    false,
-    { removeParamOnDefaultValue: true }
+    false
   );
   const [showChooseEnvironment, setShowChooseEnvironment] = useSearchParamState(
     "choisir-environment",
-    false,
-    { removeParamOnDefaultValue: true }
+    false
   );
   const [showProposeGameMode, setShowProposeGameMode] = useSearchParamState(
     "proposez-un-mode-de-jeu",
-    false,
-    {
-      removeParamOnDefaultValue: true,
-    }
+    false
   );
-  const [showContactUs, setShowContactUs] = useSearchParamState("contactez-nous", false, {
-    removeParamOnDefaultValue: true,
-  });
+  const [showContactUs, setShowContactUs] = useSearchParamState("contactez-nous", false);
 
   const [showPetitManifeste, setShowPetitManifeste] = useSearchParamState(
     "petit-manifeste",
-    false,
-    {
-      removeParamOnDefaultValue: true,
-    }
+    false
   );
+
+  const [showIntro, setShowIntro] = useLocalStorage("show-intro", true);
+  const [showLegal, setShowLegal] = useState(true);
 
   return (
     <>
@@ -72,14 +70,14 @@ const Layout = ({ children }) => {
         </h1>
         {environment && (
           <button
-            className={`py  mr-auto ml-2 rounded-full px-4 ${
+            className={`mr-auto ml-2 rounded-full py-1 px-2 text-xs ${
               environment === "Éducation"
                 ? "bg-blue-500 text-white"
                 : environment === "Absurde"
                 ? "bg-black text-white"
                 : "bg-[#ff1345] text-white"
             } `}
-            onClick={() => setShowChooseEnvironment(true)}
+            onClick={() => mergeSearchParams({ "choisir-environment": true })}
           >
             {environment}
           </button>
@@ -149,9 +147,12 @@ const Layout = ({ children }) => {
             <span className="mr-6">🤗</span>Accueil
           </button>
           <hr className="my-6 grow border-none" />
-          <span className="py-2 px-4 text-left">
-            © Debator - {dayjs().format("YYYY")}
-          </span>
+          <p className="flex justify-between py-2 px-4 text-xs">
+            <span>© Debator - {dayjs().format("YYYY")}</span>
+            <button className="ml-2 text-left" onClick={() => setShowLegal(true)}>
+              Mentions légales
+            </button>
+          </p>
         </BurgerMenu>
       </header>
       <div
@@ -191,107 +192,9 @@ const Layout = ({ children }) => {
             <PetitManifeste />
           </Modal>
         )}
-        {!!showChooseEnvironment && (
-          <Modal
-            isOpen
-            hide={() => setShowChooseEnvironment(false)}
-            title="Choisissez votre environnement"
-          >
-            <section className="flex flex-col items-center justify-around gap-4 bg-opacity-10 py-4">
-              <p className="mb-2 text-center">
-                Certains thèmes et défis n'apparaissent pas en fonction de l'environnement
-                que vous choisissez.
-                <br />
-                Vous pouvez changer d'environnement quand vous voulez !
-              </p>
-              <fetcher.Form
-                id="choose-environment"
-                method="POST"
-                className="flex flex-wrap justify-center gap-4"
-                action="/actions/choose-environment"
-                onSubmit={() => setShowChooseEnvironment(false)}
-              >
-                <button
-                  type="submit"
-                  value="Éducation"
-                  name="environment"
-                  className="rounded-full bg-blue-500 py-2 px-6 text-white"
-                >
-                  Éducation
-                </button>
-                <button
-                  value="Tout"
-                  type="submit"
-                  name="environment"
-                  className="rounded-full bg-[#ff1345] py-2 px-6 text-white"
-                >
-                  Tout
-                </button>
-                <button
-                  value="Absurde"
-                  type="submit"
-                  name="environment"
-                  className="rounded-full bg-black py-2 px-6 text-white"
-                >
-                  Absurde
-                </button>
-              </fetcher.Form>
-            </section>
-          </Modal>
-        )}
-        {!!showIntro && (
-          <Modal isOpen hide={() => setShowIntro(false)} title="Bienvenue sur Debator !">
-            <section className="flex flex-col items-center justify-around gap-4 bg-opacity-10 py-4">
-              <h1 className="font-[xkcd] text-2xl uppercase text-app">
-                Comment ca marche&nbsp;?
-              </h1>
-              <ol>
-                <li className="mb-2 text-center">
-                  <em className="font-bold not-italic text-app">I.</em> Je choisis un
-                  sujet 🥸
-                </li>
-                <li className="mb-2 text-center">
-                  <em className="font-bold not-italic text-app">II.</em> Je choisis le
-                  mode de jeu 💁 (joute a deux, en arene...)
-                </li>
-                <li className="mb-2 text-center">
-                  <em className="font-bold not-italic text-app">III.</em> Je choisis un
-                  defi ! 😎 (en rimes, en se pincant le nez...)
-                </li>
-              </ol>
-              <button
-                type="button"
-                onClick={() => setShowIntro(false)}
-                to="le-jeu"
-                className="rounded-lg border border-app bg-app px-4 py-2 text-xl text-white"
-              >
-                C'est parti !
-              </button>
-            </section>
-            <footer className="mt-4 flex shrink-0 flex-wrap items-center justify-evenly gap-2 text-sm text-app">
-              <span className="shrink-0">© Debator - {dayjs().format("YYYY")}</span>
-              <button onClick={() => setShowPetitManifeste(true)} className="underline">
-                Petit manifeste
-              </button>
-              <button
-                onClick={() => {
-                  setShowIntro(false);
-                  setShowContactUs(true);
-                }}
-                className="underline"
-              >
-                Nous contacter
-              </button>
-              <Link
-                to="/donation"
-                onClick={() => setShowIntro(false)}
-                className="text-center underline"
-              >
-                Acheter une licence (prix&nbsp;libre)
-              </Link>
-            </footer>
-          </Modal>
-        )}
+        <Legal showLegal={showLegal} setShowLegal={setShowLegal} />
+        <ChooseEnvironment fetcher={fetcher} />
+        <Intro showIntro={showIntro} setShowIntro={setShowIntro} />
       </div>
     </>
   );

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useFetcher } from "remix";
+import ContributionRule from "./ContributionRule";
 import Input from "./Input";
 import Modal from "./Modal";
 
@@ -82,9 +83,7 @@ const ProposeGameMode = ({ isOpen, hide }) => {
             ? "Envoi en cours"
             : "Envoyer"}
         </button>
-        <button type="button" onClick={hide} className="mt-2 underline">
-          Annuler
-        </button>
+        <ContributionRule />
       </fetcher.Form>
     </Modal>
   );

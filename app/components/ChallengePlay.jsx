@@ -8,8 +8,7 @@ const ChallengePlay = ({ challenge, editable }) => {
 
   const [showChallengeInfos, setShowChallengeInfos] = useSearchParamState(
     "challenge-infos",
-    false,
-    { removeParamOnDefaultValue: true }
+    false
   );
 
   if (!challenge?.title)

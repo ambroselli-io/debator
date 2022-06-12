@@ -7,6 +7,7 @@ import RangeInput from "./RangeInput";
 import Required from "./Required";
 import TopicSummary from "./TopicSummary";
 import environments from "app/assets/environments";
+import ContributionRule from "./ContributionRule";
 
 export { links };
 
@@ -166,6 +167,7 @@ const ProposeTopic = ({ isOpen, hide, categories, topic, id, action, method }) =
             ? "Modifier"
             : "Proposer"}
         </button>
+        <ContributionRule />
       </fetcher.Form>
     </Modal>
   );

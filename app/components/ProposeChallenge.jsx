@@ -2,6 +2,7 @@ import environments from "app/assets/environments";
 import { useEffect } from "react";
 import { useFetcher } from "remix";
 import Challenge from "./Challenge";
+import ContributionRule from "./ContributionRule";
 import Input from "./Input";
 import Modal from "./Modal";
 import { SelectAutofill } from "./Selects";
@@ -109,6 +110,7 @@ const ProposeChallenge = ({ isOpen, hide, challenge, id, method, action }) => {
             ? "Envoi en cours"
             : "Proposer"}
         </button>
+        <ContributionRule />
       </fetcher.Form>
     </Modal>
   );

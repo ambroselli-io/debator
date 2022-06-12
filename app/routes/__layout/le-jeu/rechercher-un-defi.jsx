@@ -30,7 +30,7 @@ export const loader = async ({ request }) => {
           $caseSensitive: false,
           $diacriticSensitive: false,
         },
-        environments: user.environment || undefined,
+        environments: user?.environment || undefined,
       },
     },
     {

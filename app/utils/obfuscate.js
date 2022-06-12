@@ -7,7 +7,7 @@ export const getTopicIdsNotToObfuscate = async (request) => {
   if (isUserLicenced(user)) return [];
   const todaysTopicsSuite = await getTodaysTopicSuite({
     populate: false,
-    environment: user.environment,
+    environment: user?.environment || "Tout",
   });
   return todaysTopicsSuite.topics.filter((_, i) => i < 3);
 };

@@ -5,7 +5,7 @@ import ChallengeModel from "app/db/models/challenge.server";
 
 export const loader = async ({ request }) => {
   const user = await getUserFromCookie(request, { redirectTo: "/le-jeu" });
-  if (!user.role === "admin") return redirect("/le-jeu");
+  if (user?.role !== "admin") return redirect("/le-jeu");
   const challenges = await ChallengeModel.find();
   return { challenges };
 };

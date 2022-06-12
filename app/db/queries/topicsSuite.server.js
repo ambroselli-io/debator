@@ -3,7 +3,10 @@ import { shuffle } from "../../utils/arrays";
 import TopicModel from "../models/topic.server";
 import TopicsSuiteModel from "../models/topicsSuite.server";
 
-export const getTodaysTopicSuite = async ({ populate = true, environment } = {}) => {
+export const getTodaysTopicSuite = async ({
+  populate = true,
+  environment = "Tout",
+} = {}) => {
   // find the daily topics suite if exists
   const topicsSuiteQuery = { date: dayjs().format("YYYY-MM-DD"), environment };
   const topicPopulate = {

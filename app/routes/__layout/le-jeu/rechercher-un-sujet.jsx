@@ -33,7 +33,7 @@ export const loader = async ({ request }) => {
       query.difficulty = searchParams.get("difficulty");
     }
     const topicsIdsOrder = (
-      await getTodaysTopicSuite({ populate: false, environment: user.environment })
+      await getTodaysTopicSuite({ populate: false, environment: user?.environment })
     ).topics;
 
     const topics = await TopicModel.find(query);
@@ -55,7 +55,7 @@ export const loader = async ({ request }) => {
           $caseSensitive: false,
           $diacriticSensitive: false,
         },
-        environments: user.environment || undefined,
+        environments: user?.environment || undefined,
       },
     },
     {

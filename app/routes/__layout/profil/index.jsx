@@ -72,7 +72,7 @@ export default function Index() {
     <>
       <h1 className="mt-8 mb-4 text-3xl font-bold text-app">Mon profil</h1>
       <div className="flex w-full max-w-[68ch] flex-col items-start">
-        {user.firstName && (
+        {user?.firstName && (
           <p className="mt-4">
             Votre nom&nbsp;:{" "}
             <b>
@@ -81,7 +81,7 @@ export default function Index() {
           </p>
         )}
         <p className="mt-4">
-          Votre email&nbsp;: <b>{user.email}</b>
+          Votre email&nbsp;: <b>{user?.email}</b>
         </p>
         {user.licence && (
           <>
@@ -117,7 +117,7 @@ export default function Index() {
           className="mx-auto mt-4 rounded-lg border border-app bg-app px-4 py-2 text-white disabled:opacity-50"
           to="/donation"
         >
-          {user.licence === "lifely"
+          {user?.licence === "lifely"
             ? "Faire un nouveau don"
             : !user.licence
             ? "Acheter une licence"

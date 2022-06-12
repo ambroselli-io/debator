@@ -13,7 +13,7 @@ export const loader = async ({ request }) => {
   const freeTopicIds = await getTopicIdsNotToObfuscate(request);
 
   const user = await getUnauthentifiedUserFromCookie(request);
-  const { topics } = await getTodaysTopicSuite({ environment: user.environment });
+  const { topics } = await getTodaysTopicSuite({ environment: user?.environment });
 
   const topicId = url.searchParams.get("topicId");
   if (topicId) {
@@ -42,7 +42,7 @@ export const loader = async ({ request }) => {
           $caseSensitive: false,
           $diacriticSensitive: false,
         },
-        environments: user.environment || undefined,
+        environments: user?.environment || undefined,
       },
     },
     {

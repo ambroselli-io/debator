@@ -17,7 +17,7 @@ export const loader = async ({ request }) => {
 
   const user = await getUnauthentifiedUserFromCookie(request);
   const challenges = await ChallengeModel.find({
-    environments: user.environment || undefined,
+    environments: user?.environment || undefined,
   });
   let topic = null;
   const topicId = url.searchParams.get("topicId");

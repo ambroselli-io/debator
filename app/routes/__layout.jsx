@@ -26,6 +26,7 @@ export const loader = async ({ request }) => {
   const licenceIsValid = isUserLicenced(user);
 
   const categories = await getCategories();
+  console.log({ user, licenceIsValid, categories });
   return { categories: categories.map(({ _id }) => _id), user, licenceIsValid };
 };
 
@@ -34,7 +35,7 @@ const Layout = ({ children }) => {
   const [_, mergeSearchParams] = useMergeSearchParams();
   const fetcher = useFetcher();
   const environment =
-    fetcher.submission?.formData?.get("environment") || user.environment;
+    fetcher.submission?.formData?.get("environment") || user?.environment || "Tout";
 
   const [showProposeTopic, setShowProposeTopic] = useSearchParamState(
     "proposer-un-sujet",
@@ -42,10 +43,6 @@ const Layout = ({ children }) => {
   );
   const [showProposeChallenge, setShowProposeChallenge] = useSearchParamState(
     "proposer-un-defi",
-    false
-  );
-  const [showChooseEnvironment, setShowChooseEnvironment] = useSearchParamState(
-    "choisir-environment",
     false
   );
   const [showProposeGameMode, setShowProposeGameMode] = useSearchParamState(
@@ -199,6 +196,7 @@ const Layout = ({ children }) => {
     </>
   );
 };
+export function CatchBoundary() {}
 
 export function ErrorBoundary({ error }) {
   console.error(error);

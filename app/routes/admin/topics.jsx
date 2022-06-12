@@ -6,7 +6,7 @@ import RangeInput from "app/components/RangeInput";
 
 export const loader = async ({ request }) => {
   const user = await getUserFromCookie(request, { redirectTo: "/le-jeu" });
-  if (!user.role === "admin") return redirect("/le-jeu");
+  if (user?.role !== "admin") return redirect("/le-jeu");
   const topics = await TopicModel.find();
   return { topics };
 };

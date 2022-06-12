@@ -60,7 +60,7 @@ const Layout = ({ children }) => {
   );
 
   const [showIntro, setShowIntro] = useLocalStorage("show-intro", true);
-  const [showLegal, setShowLegal] = useState(true);
+  const [showLegal, setShowLegal] = useState(false);
 
   return (
     <>

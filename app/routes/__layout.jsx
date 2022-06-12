@@ -79,7 +79,7 @@ const Layout = ({ children }) => {
             } `}
             onClick={() => mergeSearchParams({ "choisir-environment": true })}
           >
-            {environment}
+            {environment === "Tout" ? "Classique" : environment}
           </button>
         )}
         <button className="ml-auto py-2 px-4" onClick={() => setShowContactUs(true)}>

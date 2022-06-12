@@ -43,7 +43,7 @@ const ChooseEnvironment = ({ fetcher }) => {
             name="environment"
             className="rounded-full bg-[#ff1345] py-2 px-6 text-white"
           >
-            Tout
+            Classique
           </button>
           <button
             value="Absurde"

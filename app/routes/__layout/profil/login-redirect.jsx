@@ -8,14 +8,17 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const email = formData.get("email");
   if (!email) return { alert: "Veuillez fournir un email" };
+  let newUser = false;
   let user = await UserModel.findOne({ email });
-  if (!user)
+  if (!user) {
     user = await UserModel.create({
       email,
       licence: "monthly",
       licenceStartedAt: Date.now(),
     });
-  const magicLinkEmail = createMagicLinkEmail(user);
+    newUser = true;
+  }
+  const magicLinkEmail = createMagicLinkEmail(user, newUser);
   await sendEmail(magicLinkEmail);
   return redirect(`/profil/login-redirect?email=${email}`);
 };

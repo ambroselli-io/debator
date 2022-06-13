@@ -49,11 +49,11 @@ export const createMagicLink = (emailAddress) => {
   return url.toString();
 };
 
-export const createMagicLinkEmail = (user) => {
+export const createMagicLinkEmail = (user, newUser) => {
   const emailAddress = user.email;
   if (!emailAddress) throw new Error("No email provided for magic link");
   // const userExists = Boolean(user.firstName);
-  const userExists = true;
+  const userExists = !newUser;
 
   const magicLink = createMagicLink(emailAddress);
 

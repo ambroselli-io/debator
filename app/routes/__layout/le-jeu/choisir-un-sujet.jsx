@@ -101,8 +101,8 @@ const ChooseATopic = () => {
           🔪 Filtrer un peu ?
         </label> */}
         <SearchInput
-          placeholder="Si vous voulez, entrez un mot-clé, un thème, un auteur"
-          label="Si vous voulez, entrez un mot-clé, un thème, un auteur"
+          placeholder="Entrez un mot-clé, un thème, un auteur..."
+          label="Entrez un mot-clé, un thème, un auteur..."
           name="search"
           className="mt-4"
           defaultValue={searchParams.get("search") || ""}

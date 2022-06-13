@@ -10,13 +10,16 @@ import Timer, { links } from "app/components/Timer";
 import { useLocalStorage } from "app/services/useLocalStorage";
 import { topicFormat } from "app/db/methods/topic-format.server";
 import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
+import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
+import { isUserLicenced } from "app/utils/isUserLicenced.server";
 
 export { links };
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
   const freeTopicIds = await getTopicIdsNotToObfuscate(request);
-
+  const user = await getUnauthentifiedUserFromCookie(request);
+  const licenceIsValid = isUserLicenced(user);
   let topic = null;
   const topicId = url.searchParams.get("topicId");
   if (!topicId)
@@ -27,7 +30,7 @@ export const loader = async ({ request }) => {
   const challengeId = url.searchParams.get("challengeId");
   if (challengeId) challenge = await ChallengeModel.findById(challengeId);
 
-  return { topic, challenge };
+  return { topic, challenge, licenceIsValid };
 };
 
 const countdowns = [
@@ -41,19 +44,19 @@ const countdowns = [
 ];
 
 const LetsPlay = () => {
-  const { topic, challenge } = useLoaderData();
+  const { topic, challenge, licenceIsValid } = useLoaderData();
   const [countdown, setCountdown] = useLocalStorage("countdown", 60);
   const [editable, setEditable] = useState(false);
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center lg:flex-row lg:items-start lg:justify-center lg:pt-4">
-      <div className="flex w-full max-w-[68ch] flex-col items-center">
+    <div className="flex min-h-screen w-full flex-col items-center  lg:flex-row lg:items-start lg:justify-center lg:pt-4">
+      <div className="relative flex w-full max-w-[68ch] flex-col items-center pt-8 lg:pt-0">
         <TopicSummary topic={topic} editable={editable} onlyAuthor Component="h1" />
         <GamePlay editable={editable} />
         <ChallengePlay challenge={challenge} editable={editable} />
         <button
           type="button"
-          className="absolute mt-4 text-xs text-app underline opacity-80 lg:relative"
+          className="absolute -mt-4 shrink-0 text-xs text-app underline opacity-80 lg:relative lg:mt-0"
           onClick={() => setEditable(!editable)}
         >
           {editable ? "Ne plus modifier" : "Modifier ?"}
@@ -97,7 +100,11 @@ const LetsPlay = () => {
             </button>
           ))}
         </div>
-        <Timer key={countdown} countdown={countdown} className="mb-10 lg:mb-0" />
+        <Timer
+          key={countdown}
+          countdown={countdown}
+          className={`${licenceIsValid ? "mb-24" : "mb-72"} lg:mb-0`}
+        />
       </div>
     </div>
   );

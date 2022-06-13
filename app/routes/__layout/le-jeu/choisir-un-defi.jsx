@@ -16,9 +16,10 @@ export const loader = async ({ request }) => {
   const freeTopicIds = await getTopicIdsNotToObfuscate(request);
 
   const user = await getUnauthentifiedUserFromCookie(request);
-  const challenges = await ChallengeModel.find({
-    environments: user?.environment || undefined,
-  });
+  const challengeQuery = user?.environment
+    ? { environments: user.environment }
+    : { "environments.Absurde": { $ne: 1 } };
+  const challenges = await ChallengeModel.find(challengeQuery);
   let topic = null;
   const topicId = url.searchParams.get("topicId");
   if (topicId) topic = topicFormat(await TopicModel.findById(topicId), freeTopicIds);
@@ -37,7 +38,7 @@ export const loader = async ({ request }) => {
   const challengeIndex = Number(url.searchParams.get("challengeIndex")) || 0;
 
   return {
-    challenge: challengeFormat(challenges[challengeIndex]),
+    challenge: challengeFormat(challenges[challengeIndex % challenges.length]),
     maxIndex: challenges.length,
     topic,
   };
@@ -62,7 +63,7 @@ const ChooseAChallenge = () => {
       </small>
       <Challenge challenge={challenge} />
       <Link
-        to={navigateToNextStep("challengeId", challenge._id)}
+        to={navigateToNextStep("challengeId", challenge?._id)}
         className="rounded-lg border border-app bg-app px-4 py-2 text-white"
       >
         Je choisis celui-là !

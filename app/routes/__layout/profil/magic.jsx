@@ -1,5 +1,4 @@
-import { Link } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
 import { validateMagicLink } from "app/services/magic-link";
 import { createUserSession } from "app/services/auth.server";
 import UserModel from "app/db/models/user.server";
@@ -37,5 +36,10 @@ const Magic = () => {
     </>
   );
 };
+
+export function ErrorBoundary({ error }) {
+  console.error(error);
+  return <p>Désolé c'est pas bon</p>;
+}
 
 export default Magic;

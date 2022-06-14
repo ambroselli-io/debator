@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useFetcher } from "remix";
+import { useFetcher } from "@remix-run/react";
 import { SelectAutofill, links } from "app/components/Selects";
 import Input from "./Input";
 import Modal from "./Modal";

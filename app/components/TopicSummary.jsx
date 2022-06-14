@@ -12,38 +12,8 @@ const TopicSummary = ({
   const [searchParams] = useSearchParams();
   return (
     <>
-      <Component className="min-h-8 relative my-0 w-full max-w-md text-center text-3xl">
-        <div
-          className="pointer-events-none invisible w-full opacity-0"
-          aria-hidden={true}
-        >
-          just (and this line is longer so it wraps in small screens)
-        </div>
-        <div
-          className="pointer-events-none invisible w-full opacity-0"
-          aria-hidden={true}
-        >
-          to
-        </div>
-        <div
-          className="pointer-events-none invisible w-full opacity-0"
-          aria-hidden={true}
-        >
-          make
-        </div>
-        <div
-          className="pointer-events-none invisible w-full opacity-0"
-          aria-hidden={true}
-        >
-          at least five
-        </div>
-        <div
-          className="pointer-events-none invisible w-full opacity-0"
-          aria-hidden={true}
-        >
-          lines
-        </div>
-        <figure className="absolute inset-0 flex flex-col justify-between">
+      <Component className="relative my-0 flex h-fit min-h-[11.25rem] w-full max-w-md items-center justify-center text-center text-3xl">
+        <figure className="flex min-h-min flex-col justify-between">
           <blockquote className="flex h-full flex-col items-center justify-center font-[xkcd] text-3xl">
             {topic?.title.toUpperCase().replace(" ?", "").replace(" !", "")}
             {topic?.title.includes(" ?") ? <>&nbsp;?</> : ""}

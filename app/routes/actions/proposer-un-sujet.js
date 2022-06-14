@@ -7,8 +7,10 @@ import { catchErrors } from "app/services/catchErrors";
 export const action = catchErrors(async ({ request }) => {
   const formData = await request.formData();
   const categories = formData.getAll("categories");
+  const environments = formData.getAll("environments");
   const newTopic = Object.fromEntries(formData);
   newTopic.categories = categories.map(capitalizeFirstLetter);
+  newTopic.environments = environments.map(capitalizeFirstLetter);
   newTopic.validated = false;
   const existingTopic = await TopicModel.findOne({ title: newTopic.title });
   if (existingTopic) return json({ ok: false, error: "Ce sujet existe déjà !" });

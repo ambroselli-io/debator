@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
 import TopicModel from "../../../db/models/topic.server";
 import ChallengeModel from "app/db/models/challenge.server";
 import ChallengePlay from "app/components/ChallengePlay";
-import { redirect } from "remix";
 import TopicSummary from "app/components/TopicSummary";
 import GamePlay from "app/components/GamePlay";
 import Timer, { links } from "app/components/Timer";

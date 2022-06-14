@@ -1,19 +1,20 @@
+import { Headers } from "@remix-run/node";
 import { TIPIMAIL_API_USER, TIPIMAIL_API_KEY, APP_NAME } from "../config";
 
-export const sendEmail = ({
+export const sendEmail = async ({
   emails = ["arnaud@ambroselli.io"],
   text,
   html,
   subject,
-  from = "contact@docriton.com",
-}) =>
-  fetch("https://api.tipimail.com/v1/messages/send", {
+  from,
+}) => {
+  const res = await fetch("https://api.tipimail.com/v1/messages/send", {
     method: "POST",
-    headers: {
+    headers: new Headers({
       "X-Tipimail-ApiUser": TIPIMAIL_API_USER,
       "X-Tipimail-ApiKey": TIPIMAIL_API_KEY,
       "Content-Type": "application/json",
-    },
+    }),
     body: JSON.stringify({
       apiKey: TIPIMAIL_API_KEY,
       to: emails.map((address) => ({ address })),
@@ -26,5 +27,7 @@ export const sendEmail = ({
         text,
         html,
       },
+      headers: { "X-TM-TRACKING": { html: { open: 0, click: 0, text: { click: 0 } } } },
     }),
   });
+};

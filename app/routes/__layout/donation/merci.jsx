@@ -1,10 +1,11 @@
+import { json } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
 import ContributionRule from "app/components/ContributionRule";
 import TransactionModel from "app/db/models/transaction.server";
 import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import { useMergeSearchParams } from "app/services/searchParamsUtils";
 import { capture } from "app/services/sentry.server";
 import dayjs from "dayjs";
-import { json, Link, useLoaderData } from "remix";
 
 export const loader = async ({ request }) => {
   const user = await getUnauthentifiedUserFromCookie(request);

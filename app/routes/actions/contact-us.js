@@ -1,6 +1,6 @@
 import { catchErrors } from "app/services/catchErrors";
 import { sendEmail } from "app/services/email.server";
-import { json } from "remix";
+import { json } from "@remix-run/node";
 
 export const action = catchErrors(async ({ request }) => {
   const formData = await request.formData();

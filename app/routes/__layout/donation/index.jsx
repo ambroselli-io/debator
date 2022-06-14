@@ -1,7 +1,7 @@
 import ISOCountries from "i18n-iso-countries";
 import Input from "app/components/Input";
 import { Select } from "app/components/Selects";
-import { useFetcher, useLoaderData } from "remix";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { getClientLocales } from "remix-utils";
 import { useEffect, useRef, useState } from "react";
 import OpenInNewWindowIcon from "app/components/icons/OpenInNewWindowIcon";

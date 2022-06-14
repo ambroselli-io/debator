@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "remix";
+import { Link } from "@remix-run/react";
 import useNavigateToNextStep from "app/utils/useNavigateToNextStep";
 
 const GameModeCard = ({ game, onShowGameModeInfos }) => {

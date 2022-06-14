@@ -65,6 +65,7 @@ export const loader = () => ({
   ENV: JSON.stringify({
     SENTRY_XXX: process.env.SENTRY_XXX,
   }),
+  NODE_ENV: process.env.NODE_ENV,
 });
 
 // prettier-ignore
@@ -144,57 +145,61 @@ const App = () => {
             __html: `window.ENV=${data.ENV};`,
           }}
         />
-        <script
-          suppressHydrationWarning
-          type="text/javascript"
-          dangerouslySetInnerHTML={{
-            __html: `// Lumiere Tracking Code for debator.cleverapps.io
-  (function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://api.lumiere.app/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-  })(window, document, "clarity", "script", "4f03b6e7-24fe-4776-86c4-5c94c977bdac");`,
-          }}
-        />
-        <script
-          suppressHydrationWarning
-          type="text/javascript"
-          dangerouslySetInnerHTML={{
-            __html: `
-            // https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen#javascript_for_handling_the_install
-            let deferredPrompt;
-            const addBtn = document.getElementById('add-button-to-destkop-home');
-            if (!!addBtn) {
-              addBtn.classList.add('hidden');
+        {data.NODE_ENV === "production" && (
+          <>
+            <script
+              suppressHydrationWarning
+              type="text/javascript"
+              dangerouslySetInnerHTML={{
+                __html: `// Lumiere Tracking Code for debator.cleverapps.io
+(function(c,l,a,r,i,t,y){
+c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+t=l.createElement(r);t.async=1;t.src="https://api.lumiere.app/tag/"+i;
+y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "4f03b6e7-24fe-4776-86c4-5c94c977bdac");`,
+              }}
+            />
+            <script
+              suppressHydrationWarning
+              type="text/javascript"
+              dangerouslySetInnerHTML={{
+                __html: `
+    // https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen#javascript_for_handling_the_install
+    let deferredPrompt;
+    const addBtn = document.getElementById('add-button-to-destkop-home');
+    if (!!addBtn) {
+      addBtn.classList.add('hidden');
 
-              window.addEventListener('beforeinstallprompt', (e) => {
-              // Prevent Chrome 67 and earlier from automatically showing the prompt
-              e.preventDefault();
-              // Stash the event so it can be triggered later.
-              deferredPrompt = e;
-              // Update UI to notify the user they can add to home screen
-              addBtn.classList.remove('hidden');
+      window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      deferredPrompt = e;
+      // Update UI to notify the user they can add to home screen
+      addBtn.classList.remove('hidden');
 
-              addBtn.addEventListener('click', (e) => {
-                // hide our user interface that shows our A2HS button
-                addBtn.classList.add('hidden');
-                // Show the prompt
-                deferredPrompt.prompt();
-                // Wait for the user to respond to the prompt
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                      console.log('User accepted the A2HS prompt');
-                    } else {
-                      console.log('User dismissed the A2HS prompt');
-                    }
-                    deferredPrompt = null;
-                  });
-                });
-              });
+      addBtn.addEventListener('click', (e) => {
+        // hide our user interface that shows our A2HS button
+        addBtn.classList.add('hidden');
+        // Show the prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the A2HS prompt');
+            } else {
+              console.log('User dismissed the A2HS prompt');
             }
-            `,
-          }}
-        />
+            deferredPrompt = null;
+          });
+        });
+      });
+    }
+    `,
+              }}
+            />
+          </>
+        )}
         <LiveReload />
       </body>
     </html>

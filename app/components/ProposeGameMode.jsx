@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useFetcher } from "remix";
+import { useFetcher } from "@remix-run/react";
 import ContributionRule from "./ContributionRule";
 import Input from "./Input";
 import Modal from "./Modal";

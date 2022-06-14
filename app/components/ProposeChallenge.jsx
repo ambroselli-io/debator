@@ -1,6 +1,6 @@
 import environments from "app/assets/environments";
 import { useEffect } from "react";
-import { useFetcher } from "remix";
+import { useFetcher } from "@remix-run/react";
 import Challenge from "./Challenge";
 import ContributionRule from "./ContributionRule";
 import Input from "./Input";

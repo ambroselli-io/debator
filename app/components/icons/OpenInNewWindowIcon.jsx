@@ -1,4 +1,4 @@
-const OpenInNewWindowIcon = ({ className = "h-6 w-6" }) => (
+const OpenInNewWindowIcon = ({ className = "h-3 w-3" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={`h-6 w-6 cursor-pointer ${className}`}

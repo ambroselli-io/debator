@@ -277,7 +277,7 @@ const Donation = () => {
             className="inline-flex items-center gap-2 underline"
             href="https://www.fintecture.com"
           >
-            Fintecture <OpenInNewWindowIcon className="h-3 w-3" />
+            Fintecture <OpenInNewWindowIcon />
           </a>
         </p>
         <button

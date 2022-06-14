@@ -139,12 +139,26 @@ const App = () => {
         <Scripts />
         <script
           suppressHydrationWarning
+          type="text/javascript"
           dangerouslySetInnerHTML={{
             __html: `window.ENV=${data.ENV};`,
           }}
         />
         <script
           suppressHydrationWarning
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `// Lumiere Tracking Code for debator.cleverapps.io
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://api.lumiere.app/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "4f03b6e7-24fe-4776-86c4-5c94c977bdac");`,
+          }}
+        />
+        <script
+          suppressHydrationWarning
+          type="text/javascript"
           dangerouslySetInnerHTML={{
             __html: `
             // https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen#javascript_for_handling_the_install

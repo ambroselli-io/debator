@@ -7,11 +7,11 @@ export const loader = async ({ request }) => {
   const user = await getUnauthentifiedUserFromCookie(request);
   const licenceIsValid = isUserLicenced(user);
   const totalTopics = await TopicModel.count();
-  return { licenceIsValid, totalTopics };
+  return { licenceIsValid, totalTopics, user };
 };
 
 const GameLayout = () => {
-  const { totalTopics, licenceIsValid } = useLoaderData();
+  const { totalTopics, licenceIsValid, user } = useLoaderData();
   return (
     <>
       <Outlet />
@@ -29,14 +29,18 @@ const GameLayout = () => {
               <sup>*</sup>
             </Link>
             <br />
-            Offre de lancement: 1 mois gratuit lors de votre inscription 👉{" "}
-            <Link
-              to="/profil"
-              className="inline-block rounded-lg border border-white bg-app px-2 py-1 text-white"
-            >
-              Connectez-vous
-            </Link>
-            <br />
+            {!user?._id && (
+              <>
+                Offre de lancement: 1 mois gratuit lors de votre inscription 👉{" "}
+                <Link
+                  to="/profil"
+                  className="inline-block rounded-lg border border-white bg-app px-2 py-1 text-white"
+                >
+                  Connectez-vous
+                </Link>
+                <br />
+              </>
+            )}
             <span className="mt-2 text-xs">
               * prix libre selon votre bon vouloir, gratuit si vous n'avez pas les moyens
             </span>

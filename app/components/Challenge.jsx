@@ -1,8 +1,8 @@
 const Challenge = ({ challenge, hideQuestionMark = false }) => (
   <>
     <h2 className="relative my-0 flex h-fit min-h-[11.25rem] w-full max-w-md items-center justify-center text-center text-3xl">
-      <p className="flex min-h-min items-center justify-center font-[xkcd] text-3xl">
-        {challenge.title.toUpperCase().replace(" ?", "").replace(" !", "")}
+      <p className="flex min-h-min items-center justify-center font-handwritten text-3xl">
+        {challenge.title.replace(" ?", "").replace(" !", "")}
         {challenge.title.includes(" ?") ? <>&nbsp;?</> : ""}
         {challenge.title.includes(" !") ? <>&nbsp;!</> : ""}
         {challenge.description && !hideQuestionMark && (

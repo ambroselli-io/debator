@@ -6,8 +6,8 @@ const TopicCard = ({ topic }) => {
     <article className="mb-4 w-full rounded-xl border bg-white py-4 px-2">
       <figure className="flex flex-col justify-between text-center">
         <blockquote className="h-full">
-          <p className="flex h-full items-center justify-center font-[xkcd] text-xl">
-            {topic.title.toUpperCase().replace(" ?", "").replace(" !", "")}
+          <p className="flex h-full items-center justify-center font-handwritten text-xl">
+            {topic.title.replace(" ?", "").replace(" !", "")}
             {topic.title.includes(" ?") ? <>&nbsp;?</> : ""}
             {topic.title.includes(" !") ? <>&nbsp;!</> : ""}
           </p>

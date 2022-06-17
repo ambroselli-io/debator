@@ -14,8 +14,8 @@ const TopicSummary = ({
     <>
       <Component className="relative my-0 flex h-fit min-h-[11.25rem] w-full max-w-md items-center justify-center text-center text-3xl">
         <figure className="flex min-h-min flex-col justify-between">
-          <blockquote className="flex h-full flex-col items-center justify-center font-[xkcd] text-3xl">
-            {topic?.title.toUpperCase().replace(" ?", "").replace(" !", "")}
+          <blockquote className="flex h-full flex-col items-center justify-center font-handwritten text-3xl">
+            {topic?.title.replace(" ?", "").replace(" !", "")}
             {topic?.title.includes(" ?") ? <>&nbsp;?</> : ""}
             {topic?.title.includes(" !") ? <>&nbsp;!</> : ""}
             {!!editable && (

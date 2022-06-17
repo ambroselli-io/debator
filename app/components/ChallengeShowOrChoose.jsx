@@ -15,7 +15,7 @@ const ChallengeShowOrChoose = ({ challenge }) => {
             <EditSvg className="ml-2 h-2 w-2" />
           </Link>
           <br />
-          <b className="font-[xkcd] uppercase text-black">{challenge.title}</b>
+          <b className="font-handwritten uppercase text-black">{challenge.title}</b>
           <br />
         </>
       )}

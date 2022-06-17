@@ -7,8 +7,8 @@ export const sendEmail = async ({
   html,
   subject,
   from,
-}) => {
-  const res = await fetch("https://api.tipimail.com/v1/messages/send", {
+}) =>
+  fetch("https://api.tipimail.com/v1/messages/send", {
     method: "POST",
     headers: new Headers({
       "X-Tipimail-ApiUser": TIPIMAIL_API_USER,
@@ -30,4 +30,3 @@ export const sendEmail = async ({
       headers: { "X-TM-TRACKING": { html: { open: 0, click: 0, text: { click: 0 } } } },
     }),
   });
-};

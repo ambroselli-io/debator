@@ -33,7 +33,7 @@ const Merci = () => {
   const [_, mergeSearchParams] = useMergeSearchParams();
   return (
     <>
-      <h1 className="my-8 max-w-sm text-center font-[xkcd] text-2xl uppercase">
+      <h1 className="my-8 max-w-sm text-center font-handwritten text-2xl uppercase">
         Merci pour votre confiance !
       </h1>
       <p className="mt-4 w-full max-w-[68ch]">

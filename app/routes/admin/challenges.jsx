@@ -42,7 +42,7 @@ const Admin = () => {
                 >
                   <th
                     scope="row"
-                    className="px-6 py-4 font-[xkcd] font-medium uppercase text-gray-900 dark:text-white"
+                    className="px-6 py-4 font-handwritten font-medium uppercase text-gray-900 dark:text-white"
                   >
                     {challenge.title}
                   </th>

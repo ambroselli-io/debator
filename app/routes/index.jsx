@@ -17,7 +17,7 @@ const Index = () => {
     <>
       <header className="flex min-h-screen-1/2 shrink-0 flex-col items-center justify-around border-b border-gray-100 py-12  px-4">
         <h1 className="font-marker text-6xl text-app">Debator</h1>
-        <p className="mt-4 -rotate-12 font-[xkcd] text-3xl uppercase">
+        <p className="mt-4 -rotate-12 font-handwritten text-3xl uppercase">
           🤪 Debattre en s'amusant
         </p>
         <Link
@@ -26,19 +26,21 @@ const Index = () => {
         >
           Jouons !
         </Link>
-        <p className="rotate-6 font-[xkcd] text-3xl uppercase">S'amuser a debattre 📣</p>
+        <p className="rotate-6 font-handwritten text-3xl uppercase">
+          S'amuser a debattre 📣
+        </p>
       </header>
       <section className="flex min-h-screen-1/2 shrink-0 flex-col items-center justify-around border-b border-gray-100 bg-app bg-opacity-10 py-16 px-4 text-2xl">
         <h1 className="font-marker text-4xl text-app">Comment ça marche&nbsp;?</h1>
         <ol>
-          <li className="mb-2 text-center font-[xkcd]">
+          <li className="mb-2 text-center font-handwritten">
             <em className="font-bold not-italic text-app">I.</em> Je choisis un sujet 🥸
           </li>
-          <li className="mb-2 text-center font-[xkcd]">
+          <li className="mb-2 text-center font-handwritten">
             <em className="font-bold not-italic text-app">II.</em> Je choisis le mode de
             jeu 💁 (joute a deux, en arene...)
           </li>
-          <li className="mb-2 text-center font-[xkcd]">
+          <li className="mb-2 text-center font-handwritten">
             <em className="font-bold not-italic text-app">III.</em> Je choisis un defi !
             😎 (en alexandrin, en se pincant le nez...)
           </li>

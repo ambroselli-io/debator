@@ -9,6 +9,7 @@ module.exports = {
       sans: ["Montserrat", ...theme.fontFamily.sans],
       sansSerif: theme.fontFamily.sans,
       marker: ["Permanent Marker", ...theme.fontFamily.sans],
+      handwritten: ["Homemade Apple", ...theme.fontFamily.sans],
     },
     extend: {
       colors: {

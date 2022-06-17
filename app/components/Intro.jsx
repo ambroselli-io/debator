@@ -8,7 +8,7 @@ const Intro = ({ showIntro, setShowIntro }) => {
   return (
     <Modal isOpen hide={() => setShowIntro(false)} title="Bienvenue sur Debator !">
       <section className="flex flex-col items-center justify-around gap-4 bg-opacity-10 py-4">
-        <h1 className="font-[xkcd] text-2xl uppercase text-app">
+        <h1 className="font-handwritten text-2xl uppercase text-app">
           Comment ca marche&nbsp;?
         </h1>
         <ol>

@@ -17,7 +17,9 @@ const GameModeShowOrChoose = () => {
             <EditSvg className="ml-2 h-2 w-2" />
           </Link>
           <br />
-          <b className="font-[xkcd] uppercase text-black">{gameMode.titleNoDiacritics}</b>
+          <b className="font-handwritten uppercase text-black">
+            {gameMode.titleNoDiacritics}
+          </b>
           <br />
         </>
       )}

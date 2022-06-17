@@ -187,6 +187,24 @@ const Layout = ({ children }) => {
       {!!showPetitManifeste && (
         <Modal isOpen hide={() => setShowPetitManifeste(false)} title="Petit Manifeste">
           <PetitManifeste />
+          <div className="mt-4 flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => setShowPetitManifeste(false)}
+              to="le-jeu"
+              className="mx-auto rounded-lg border border-app bg-app px-4 py-2 text-white"
+            >
+              Merci pour la lecture !
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowPetitManifeste(false)}
+              to="le-jeu"
+              className="text-sm text-app underline"
+            >
+              Mouais...
+            </button>
+          </div>
         </Modal>
       )}
       <Legal showLegal={showLegal} setShowLegal={setShowLegal} />

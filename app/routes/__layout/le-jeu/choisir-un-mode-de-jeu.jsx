@@ -50,6 +50,9 @@ const ChooseAGameMode = () => {
           );
         })}
       </main>
+      <p className="my-2 text-app">
+        <small>C'est tout pour le moment !</small>
+      </p>
       <GameInfos
         isOpen={!!showGameModeInfos?.length}
         game={game}

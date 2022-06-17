@@ -36,12 +36,12 @@ const AdminTopics = () => {
                 <th scope="col" className="sticky top-0 bg-white px-6 py-3">
                   Categories
                 </th>
-                <th scope="col" className="sticky top-0 bg-white px-6 py-3">
+                {/* <th scope="col" className="sticky top-0 bg-white px-6 py-3">
                   Min Age
                 </th>
                 <th scope="col" className="sticky top-0 bg-white px-6 py-3">
                   Max Age
-                </th>
+                </th> */}
                 <th scope="col" className="sticky top-0 bg-white px-6 py-3">
                   <span className="sr-only">Edit</span>
                 </th>
@@ -55,7 +55,7 @@ const AdminTopics = () => {
                 >
                   <th
                     scope="row"
-                    className="px-6 py-4 font-handwritten font-medium text-gray-900 dark:text-white"
+                    className="px-6 py-4 font-handwritten text-xl font-medium text-gray-900 dark:text-white"
                   >
                     {topic.title}
                   </th>
@@ -73,8 +73,8 @@ const AdminTopics = () => {
                     />
                   </td>
                   <td className="px-6 py-4">{topic.categories.join(", ")}</td>
-                  <td className="px-6 py-4">{topic.minAge}</td>
-                  <td className="px-6 py-4">{topic.maxAge}</td>
+                  {/* <td className="px-6 py-4">{topic.minAge}</td>
+                  <td className="px-6 py-4">{topic.maxAge}</td> */}
                   <td className="px-6 py-4">
                     <Link
                       to={`./${topic._id}`}

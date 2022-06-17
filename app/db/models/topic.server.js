@@ -14,7 +14,7 @@ const Schema = new mongoose.Schema(
     author: { type: String }, // if quote
     categories: [{ type: String }],
     difficulty: { type: Number, required: true }, // from 1 to 5, 1 easy, 5 hard
-    minAge: { type: Number, required: true },
+    minAge: { type: Number },
     maxAge: { type: Number },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
     userName: String, // for proposed topics
@@ -38,14 +38,14 @@ if (process.env.NODE_ENV === "production") {
   );
   TopicModel.syncIndexes();
 } else {
-  // if (!global.__syncIndexes.includes(MODELNAME)) {
-  //   global.__syncIndexes.push(MODELNAME);
-  //   Schema.index(
-  //     { title: "text", author: "text", categories: "text" },
-  //     { default_language: "french" }
-  //   );
-  //   TopicModel.syncIndexes();
-  // }
+  if (!global.__syncIndexes.includes(MODELNAME)) {
+    global.__syncIndexes.push(MODELNAME);
+    Schema.index(
+      { title: "text", author: "text", categories: "text" },
+      { default_language: "french" }
+    );
+    TopicModel.syncIndexes();
+  }
 }
 
 export default TopicModel;

@@ -6,12 +6,15 @@ import ChallengeModel from "app/db/models/challenge.server";
 import ChallengePlay from "app/components/ChallengePlay";
 import TopicSummary from "app/components/TopicSummary";
 import GamePlay from "app/components/GamePlay";
+import games from "app/games";
 import Timer, { links } from "app/components/Timer";
 import { useLocalStorage } from "app/services/useLocalStorage";
 import { topicFormat } from "app/db/methods/topic-format.server";
 import { getTopicIdsNotToObfuscate } from "app/utils/obfuscate";
 import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import { isUserLicenced } from "app/utils/isUserLicenced.server";
+import dayjs from "dayjs";
+import GamePlayed from "app/db/models/gamePlayed.server";
 
 export { links };
 
@@ -30,6 +33,15 @@ export const loader = async ({ request }) => {
   const challengeId = url.searchParams.get("challengeId");
   if (challengeId) challenge = await ChallengeModel.findById(challengeId);
 
+  const todaysGame = {
+    topic: topic.title,
+    gameMode: games.find((g) => g.slug === url.searchParams.get("mode"))?.title,
+    challenge: challenge.title,
+    date: dayjs().format("YYYY-MM-DD"),
+    user: user._id,
+    environment: user.environment,
+  };
+  if (!(await GamePlayed.findOne(todaysGame))) GamePlayed.create(todaysGame);
   return { topic, challenge, licenceIsValid };
 };
 

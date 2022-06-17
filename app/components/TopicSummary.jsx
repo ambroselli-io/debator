@@ -59,7 +59,7 @@ const TopicSummary = ({
               ))}
             </span>
           </p>
-          <p className="text-center">
+          {/* <p className="text-center">
             Âge&nbsp;:{" "}
             {topic?.maxAge ? (
               <>
@@ -73,7 +73,7 @@ const TopicSummary = ({
                 à partir de <b>{topic?.minAge} ans</b>
               </>
             )}
-          </p>
+          </p> */}
         </small>
       )}
     </>

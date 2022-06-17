@@ -4,6 +4,10 @@
 }
 
 @font-face {
-  font-family: "Homemade Apple";
-  src: url("/assets/fonts/PermanentMarker-Regular.woff2") format("woff");
+  font-family: "Handwritten";
+  /* src: url("/assets/fonts/AmaticSC-Regular.woff") format("woff"); */
+  src: url("/assets/fonts/GrapeNuts-Regular.woff") format("woff");
+  /* src: url("/assets/fonts/SedgwickAve-Regular.woff") format("woff"); */
+  /* src: url("/assets/fonts/HomemadeApple-Regular.woff") format("woff"); */
+  /* src: url("/assets/fonts/Carattere-Regular.woff") format("woff"); */
 }

@@ -15,7 +15,7 @@ const TopicShowOrChoose = ({ topic }) => {
             <EditSvg className="ml-2 h-2 w-2" />
           </Link>
           <br />
-          <b className="font-handwritten uppercase text-black">{topic.title}</b>
+          <b className="font-handwritten text-black">{topic.title}</b>
           <br />
         </>
       )}

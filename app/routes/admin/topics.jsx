@@ -19,7 +19,7 @@ const AdminTopics = () => {
       <div className="overflow-scroll p-4">
         <div className="relative shadow-md sm:rounded-lg">
           <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+            <thead className="bg-gray-50 text-xs text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="sticky top-0 bg-white px-6 py-3">
                   Title
@@ -55,7 +55,7 @@ const AdminTopics = () => {
                 >
                   <th
                     scope="row"
-                    className="px-6 py-4 font-handwritten font-medium uppercase text-gray-900 dark:text-white"
+                    className="px-6 py-4 font-handwritten font-medium text-gray-900 dark:text-white"
                   >
                     {topic.title}
                   </th>

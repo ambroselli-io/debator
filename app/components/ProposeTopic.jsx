@@ -118,7 +118,7 @@ const ProposeTopic = ({ isOpen, hide, categories, topic, id, action, method }) =
             label: name,
           }))}
         />
-        <Input
+        {/* <Input
           type="number"
           name="minAge"
           id={`${id}-minAge`}
@@ -134,7 +134,7 @@ const ProposeTopic = ({ isOpen, hide, categories, topic, id, action, method }) =
           label="🧓 Âge maximum (facultatif)"
           placeholder="15"
           defaultValue={topic?.maxAge}
-        />
+        /> */}
         <Input
           type="text"
           name="userName"

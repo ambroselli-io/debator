@@ -23,7 +23,7 @@ const Input = forwardRef(
     const ref = useShareForwardedRef(refForwarded);
 
     useEffect(() => {
-      if (window.sessionStorage.getItem(id)?.length) {
+      if (window.sessionStorage.getItem(id)?.length && !props.disabled) {
         ref.current.value = window.sessionStorage.getItem(id);
         onChange?.({ target: ref.current });
       }

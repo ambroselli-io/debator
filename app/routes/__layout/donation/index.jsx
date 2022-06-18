@@ -36,6 +36,8 @@ const Donation = () => {
   const { countries, currencies, user } = useLoaderData();
   const fetcher = useFetcher();
 
+  console.log({ user });
+
   useEffect(() => {
     // https://help.fintecture.com/en/articles/5843235-how-to-test-the-module-before-going-into-production
     // On the Connect (payment interface), choose the CIC or Crédit Mutuel bank

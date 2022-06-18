@@ -12,14 +12,27 @@ export const action = catchErrors(async ({ request }) => {
   const registeredUser = await getUnauthentifiedUserFromCookie(request);
   const formData = await request.formData();
   // get locale
-  let locales = getClientLocales(request);
-  if (!locales) locales = ["en"];
-  if (typeof locales === "string") locales = [locales];
-  const twoLettersLocales = locales?.map((local) => local.split("-")[0]);
-  const locale = twoLettersLocales?.[0] || "en";
+  // let locales = getClientLocales(request);
+  // if (!locales) locales = ["en"];
+  // if (typeof locales === "string") locales = [locales];
+  // const twoLettersLocales = locales?.map((local) => local.split("-")[0]);
+  // const locale = twoLettersLocales?.[0] || "en";
 
-  let { firstName, lastName, amount, email, country, currency, licence } =
-    Object.fromEntries(formData);
+  let {
+    firstName,
+    lastName,
+    amount,
+    email,
+    country,
+    currency,
+    licence,
+    isOrganization,
+    organization,
+    organizationAddress,
+    organizationPostalCode,
+    organizationCity,
+    organizationCountry,
+  } = Object.fromEntries(formData);
 
   if (registeredUser?.email) email = registeredUser?.email;
   if (registeredUser?.licence === "lifely") licence = "lifely";
@@ -81,6 +94,22 @@ export const action = catchErrors(async ({ request }) => {
       },
       { status: 400 }
     );
+  if (
+    !!isOrganization &&
+    (!organization.length ||
+      !organizationAddress.length ||
+      !organizationPostalCode.length ||
+      !organizationCity.length ||
+      !organizationCountry.length)
+  ) {
+    return json(
+      {
+        ok: false,
+        error: "Please provide all the required information for your company",
+      },
+      { status: 400 }
+    );
+  }
 
   // check if user first
   let user = await UserModel.findOne({ email });
@@ -92,7 +121,15 @@ export const action = catchErrors(async ({ request }) => {
     if (!!user.lastName && user.lastName !== formData.get("lastName")) {
       capture("NOT SAME LAST NAME", { extra: { request, formData }, user });
     }
-    user.set({ firstName, lastName });
+    user.set({
+      firstName,
+      lastName,
+      organization,
+      organizationAddress,
+      organizationPostalCode,
+      organizationCity,
+      organizationCountry,
+    });
     await user.save();
   }
   if (!user) {
@@ -100,6 +137,11 @@ export const action = catchErrors(async ({ request }) => {
       email,
       firstName,
       lastName,
+      organization,
+      organizationAddress,
+      organizationPostalCode,
+      organizationCity,
+      organizationCountry,
     });
   }
 

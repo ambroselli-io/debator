@@ -25,6 +25,12 @@ const Schema = new mongoose.Schema(
     password: { type: String },
     lastLoginAt: { type: Date },
     role: { type: String },
+    organization: { type: String },
+    organizationAddress: { type: String },
+    organizationPostalCode: { type: String },
+    organizationCity: { type: String },
+    organizationCountry: { type: String },
+    organizationVatNumber: { type: String },
   },
   { timestamps: true }
 );

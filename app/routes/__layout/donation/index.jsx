@@ -26,8 +26,8 @@ export const loader = async ({ request }) => {
     countries: arrayOfCountriesForSelect,
     user,
     currencies: [
-      { value: "EUR", label: "€ Euro" },
-      { value: "DOLLAR", label: "$ Dollar" },
+      { value: "EUR", label: "€ TTC" },
+      // { value: "DOLLAR", label: "$ Dollar" },
     ],
   };
 };
@@ -57,6 +57,8 @@ const Donation = () => {
   useEffect(() => {
     if (donation >= 100) {
       lifelyLicenceRef.current.checked = true;
+      if (yearlyLicenceRef.current.checked) yearlyLicenceRef.current.checked = false;
+      if (monthlyLicenceRef.current.checked) monthlyLicenceRef.current.checked = false;
     }
     if (donation < 100) {
       if (lifelyLicenceRef.current.checked) lifelyLicenceRef.current.checked = false;
@@ -184,6 +186,9 @@ const Donation = () => {
               Licence
               <br />
               mensuelle
+              <p>
+                <small className="text-xs font-normal">Moins de 10€ TTC</small>
+              </p>
             </label>
           </fieldset>
           <fieldset className="flex shrink-0 grow-0 basis-52" disabled={donation < 10}>
@@ -203,6 +208,9 @@ const Donation = () => {
               Licence
               <br />
               annuelle
+              <p>
+                <small className="text-xs font-normal">Entre 10€ et 100€ TTC</small>
+              </p>
             </label>
           </fieldset>
           <fieldset className="flex shrink-0 grow-0 basis-52" disabled={donation < 100}>
@@ -221,6 +229,9 @@ const Donation = () => {
             >
               Licence
               <br />à vie
+              <p>
+                <small className="text-xs font-normal">Plus de 100€ TTC</small>
+              </p>
             </label>
           </fieldset>
         </div>
@@ -269,10 +280,97 @@ const Donation = () => {
           // defaultValue={{ value: "fr", label: "France" }}
           className="w-full"
         />
+        <input
+          type="checkbox"
+          className="peer hidden"
+          name="isOrganization"
+          id="donation-isOrganization"
+          defaultChecked={!!user?.organization}
+        />
+        <label
+          htmlFor="donation-isOrganization"
+          className="my-4 cursor-pointer text-sm text-app underline peer-checked:hidden"
+        >
+          Vous êtes une entreprise ? Cliquez ici
+        </label>
+        <label
+          htmlFor="donation-isOrganization"
+          className="my-4 hidden cursor-pointer text-sm text-app underline peer-checked:block"
+        >
+          Vous n'êtes pas une entreprise ? Cliquez ici
+        </label>
+        <Input
+          type="text"
+          name="organization"
+          id="donation-organization"
+          inputMode="text"
+          componentClassName="hidden peer-checked:flex"
+          label="Nom de l'entreprise"
+          placeholder="Nom de l'entreprise"
+          autoComplete="organization"
+          defaultValue={user?.organization || ""}
+          disabled={!!user?.organization}
+        />
+        <Input
+          type="text"
+          name="organizationAddress"
+          id="donation-organizationAddress"
+          inputMode="text"
+          componentClassName="hidden peer-checked:flex"
+          label="Addresse de l'entreprise"
+          placeholder="15 rue des Halles"
+          autoComplete="street-address"
+          defaultValue={user?.organizationAddress || ""}
+        />
+        <Input
+          type="text"
+          name="organizationPostalCode"
+          id="donation-organizationPostalCode"
+          inputMode="text"
+          componentClassName="hidden peer-checked:flex"
+          label="Code postal de l'entreprise"
+          placeholder="75001"
+          autoComplete="postal-code"
+          defaultValue={user?.organizationPostalCode || ""}
+        />
+        <Input
+          type="text"
+          name="organizationCity"
+          id="donation-organizationCity"
+          inputMode="text"
+          componentClassName="hidden peer-checked:flex"
+          label="Ville de l'entreprise"
+          placeholder="Paris"
+          autoComplete="address-level2"
+          defaultValue={user?.organizationCity || ""}
+        />
+        <Input
+          type="text"
+          name="organizationCountry"
+          id="donation-organizationCountry"
+          inputMode="text"
+          componentClassName="hidden peer-checked:flex"
+          label="Pays de l'entreprise"
+          placeholder="France"
+          autoComplete="country-name"
+          defaultValue={user?.organizationCountry || ""}
+        />
+        <Input
+          type="text"
+          name="organizationVatNumber"
+          id="donation-organizationVatNumber"
+          inputMode="text"
+          componentClassName="hidden peer-checked:flex"
+          label="Numéro de TVA"
+          placeholder="FR12345678"
+          autoComplete="off"
+          defaultValue={user?.organizationVatNumber || ""}
+        />
+
         <p className="mt-4 w-full max-w-[68ch]">
-          Lorsque vous cliquerez sur le bouton <b className="text-app">Je donne</b>{" "}
-          ci-dessous, vous serez redirigé vers une page de paiement direct de banque à
-          banque, géré par l'entreprise{" "}
+          Lorsque vous cliquerez sur le bouton{" "}
+          <b className="text-app">Je veux ma licence</b> ci-dessous, vous serez redirigé
+          vers une page de paiement direct de banque à banque, géré par l'entreprise{" "}
           <a
             className="inline-flex items-center gap-2 underline"
             href="https://www.fintecture.com"
@@ -289,7 +387,7 @@ const Donation = () => {
             ? "Demande en cours..."
             : fetcher?.data?.ok
             ? "Redirection..."
-            : "Je donne !"}
+            : "Je veux ma licence !"}
         </button>
         <button
           type="button"

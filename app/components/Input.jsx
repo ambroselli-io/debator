@@ -10,6 +10,7 @@ const Input = forwardRef(
       placeholder,
       name,
       className = "",
+      componentClassName = "",
       id,
       required = false,
       textarea = false,
@@ -31,7 +32,7 @@ const Input = forwardRef(
 
     const Tag = textarea ? "textarea" : "input";
     return (
-      <div className="flex w-full flex-col items-start gap-2">
+      <div className={`flex w-full flex-col items-start gap-2 ${componentClassName}`}>
         <label htmlFor={`${name}-${id}`}>
           {label}
           {label && required && <Required />}

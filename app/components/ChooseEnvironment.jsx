@@ -38,7 +38,7 @@ const ChooseEnvironment = ({ fetcher }) => {
             Éducation
           </button>
           <button
-            value="Tout"
+            value="Classique"
             type="submit"
             name="environment"
             className="rounded-full bg-[#ff1345] py-2 px-6 text-white"

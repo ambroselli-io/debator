@@ -1,3 +1,3 @@
-const environments = ["Éducation", "Classique", "Absurde", "+18"];
+const environments = ["Éducation", "Classique", "Absurde", "Adultes"];
 
 export default environments;

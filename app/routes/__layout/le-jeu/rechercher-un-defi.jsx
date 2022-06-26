@@ -22,17 +22,22 @@ export const loader = async ({ request }) => {
   }
 
   const user = await getUnauthentifiedUserFromCookie(request);
-  const challenges = await ChallengeModel.aggregate([
-    {
-      $match: {
-        $text: {
-          $search: searchParams.get("search"),
-          $caseSensitive: false,
-          $diacriticSensitive: false,
-        },
-        environments: user?.environment || undefined,
+  const query = {
+    $match: {
+      $text: {
+        $search: url.searchParams.get("search"),
+        $caseSensitive: false,
+        $diacriticSensitive: false,
       },
     },
+  };
+
+  if (user?.environment) {
+    query.$match.environments = user.environment;
+  }
+
+  const challenges = await ChallengeModel.aggregate([
+    query,
     {
       $project: {
         score: { $meta: "textScore" },

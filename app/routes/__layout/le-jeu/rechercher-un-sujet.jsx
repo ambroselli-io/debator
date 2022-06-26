@@ -14,7 +14,6 @@ import { getTodaysTopicSuite } from "../../../db/queries/topicsSuite.server";
 export { links };
 
 export const loader = async ({ request }) => {
-  const query = {};
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
   const freeTopicIds = await getTopicIdsNotToObfuscate(request);
@@ -23,6 +22,7 @@ export const loader = async ({ request }) => {
   const categories = await getCategories();
   // all
   if (!searchParams.get("search")?.length) {
+    const query = {};
     // get topics
 
     if (searchParams.getAll("categories")?.filter(Boolean)?.length) {
@@ -47,17 +47,22 @@ export const loader = async ({ request }) => {
     };
   }
 
-  let topics = await TopicModel.aggregate([
-    {
-      $match: {
-        $text: {
-          $search: searchParams.get("search"),
-          $caseSensitive: false,
-          $diacriticSensitive: false,
-        },
-        environments: user?.environment || undefined,
+  const query = {
+    $match: {
+      $text: {
+        $search: url.searchParams.get("search"),
+        $caseSensitive: false,
+        $diacriticSensitive: false,
       },
     },
+  };
+
+  if (user?.environment) {
+    query.$match.environments = user.environment;
+  }
+
+  let topics = await TopicModel.aggregate([
+    query,
     {
       $project: {
         score: { $meta: "textScore" },

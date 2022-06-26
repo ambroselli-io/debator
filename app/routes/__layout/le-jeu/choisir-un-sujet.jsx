@@ -34,17 +34,22 @@ export const loader = async ({ request }) => {
     };
   }
 
-  let searchedTopics = await TopicModel.aggregate([
-    {
-      $match: {
-        $text: {
-          $search: url.searchParams.get("search"),
-          $caseSensitive: false,
-          $diacriticSensitive: false,
-        },
-        environments: user?.environment || undefined,
+  const query = {
+    $match: {
+      $text: {
+        $search: url.searchParams.get("search"),
+        $caseSensitive: false,
+        $diacriticSensitive: false,
       },
     },
+  };
+
+  if (user?.environment) {
+    query.$match.environments = user.environment;
+  }
+
+  let searchedTopics = await TopicModel.aggregate([
+    query,
     {
       $project: {
         score: { $meta: "textScore" },

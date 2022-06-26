@@ -24,7 +24,12 @@ const Modal = ({ title, children, isOpen = true, hide = null }) => {
     window.sessionStorage.clear();
     if (!hide) return navigate(-1);
     hide(false); // for setShowModal(false)
-    dialogRef.current.close();
+    try {
+      dialogRef.current.close();
+    } catch (e) {
+      console.log(e);
+      dialogRef.current.open = false;
+    }
   };
 
   const onClose = () => {

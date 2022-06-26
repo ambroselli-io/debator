@@ -147,7 +147,7 @@ const App = () => {
         />
         {data.NODE_ENV === "production" && (
           <>
-            <script
+            {/* <script
               suppressHydrationWarning
               type="text/javascript"
               dangerouslySetInnerHTML={{
@@ -158,7 +158,7 @@ t=l.createElement(r);t.async=1;t.src="https://api.lumiere.app/tag/"+i;
 y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 })(window, document, "clarity", "script", "4f03b6e7-24fe-4776-86c4-5c94c977bdac");`,
               }}
-            />
+            /> */}
             <script
               suppressHydrationWarning
               type="text/javascript"

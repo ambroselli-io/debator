@@ -1,5 +1,6 @@
 import { redirect } from "@remix-run/node";
-import { useSearchParams } from "@remix-run/react";
+import { Form, useSearchParams, useTransition } from "@remix-run/react";
+import Input from "app/components/Input";
 import UserModel from "app/db/models/user.server";
 import { sendEmail } from "app/services/email.server";
 import { createMagicLinkEmail } from "app/services/magic-link";
@@ -25,12 +26,39 @@ export const action = async ({ request }) => {
 
 const Index = () => {
   const [searchParams] = useSearchParams();
+  const transition = useTransition();
 
   return (
-    <span>
-      Veuillez cliquer sur le lien envoyé à <b>{searchParams.get("email")}</b> pour vous
-      connecter
-    </span>
+    <>
+      <p className="max-w-[68ch] text-center">
+        Veuillez cliquer sur le lien envoyé à <b>{searchParams.get("email")}</b> pour vous
+        connecter, <wbr />
+        ou le rentrer ci-dessous
+      </p>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          window.location.href = e.currentTarget.elements.magicLink.value;
+        }}
+        className="flex w-full max-w-[68ch] flex-col items-center"
+      >
+        <Input
+          type="url"
+          name="magicLink"
+          id="magicLink"
+          className="w-full"
+          required
+          placeholder="https://debator.fr/profil/magic?kodyKey=123456"
+        />
+        <button
+          className="mx-auto mt-4 rounded-lg border border-app bg-app px-4 py-2 text-white disabled:opacity-50"
+          type="submit"
+          disabled={transition.submission}
+        >
+          {transition.submission ? "Connection..." : "Se connecter"}
+        </button>
+      </Form>
+    </>
   );
 };
 

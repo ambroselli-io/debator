@@ -82,6 +82,7 @@ P.S. Si vous n'avez pas demandé à recevoir cet email, vous pouvez l'ignorer.
     .split("{APP_URL}")
     .join(APP_URL)
     .replace("{MAGIC_LINK}", magicLink)
+    .replace("{MAGIC_LINK}", magicLink)
     .replace("{APP_COLOR}", fullConfig.theme.colors.app)
     .replace("{BUTTON_CAPTION}", userExists ? "Se connecter" : "Créer mon compte")
     .replace(

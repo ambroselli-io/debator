@@ -10,6 +10,7 @@ export const loader = async ({ request }) => {
     if (!user) {
       throw new Error("Sign in link invalid. Please request a new one.");
     }
+
     return createUserSession(
       request,
       user,

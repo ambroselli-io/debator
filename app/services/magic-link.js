@@ -88,7 +88,9 @@ P.S. Si vous n'avez pas demandé à recevoir cet email, vous pouvez l'ignorer.
     .replace(
       "{WELCOME_MESSAGE}",
       userExists
-        ? `Bonjour ${user.firstName} ! Heureux de vous revoir sur ${APP_NAME}!`
+        ? `Bonjour ${
+            user?.firstName ? `${user?.firstName} !` : "!"
+          } Heureux de vous revoir sur ${APP_NAME}!`
         : `Bienvenue sur ${APP_NAME} !`
     );
 

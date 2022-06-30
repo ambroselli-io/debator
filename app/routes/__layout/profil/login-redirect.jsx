@@ -40,7 +40,8 @@ const Index = () => {
       <p className="max-w-[68ch] text-center">
         Veuillez cliquer sur le lien envoyé à <b>{searchParams.get("email")}</b> pour vous
         connecter, <wbr />
-        ou le rentrer ci-dessous
+        ou le rentrer ci-dessous (surtout si vous avez mis cette page en signet sur votre
+        téléphone)
       </p>
       <form
         method="POST"

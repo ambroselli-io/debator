@@ -1,5 +1,5 @@
 import { redirect } from "@remix-run/node";
-import { Form, useSearchParams, useTransition } from "@remix-run/react";
+import { useSearchParams, useTransition } from "@remix-run/react";
 import Input from "app/components/Input";
 import UserModel from "app/db/models/user.server";
 import { sendEmail } from "app/services/email.server";
@@ -7,6 +7,13 @@ import { createMagicLinkEmail } from "app/services/magic-link";
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
+  const magicLink = formData.get("magicLink");
+  if (magicLink) {
+    const url = new URL(magicLink);
+    console.log(`${url.pathname}${url.search}`);
+    return redirect(`${url.pathname}${url.search}`);
+  }
+  console.log("ICI");
   const email = formData.get("email");
   if (!email) return { alert: "Veuillez fournir un email" };
   let newUser = false;
@@ -35,11 +42,9 @@ const Index = () => {
         connecter, <wbr />
         ou le rentrer ci-dessous
       </p>
-      <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          window.location.href = e.currentTarget.elements.magicLink.value;
-        }}
+      <form
+        method="POST"
+        action="/profil/login-redirect"
         className="flex w-full max-w-[68ch] flex-col items-center"
       >
         <Input
@@ -57,7 +62,7 @@ const Index = () => {
         >
           {transition.submission ? "Connection..." : "Se connecter"}
         </button>
-      </Form>
+      </form>
     </>
   );
 };

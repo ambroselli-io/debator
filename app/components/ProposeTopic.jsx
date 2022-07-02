@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { SelectAutofill, links } from "app/components/Selects";
 import Input from "./Input";
 import Modal from "./Modal";
@@ -13,6 +13,7 @@ export { links };
 
 const ProposeTopic = ({ isOpen, hide, categories, topic, id, action, method }) => {
   const fetcher = useFetcher();
+  const { user } = useLoaderData();
 
   useEffect(() => {
     if (fetcher.data?.error) alert(fetcher.data.error);
@@ -138,11 +139,11 @@ const ProposeTopic = ({ isOpen, hide, categories, topic, id, action, method }) =
         <Input
           type="text"
           name="userName"
-          autoComplete="name"
+          autoComplete="username"
           id={`${id}-name`}
           label="🐒 Nom"
           placeholder="Votre nom"
-          defaultValue={topic?.userName}
+          defaultValue={topic?.userName || user?.name}
           required
         />
         <Input
@@ -153,7 +154,7 @@ const ProposeTopic = ({ isOpen, hide, categories, topic, id, action, method }) =
           id={`${id}-email`}
           label="＠ Email"
           placeholder="Email"
-          defaultValue={topic?.userEmail}
+          defaultValue={topic?.userEmail || user?.email}
           required
         />
         <button

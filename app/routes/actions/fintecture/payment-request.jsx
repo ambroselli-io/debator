@@ -165,7 +165,7 @@ export const action = catchErrors(async ({ request }) => {
     state: "noneed",
     language: "FR",
     country,
-    redirect_uri: `https://debator.cleverapps.io/donation/merci`,
+    redirect_uri: `https://debator.fr/donation/merci`,
   };
   let connect = await FintectureAPI.getPisConnect(tokens.access_token, config);
   transaction.set({

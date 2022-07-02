@@ -39,11 +39,10 @@ export const meta = () => ({
   "og:description": APP_DESCRIPTION,
   "twitter:title": `${APP_NAME}`,
   "twitter:description": APP_DESCRIPTION,
-  "og:url": "https://debator.cleverapps.io",
-  canonical: "https://debator.cleverapps.io",
+  "og:url": "https://debator.fr",
+  canonical: "https://debator.fr",
   "og:image": "/assets/icons/og-image-1200-630.png",
-  "og:image:secure_url":
-    "https://debator.cleverapps.io/assets/icons/og-image-1200-630.png",
+  "og:image:secure_url": "https://debator.fr/assets/icons/og-image-1200-630.png",
   "twitter:image": "/assets/icons/og-image-1200-630.png",
   "og:image:type": "image/png",
   "og:image:width": "1200",
@@ -151,7 +150,7 @@ const App = () => {
               suppressHydrationWarning
               type="text/javascript"
               dangerouslySetInnerHTML={{
-                __html: `// Lumiere Tracking Code for debator.cleverapps.io
+                __html: `// Lumiere Tracking Code for debator.fr
 (function(c,l,a,r,i,t,y){
 c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
 t=l.createElement(r);t.async=1;t.src="https://api.lumiere.app/tag/"+i;

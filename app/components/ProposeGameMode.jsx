@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import ContributionRule from "./ContributionRule";
 import Input from "./Input";
 import Modal from "./Modal";
 
 const ProposeGameMode = ({ isOpen, hide }) => {
   const fetcher = useFetcher();
+  const { user } = useLoaderData();
 
   useEffect(() => {
     if (fetcher.data?.error) alert(fetcher.data.error);
@@ -58,11 +59,12 @@ const ProposeGameMode = ({ isOpen, hide }) => {
         <Input
           type="text"
           name="name"
-          autoComplete="name"
+          autoComplete="username"
           id="propose-game-mode-name"
           label="🐒 Votre nom"
           placeholder="Votre nom"
           required
+          defaultValue={user?.name}
         />
         <Input
           type="email"
@@ -73,6 +75,7 @@ const ProposeGameMode = ({ isOpen, hide }) => {
           label="＠ Votre Email"
           placeholder="Pour que nous puissions discuter de votre proposition !"
           required
+          defaultValue={user?.email}
         />
         <button
           type="submit"

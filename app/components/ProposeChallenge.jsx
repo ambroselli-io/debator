@@ -1,6 +1,6 @@
 import environments from "app/assets/environments";
 import { useEffect } from "react";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import Challenge from "./Challenge";
 import ContributionRule from "./ContributionRule";
 import Input from "./Input";
@@ -9,6 +9,7 @@ import { SelectAutofill } from "./Selects";
 
 const ProposeChallenge = ({ isOpen, hide, challenge, id, method, action }) => {
   const fetcher = useFetcher();
+  const { user } = useLoaderData();
 
   useEffect(() => {
     if (fetcher.data?.error) alert(fetcher.data.error);
@@ -83,12 +84,12 @@ const ProposeChallenge = ({ isOpen, hide, challenge, id, method, action }) => {
         <Input
           type="text"
           name="userName"
-          autoComplete="name"
+          autoComplete="username"
           id={`${id}-name`}
           label="🐒 Votre nom"
           placeholder="Votre nom"
           required
-          defaultValue={challenge?.userName}
+          defaultValue={challenge?.userName || user?.name}
         />
         <Input
           type="email"
@@ -99,7 +100,7 @@ const ProposeChallenge = ({ isOpen, hide, challenge, id, method, action }) => {
           label="＠ Votre Email"
           placeholder="Pour que nous puissions discuter de votre proposition !"
           required
-          defaultValue={challenge?.userEmail}
+          defaultValue={challenge?.userEmail || user?.email}
         />
         <button
           type="submit"

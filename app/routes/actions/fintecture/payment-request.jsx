@@ -137,6 +137,7 @@ export const action = catchErrors(async ({ request }) => {
       email,
       firstName,
       lastName,
+      name: `${firstName} ${lastName}`,
       organization,
       organizationAddress,
       organizationPostalCode,

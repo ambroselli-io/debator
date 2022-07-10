@@ -74,10 +74,7 @@ export default function Index() {
       <div className="flex w-full max-w-[68ch] flex-col items-start">
         {user?.firstName && (
           <p className="mt-4">
-            Votre nom&nbsp;:{" "}
-            <b>
-              {user.firstName} {user.lastName}
-            </b>
+            Votre nom&nbsp;: <b>{user.name}</b>
           </p>
         )}
         <p className="mt-4">

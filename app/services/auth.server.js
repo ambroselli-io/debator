@@ -11,6 +11,7 @@ export const { getSession, commitSession, destroySession } = createCookieSession
     secrets: [SECRET],
     sameSite: "lax",
     path: "/",
+    domain: ".debator.fr",
     maxAge: sessionExpirationTime / 1000,
     httpOnly: process.env.NODE_ENV === "production",
     secure: process.env.NODE_ENV === "production",

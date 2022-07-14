@@ -5,10 +5,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
   useLoaderData,
 } from "@remix-run/react";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
+import * as Sentry from "@sentry/browser";
 import "dayjs/locale/fr"; // use locale globally
 import tailwindStyles from "./styles/tailwind.css";
 import globalStyles from "./styles/global.css";
@@ -19,6 +21,7 @@ import dialogPolyfillCSS from "dialog-polyfill/dist/dialog-polyfill.css";
 import { APP_DESCRIPTION, APP_NAME } from "./services/appName";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../tailwind.config.js";
+import { useEffect } from "react";
 const fullConfig = resolveConfig(tailwindConfig);
 
 dayjs.locale("fr");
@@ -109,6 +112,10 @@ export const links = () => {
 
 export function ErrorBoundary({ error }) {
   console.error(error);
+  useEffect(() => {
+    Sentry.captureException(error);
+  }, [error]);
+
   return (
     <html>
       <head>
@@ -118,13 +125,35 @@ export function ErrorBoundary({ error }) {
       </head>
       <body>
         {/* add the UI you want your users to see */}
-        Une erreur est survenue, désolé on s'en occupe !
+        MEERDE !<br />
+        Une erreur est survenue, désolé on s'en occupe !<br />
+        <p>{new Error(error).name}</p>
+        <p>{new Error(error).message}</p>
+        <p>{new Error(error).stack}</p>
         <Scripts />
       </body>
     </html>
   );
 }
 
+export function CatchBoundary() {
+  const caught = useCatch();
+  return (
+    <html>
+      <head>
+        <title>Oops!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <h1>
+          {caught.status} {caught.statusText}
+        </h1>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
 const App = () => {
   const data = useLoaderData();
   return (

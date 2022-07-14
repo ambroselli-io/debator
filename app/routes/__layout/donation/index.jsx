@@ -39,12 +39,6 @@ const Donation = () => {
   useEffect(() => {
     // https://help.fintecture.com/en/articles/5843235-how-to-test-the-module-before-going-into-production
     // On the Connect (payment interface), choose the CIC or Crédit Mutuel bank
-    if (fetcher?.data?.connect?.url) window.location.href = fetcher?.data?.connect?.url;
-  }, [fetcher?.data?.connect?.url]);
-
-  useEffect(() => {
-    // https://help.fintecture.com/en/articles/5843235-how-to-test-the-module-before-going-into-production
-    // On the Connect (payment interface), choose the CIC or Crédit Mutuel bank
     if (fetcher?.data?.error) alert(fetcher?.data?.error);
   }, [fetcher?.data?.error]);
 
@@ -381,12 +375,10 @@ const Donation = () => {
         <button
           type="submit"
           className="mt-4 rounded-lg border border-app bg-app px-4 py-2 text-white disabled:opacity-50"
-          disabled={fetcher.state !== "idle" || fetcher?.data?.ok}
+          disabled={fetcher?.state !== "idle" || fetcher?.data?.ok}
         >
           {fetcher?.state === "submitting"
             ? "Demande en cours..."
-            : fetcher?.data?.ok
-            ? "Redirection..."
             : "Je veux ma licence !"}
         </button>
         <button

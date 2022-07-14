@@ -213,11 +213,5 @@ const Layout = ({ children }) => {
     </>
   );
 };
-export function CatchBoundary() {}
-
-export function ErrorBoundary({ error }) {
-  console.error(error);
-  return <Layout>Une erreur est survenue, désolé on s'en occupe !</Layout>;
-}
 
 export default Layout;

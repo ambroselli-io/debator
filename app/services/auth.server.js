@@ -1,4 +1,5 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
+import { isUserLicenced } from "app/utils/isUserLicenced.server";
 import { APP_NAME, SECRET } from "../config";
 import UserModel from "../db/models/user.server";
 import { isUserOnboarded } from "./userUtils.server";
@@ -11,7 +12,7 @@ export const { getSession, commitSession, destroySession } = createCookieSession
     secrets: [SECRET],
     sameSite: "lax",
     path: "/",
-    domain: ".debator.fr",
+    domain: process.env.NODE_ENV === "production" ? ".debator.fr" : undefined,
     maxAge: sessionExpirationTime / 1000,
     httpOnly: process.env.NODE_ENV === "production",
     secure: process.env.NODE_ENV === "production",
@@ -43,7 +44,7 @@ export const createUserSession = async (request, user, redirectTo = "/") => {
   session.set("userId", user._id);
   user.set({ lastLoginAt: Date.now() });
   await user.save();
-  if (!isUserOnboarded(user)) redirectTo = "/profil";
+  if (!isUserOnboarded(user) || !isUserLicenced(user)) redirectTo = "/profil";
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await commitSession(session),

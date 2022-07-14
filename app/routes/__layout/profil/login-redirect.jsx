@@ -13,7 +13,6 @@ export const action = async ({ request }) => {
     console.log(`${url.pathname}${url.search}`);
     return redirect(`${url.pathname}${url.search}`);
   }
-  console.log("ICI");
   const email = formData.get("email");
   if (!email) return { alert: "Veuillez fournir un email" };
   let newUser = false;

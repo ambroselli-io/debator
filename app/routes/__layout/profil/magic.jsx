@@ -7,6 +7,7 @@ export const loader = async ({ request }) => {
   try {
     const email = validateMagicLink(request.url);
     const user = await UserModel.findOne({ email });
+
     if (!user) {
       throw new Error("Sign in link invalid. Please request a new one.");
     }

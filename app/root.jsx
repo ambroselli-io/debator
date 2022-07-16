@@ -22,6 +22,7 @@ import { APP_DESCRIPTION, APP_NAME } from "./services/appName";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../tailwind.config.js";
 import { useEffect } from "react";
+import { redirect } from "remix";
 const fullConfig = resolveConfig(tailwindConfig);
 
 dayjs.locale("fr");
@@ -63,12 +64,19 @@ export const meta = () => ({
 });
 
 // load browser env variables here, the inject in the script below
-export const loader = () => ({
-  ENV: JSON.stringify({
-    SENTRY_XXX: process.env.SENTRY_XXX,
-  }),
-  NODE_ENV: process.env.NODE_ENV,
-});
+export const loader = ({ request }) => {
+  const url = new URL(request.url);
+  if (url.href.includes("://www.")) {
+    const newUrl = url.href.replace("www.", "");
+    return redirect(newUrl);
+  }
+  return {
+    ENV: JSON.stringify({
+      SENTRY_XXX: process.env.SENTRY_XXX,
+    }),
+    NODE_ENV: process.env.NODE_ENV,
+  };
+};
 
 // prettier-ignore
 export const links = () => {

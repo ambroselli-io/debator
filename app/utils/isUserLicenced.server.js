@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 export const isUserLicenced = (user) => {
-  if (!user?.licence?.length) return false;
+  if (!user?.licence?.length) return null;
   if (user.licence === "lifely") return true;
   if (user.licence === "monthly") {
     return dayjs(user.licenceStartedAt).add(1, "month").isAfter(dayjs());

@@ -23,14 +23,38 @@ export { links };
 
 export const loader = async ({ request }) => {
   const user = await getUnauthentifiedUserFromCookie(request);
+  const url = new URL(request.url);
   const licenceIsValid = isUserLicenced(user);
 
   const categories = await getCategories();
-  return { categories: categories.map(({ _id }) => _id), user, licenceIsValid };
+  return {
+    categories: categories.map(({ _id }) => _id),
+    user,
+    licenceIsValid,
+    isGame: new URL(request.url).href.includes("le-jeu"),
+  };
+};
+
+const GameLayout = ({ setShowContactUs, setShowPetitManifeste }) => {
+  const fetcher = useFetcher();
+
+  const [showIntro, setShowIntro] = useLocalStorage("show-intro", true);
+
+  return (
+    <>
+      <ChooseEnvironment fetcher={fetcher} />
+      <Intro
+        showIntro={showIntro}
+        setShowIntro={setShowIntro}
+        setShowPetitManifeste={setShowPetitManifeste}
+        setShowContactUs={setShowContactUs}
+      />
+    </>
+  );
 };
 
 const Layout = ({ children }) => {
-  const { categories, user, licenceIsValid } = useLoaderData();
+  const { categories, user, licenceIsValid, isGame } = useLoaderData();
   const [_, mergeSearchParams] = useMergeSearchParams();
   const fetcher = useFetcher();
   const environment =
@@ -55,7 +79,10 @@ const Layout = ({ children }) => {
     false
   );
 
-  const [showIntro, setShowIntro] = useLocalStorage("show-intro", true);
+  const [showIntro, setShowIntro] = useLocalStorage(
+    "show-intro",
+    (typeof window !== "undefined" && window.location.href.includes("le-jeu")) || null
+  );
   const [showLegal, setShowLegal] = useState(false);
 
   return (
@@ -208,8 +235,12 @@ const Layout = ({ children }) => {
         </Modal>
       )}
       <Legal showLegal={showLegal} setShowLegal={setShowLegal} />
-      <ChooseEnvironment fetcher={fetcher} />
-      <Intro showIntro={showIntro} setShowIntro={setShowIntro} />
+      {isGame ? (
+        <GameLayout
+          setShowContactUs={setShowContactUs}
+          setShowPetitManifeste={setShowPetitManifeste}
+        />
+      ) : null}
     </>
   );
 };

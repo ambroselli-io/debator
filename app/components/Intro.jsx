@@ -2,7 +2,7 @@ import { Link } from "@remix-run/react";
 import Modal from "app/components/Modal";
 import dayjs from "dayjs";
 
-const Intro = ({ showIntro, setShowIntro }) => {
+const Intro = ({ showIntro, setShowIntro, setShowPetitManifeste, setShowContactUs }) => {
   if (!showIntro) return null;
 
   return (

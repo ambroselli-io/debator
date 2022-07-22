@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node";
+import { json, Response } from "@remix-run/node";
 import { catchErrors } from "app/services/catchErrors";
 import { getOrCreateUserAndSession } from "app/services/auth.server";
 import QuizzAnswer from "app/db/models/quizzAnswer.server";
@@ -19,12 +19,11 @@ export const action = catchErrors(async ({ request }) => {
   } else {
     await QuizzAnswer.create({ user, questionId, answers });
   }
-  return json(
-    { ok: true },
-    {
-      headers: {
-        "Set-Cookie": setCookieHeader,
-      },
-    }
-  );
+  return new Response(null, {
+    status: 303,
+    headers: {
+      Location: `/questionnaire/question/${formData.get("nextQuestionId")}`,
+      "Set-Cookie": setCookieHeader,
+    },
+  });
 });

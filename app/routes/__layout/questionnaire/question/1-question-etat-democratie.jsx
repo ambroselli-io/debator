@@ -1,5 +1,6 @@
 import Question from "app/components/Question";
 
+export { questionAction as action } from "app/utils/questionnaire.server";
 export { questionLoader as loader } from "app/utils/questionnaire.server";
 
 const QuestionAbstention = () => (

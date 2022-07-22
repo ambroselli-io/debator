@@ -1,6 +1,11 @@
 import fs from "fs";
+import { json, redirect } from "@remix-run/node";
 import QuizzAnswer from "app/db/models/quizzAnswer.server";
-import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
+import {
+  getOrCreateUserAndSession,
+  getUnauthentifiedUserFromCookie,
+} from "app/services/auth.server";
+import { catchErrors } from "app/services/catchErrors";
 
 export const questionsOrder = fs
   .readdirSync("./app/routes/__layout/questionnaire/question", { withFileTypes: false })
@@ -24,3 +29,25 @@ export const questionLoader = async ({ request }) => {
         : null,
   };
 };
+
+export const questionAction = catchErrors(async ({ request }) => {
+  const { user, setCookieHeader } = await getOrCreateUserAndSession(request);
+  const formData = await request.formData();
+  const questionId = formData.get("questionId");
+  if (!questionId) return json({ ok: false });
+  const answers = formData.getAll("answer").filter(Boolean);
+  const existingQuizzAnswer = await QuizzAnswer.findOne({ user, questionId });
+  if (existingQuizzAnswer) {
+    existingQuizzAnswer.set({ answers });
+    await existingQuizzAnswer.save();
+  } else {
+    await QuizzAnswer.create({ user, questionId, answers });
+  }
+  console.log(formData.get("nextQuestionId"));
+  return redirect(`questionnaire/question/${formData.get("nextQuestionId")}`, {
+    status: 303,
+    headers: {
+      "Set-Cookie": setCookieHeader,
+    },
+  });
+});

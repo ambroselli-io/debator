@@ -75,7 +75,7 @@ const Donation = () => {
         id="donation"
         method="POST"
         action="/actions/fintecture/payment-request"
-        className="flex w-full max-w-[68ch] flex-col items-center gap-8"
+        className="flex w-full flex-col items-center gap-8"
       >
         <h1 className="mt-8 mb-4 text-3xl font-bold text-app">
           {!user?.licence
@@ -86,11 +86,11 @@ const Donation = () => {
         </h1>
         {user?.licence !== "lifely" ? (
           <>
-            <p className="mt-4 max-w-[68ch]">
+            <p className="mt-4">
               Le prix de Debator est un prix en fonction de l'utilité que vous y trouvez
               ou de ce que vous avez envie de donner pour en avoir une version.
             </p>
-            <p className="mt-4 max-w-[68ch]">
+            <p className="mt-4">
               Les licences sont limitées dans le temps, parce que nous faisons évoluer
               Debator au fil des retours utilisateurs, nous enrichissons constamment les
               sujets, les défis... Les seules contraintes que nous avons sont:
@@ -108,7 +108,7 @@ const Donation = () => {
                 tout prix inférieur à 10€ donne une <b>licence pendant 1 mois</b>
               </li>
             </ul>
-            <p className="mt-4 w-full max-w-[68ch]">
+            <p className="mt-4 w-full">
               Choisissez votre licence <b>(prix TTC)</b>, avant de renseigner vos
               informations. Si vous êtes intéressé(es) par Debator mais que vous n'avez
               pas les moyens,{" "}
@@ -124,7 +124,7 @@ const Donation = () => {
           </>
         ) : (
           <>
-            <p className="mt-4 max-w-[68ch]">
+            <p className="mt-4">
               Vous aimez Debator et vous souhaitez nous soutenir ? Vous pouvez faire le
               don que vous souhaitez !
             </p>
@@ -229,7 +229,6 @@ const Donation = () => {
             </label>
           </fieldset>
         </div>
-        <article className="flex flex-col rounded-lg border border-app"></article>
         <Input
           type="text"
           name="firstName"
@@ -361,7 +360,7 @@ const Donation = () => {
           defaultValue={user?.organizationVatNumber || ""}
         />
 
-        <p className="mt-4 w-full max-w-[68ch]">
+        <p className="mt-4 w-full">
           Lorsque vous cliquerez sur le bouton{" "}
           <b className="text-app">Je veux ma licence</b> ci-dessous, vous serez redirigé
           vers une page de paiement direct de banque à banque, géré par l'entreprise{" "}

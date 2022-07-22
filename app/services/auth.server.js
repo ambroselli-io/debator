@@ -51,3 +51,15 @@ export const createUserSession = async (request, user, redirectTo = "/") => {
     },
   });
 };
+
+export const getOrCreateUserAndSession = async (request) => {
+  let user = await getUnauthentifiedUserFromCookie(request);
+  if (!user) {
+    user = await UserModel.create();
+  }
+  const session = await getSession(request.headers.get("Cookie"));
+  session.set("userId", user._id);
+  user.set({ lastLoginAt: Date.now() });
+  await user.save();
+  return { user, setCookieHeader: await commitSession(session) };
+};

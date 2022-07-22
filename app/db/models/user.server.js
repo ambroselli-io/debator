@@ -11,7 +11,7 @@ const Schema = new mongoose.Schema(
       trim: true,
       lowercase: true,
       unique: true,
-      required: "Email address is required",
+      // required: "Email address is required",
       match: [/^.+@(?:[\w-]+\.)+\w+$/, "Please fill a valid email address"],
     },
     name: { type: String, index: "text" },

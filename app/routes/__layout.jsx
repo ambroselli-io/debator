@@ -10,7 +10,7 @@ import { getUnauthentifiedUserFromCookie } from "app/services/auth.server";
 import useSearchParamState, {
   useMergeSearchParams,
 } from "app/services/searchParamsUtils";
-import { useLocalStorage } from "app/services/useLocalStorage";
+import { useLocalStorage, useSetLocalStorage } from "app/services/useLocalStorage";
 import dayjs from "dayjs";
 import { isUserLicenced } from "app/utils/isUserLicenced.server";
 import { getCategories } from "app/db/queries/categories.server";
@@ -23,7 +23,6 @@ export { links };
 
 export const loader = async ({ request }) => {
   const user = await getUnauthentifiedUserFromCookie(request);
-  const url = new URL(request.url);
   const licenceIsValid = isUserLicenced(user);
 
   const categories = await getCategories();
@@ -32,6 +31,7 @@ export const loader = async ({ request }) => {
     user,
     licenceIsValid,
     isGame: new URL(request.url).href.includes("le-jeu"),
+    isPlaying: new URL(request.url).href.includes("on-joue"),
   };
 };
 
@@ -54,8 +54,8 @@ const GameLayout = ({ setShowContactUs, setShowPetitManifeste }) => {
 };
 
 const Layout = ({ children }) => {
-  const { categories, user, licenceIsValid, isGame } = useLoaderData();
-  const [_, mergeSearchParams] = useMergeSearchParams();
+  const { categories, user, licenceIsValid, isGame, isPlaying } = useLoaderData();
+  const mergeSearchParams = useMergeSearchParams();
   const fetcher = useFetcher();
   const environment =
     fetcher.submission?.formData?.get("environment") || user?.environment;
@@ -79,10 +79,8 @@ const Layout = ({ children }) => {
     false
   );
 
-  const [showIntro, setShowIntro] = useLocalStorage(
-    "show-intro",
-    (typeof window !== "undefined" && window.location.href.includes("le-jeu")) || null
-  );
+  const setShowIntro = useSetLocalStorage("show-intro");
+
   const [showLegal, setShowLegal] = useState(false);
 
   return (
@@ -142,6 +140,9 @@ const Layout = ({ children }) => {
           <button className="py-2 px-4 text-left" onClick={() => setShowContactUs(true)}>
             <span className="mr-6">✉️</span>Nous contacter
           </button>
+          <Link to="questionnaire" className="py-2 px-4 text-left">
+            <span className="mr-6">📠</span>Questionnaire
+          </Link>
           <hr className="my-2 border-none" />
           <button
             className="py-2 px-4 text-left"
@@ -180,9 +181,9 @@ const Layout = ({ children }) => {
       </header>
       <div
         id="root"
-        className={`flex w-full shrink grow flex-col items-center overflow-y-auto overflow-x-hidden scroll-smooth p-3 ${
+        className={`mx-auto flex w-full shrink grow flex-col items-center overflow-y-auto overflow-x-hidden scroll-smooth p-3 ${
           licenceIsValid ? "pb-24" : "pb-72"
-        }`}
+        } ${!isPlaying ? " max-w-[68ch]" : ""}`}
       >
         {children ? children : <Outlet />}
       </div>

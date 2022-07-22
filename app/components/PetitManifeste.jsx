@@ -1,7 +1,7 @@
 const PetitManifeste = () => (
   <>
     <h1 className="mt-4 font-marker text-4xl text-app">Petit Manifeste</h1>
-    <p className="mt-4 max-w-[68ch]">
+    <p className="mt-4">
       Débattre, c'est le coeur de la démocratie. C'est savoir s'intéresser, réfléchir,
       choisir, considérer les avis contraires, savoir et pouvoir changer d'avis...
       <br />

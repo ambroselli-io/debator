@@ -25,7 +25,7 @@ export const useMergeSearchParams = () => {
     setSearchParams(searchParamsObject);
   };
 
-  return [searchParams, mergeSearchParams];
+  return mergeSearchParams;
 };
 
 /*

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export const useLocalStorage = (key, defaultValue) => {
+export const useLocalStorage = (key, defaultValue = undefined) => {
   const [state, setState] = useState(defaultValue);
 
   const isMounted = useRef(false);
@@ -21,4 +21,9 @@ export const useLocalStorage = (key, defaultValue) => {
   }, [defaultValue, key, state]);
 
   return [state, setState];
+};
+
+export const useSetLocalStorage = (key) => {
+  const tupple = useLocalStorage(key);
+  return tupple[1];
 };

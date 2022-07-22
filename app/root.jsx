@@ -22,7 +22,7 @@ import { APP_DESCRIPTION, APP_NAME } from "./services/appName";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../tailwind.config.js";
 import { useEffect } from "react";
-import { redirect } from "remix";
+import { redirect } from "@remix-run/node";
 const fullConfig = resolveConfig(tailwindConfig);
 
 dayjs.locale("fr");
@@ -33,7 +33,6 @@ if (typeof document !== "undefined") {
 }
 
 export const meta = () => ({
-  charset: "utf-8",
   viewport: "width=device-width,initial-scale=1",
   // "theme-color": fullConfig.theme.colors.app,
   "theme-color": "#fafbfe",

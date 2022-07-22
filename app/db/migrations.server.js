@@ -1,6 +1,6 @@
-import ChallengeModel from "./models/challenge.server";
-import TopicModel from "./models/topic.server";
-import UserModel from "./models/user.server";
+// import ChallengeModel from "./models/challenge.server";
+// import TopicModel from "./models/topic.server";
+// import UserModel from "./models/user.server";
 
 console.log("Migration script imported");
 

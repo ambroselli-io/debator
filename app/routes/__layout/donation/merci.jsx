@@ -30,13 +30,13 @@ export const loader = async ({ request }) => {
 
 const Merci = () => {
   const { transaction, user } = useLoaderData();
-  const [_, mergeSearchParams] = useMergeSearchParams();
+  const mergeSearchParams = useMergeSearchParams();
   return (
     <>
       <h1 className="my-8 max-w-sm text-center font-handwritten text-2xl uppercase">
         Merci pour votre confiance !
       </h1>
-      <p className="mt-4 w-full max-w-[68ch]">
+      <p className="mt-4 w-full">
         Votre don de{" "}
         <b>
           {transaction.amount} {transaction.currency}
@@ -45,7 +45,7 @@ const Merci = () => {
         <br />
         Vous recevrez un reçu de notre part lorsque ça sera confirmé !
       </p>
-      <p className="mt-4 w-full max-w-[68ch]">
+      <p className="mt-4 w-full">
         Vous bénéficiez désormais d'une{" "}
         {transaction.licence === "lifely" ? (
           <b>licence à vie</b>
@@ -60,7 +60,7 @@ const Merci = () => {
           </>
         )}
       </p>
-      <p className="mt-4 max-w-[68ch]">
+      <p className="mt-4">
         Avoir une licence valide vous permet aussi de faire partie de la{" "}
         <b>communauté Debator</b>, qui vous permettra de participer à l'avenir aux choix
         stratégiques de l'entreprise. Nous vous contacterons quand l'occasion se

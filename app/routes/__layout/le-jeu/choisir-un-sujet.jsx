@@ -126,6 +126,7 @@ const ChooseATopic = () => {
             <TopicSummary topic={topic} />
             <Link
               to={navigateToNextStep("topicId", topic?._id)}
+              prefetch="intent"
               className="rounded-lg border border-app bg-app px-4 py-2 text-white"
             >
               Je choisis celui-là !

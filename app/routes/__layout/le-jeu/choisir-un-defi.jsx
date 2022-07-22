@@ -88,7 +88,7 @@ const ChooseAChallenge = () => {
         </button>
       </Form>
       {challenge.description && (
-        <small className="mt-4 max-w-[68ch] text-center" id="challenge-description">
+        <small className="mt-4 text-center" id="challenge-description">
           <i>
             <b>* En quoi consiste le défi {challenge.title} ? </b>
           </i>

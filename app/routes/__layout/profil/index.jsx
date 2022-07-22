@@ -71,7 +71,7 @@ export default function Index() {
   return (
     <>
       <h1 className="mt-8 mb-4 text-3xl font-bold text-app">Mon profil</h1>
-      <div className="flex w-full max-w-[68ch] flex-col items-start">
+      <div className="flex w-full flex-col items-start">
         {user?.firstName && (
           <p className="mt-4">
             Votre nom&nbsp;: <b>{user.name}</b>

@@ -108,7 +108,7 @@ const SearchTopic = () => {
 
   return (
     <>
-      <details className="w-full max-w-[68ch]" open>
+      <details className="w-full" open>
         <summary className="w-full">
           <h2 className="ml-2 mb-2 inline w-full text-lg font-bold">
             Recherchez un sujet
@@ -171,7 +171,7 @@ const SearchTopic = () => {
         </p>
       )}
       {!!topics.length && (
-        <details className="w-full max-w-[68ch]" open>
+        <details className="w-full" open>
           <summary className="w-full">
             <h2 className="ml-2 mt-4 mb-2 inline w-full text-lg font-bold">
               {topics.length > 1

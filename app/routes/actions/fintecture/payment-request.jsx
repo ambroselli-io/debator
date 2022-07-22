@@ -5,7 +5,7 @@ import { catchErrors } from "app/services/catchErrors";
 import FintectureAPI from "app/services/fintecture.server";
 import { capture } from "app/services/sentry.server";
 import { json, redirect } from "@remix-run/node";
-import { getClientIPAddress, getClientLocales } from "remix-utils";
+import { getClientIPAddress } from "remix-utils";
 
 // https://help.fintecture.com/en/articles/5843235-how-to-test-the-module-before-going-into-production
 export const action = catchErrors(async ({ request }) => {

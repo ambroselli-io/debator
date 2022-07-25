@@ -133,6 +133,8 @@ export const action = catchErrors(async ({ request }) => {
     await user.save();
   }
   if (!user) {
+    if (!email.match(/^.+@(?:[\w-]+\.)+\w+$/))
+      return { alert: "Veuillez fournir un email valide" };
     user = await UserModel.create({
       email,
       firstName,

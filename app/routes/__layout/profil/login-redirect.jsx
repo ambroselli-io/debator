@@ -15,6 +15,8 @@ export const action = async ({ request }) => {
   }
   const email = formData.get("email");
   if (!email) return { alert: "Veuillez fournir un email" };
+  if (!email.match(/^.+@(?:[\w-]+\.)+\w+$/))
+    return { alert: "Veuillez fournir un email valide" };
   let newUser = false;
   let user = await UserModel.findOne({ email });
   if (!user) {

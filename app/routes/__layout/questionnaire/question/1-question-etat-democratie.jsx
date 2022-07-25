@@ -6,6 +6,9 @@ export { questionLoader as loader } from "app/utils/questionnaire.server";
 const QuestionAbstention = () => (
   <Question
     title="Avec quelles propositions êtes-vous plutôt d'accord concernant notre démocratie&nbsp;?"
+    subtitle={`C'est le constat que nous faisons chez <em class="font-marker text-app">Debator</em> :)`}
+    isMultiChoice
+    withOther
     options={[
       "L'abstention en général, et chez les jeunes en particulier, est trop importante",
       "Les débats entre élus se situent trop souvent entre haine, insulte et impossibilité de communiquer paisiblement",

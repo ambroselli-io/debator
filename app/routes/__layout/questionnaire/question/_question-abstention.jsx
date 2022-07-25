@@ -47,7 +47,7 @@ const QuestionAbstention = () => {
         method="POST"
         className="flex w-full max-w-sm flex-col"
         id="question-1"
-        action="/actions/quizz-answer"
+        action="/actions/questionnaire-answer"
       >
         <input type="hidden" name="questionId" value={questionId} />
         <CheckBoxGroup

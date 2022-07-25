@@ -9,6 +9,7 @@ import { catchErrors } from "app/services/catchErrors";
 
 export const questionsOrder = fs
   .readdirSync("./app/routes/__layout/questionnaire/question", { withFileTypes: false })
+  .filter((file) => !file.startsWith("_"))
   .map((file) => file.replace(".jsx", ""))
   .sort();
 
@@ -23,6 +24,7 @@ export const questionLoader = async ({ request }) => {
 
   return {
     ...quizzAnswer.toJSON(),
+    user,
     nextQuestionId:
       questionIndex < questionsOrder.length - 1
         ? questionsOrder[questionIndex + 1]
@@ -43,11 +45,23 @@ export const questionAction = catchErrors(async ({ request }) => {
   } else {
     await QuizzAnswer.create({ user, questionId, answers });
   }
-  console.log(formData.get("nextQuestionId"));
-  return redirect(`questionnaire/question/${formData.get("nextQuestionId")}`, {
-    status: 303,
-    headers: {
-      "Set-Cookie": setCookieHeader,
-    },
-  });
+  if (formData.get("email")?.length) user.set({ email: formData.get("email") });
+  if (formData.get("name")?.length) user.set({ name: formData.get("name") });
+  if (formData.get("job")?.length) user.set({ job: formData.get("job") });
+  await user.save();
+  if (formData.get("nextQuestionId")) {
+    return redirect(`questionnaire/question/${formData.get("nextQuestionId")}`, {
+      status: 303,
+      headers: {
+        "Set-Cookie": setCookieHeader,
+      },
+    });
+  } else {
+    return redirect(`/`, {
+      status: 303,
+      headers: {
+        "Set-Cookie": setCookieHeader,
+      },
+    });
+  }
 });

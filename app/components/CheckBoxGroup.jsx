@@ -17,9 +17,8 @@ const CheckBox = ({ name, value, label, children, className = "", initAnswers = 
       />
       <div
         className={`cursor-pointer rounded-lg border border-app bg-white px-2 py-1 text-app peer-checked:bg-app peer-checked:text-white ${className}`}
-      >
-        {label}
-      </div>
+        dangerouslySetInnerHTML={{ __html: label }}
+      />
       {children}
     </label>
   );

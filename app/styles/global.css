@@ -10,9 +10,3 @@ input[type="radio"] {
 .debug * {
   border: 2px solid black;
 }
-
-@counter-style ux-quiz-emoji {
-  system: cyclic;
-  symbols: "\1F978""\1F4A1""\1F3B3";
-  suffix: " ";
-}
